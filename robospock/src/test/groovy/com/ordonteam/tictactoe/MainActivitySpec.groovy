@@ -1,4 +1,4 @@
-package com.ordonteam
+package com.ordonteam.tictactoe
 
 import pl.polidea.robospock.RoboSpecification
 
