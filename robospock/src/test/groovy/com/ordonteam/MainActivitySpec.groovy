@@ -1,4 +1,4 @@
-package com.ordonteam.daruziek
+package com.ordonteam
 
 import pl.polidea.robospock.RoboSpecification
 
