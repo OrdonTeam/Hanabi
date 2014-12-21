@@ -12,7 +12,8 @@ repositories {
 apply plugin: 'groovy'
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:1.8.6"
+    compile 'org.codehaus.groovy:groovy-all:2.4.0-beta-4'
+    compile 'org.spockframework:spock-core:0.7-groovy-2.0'
     compile 'org.robospock:robospock:0.5.0'
     compile 'cglib:cglib-nodep:3.1'
 
