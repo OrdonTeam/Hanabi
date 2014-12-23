@@ -20,6 +20,7 @@ dependencies {
     compile project(":app")
 
     compile fileTree(dir: project(":app").file("build/libs"), include: "*.jar")
+    compile 'org.roboguice:roboguice:3.0-alpha-2'
 }
 
 sourceSets.test.java.srcDirs += ['../app/build/generated/source/r/release']

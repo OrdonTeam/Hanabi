@@ -5,20 +5,15 @@ import pl.polidea.robospock.RoboSpecification
 
 class MainActivitySpec extends RoboSpecification {
 
-//    def "Swiss Knife Test"() {
-//        given:
-//        def builder = Robolectric.buildActivity(MainActivity)
-//
-//        when:
-//        MainActivity mainActivity = builder.create().get()
-//
-//        then:
-//        mainActivity.helloText != null
-//        mainActivity.helloText.text == 'Hello Swiss Knife'
-//    }
+    def "Robo Guice Test"() {
+        given:
+        def builder = Robolectric.buildActivity(MainActivity)
 
-    def "Name"() {
-        expect:
-        1==1
+        when:
+        MainActivity mainActivity = builder.create().get()
+
+        then:
+        mainActivity.helloText != null
+        mainActivity.helloText.text == 'Hello Robo Guice'
     }
 }

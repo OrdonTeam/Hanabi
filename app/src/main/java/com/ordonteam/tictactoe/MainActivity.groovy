@@ -1,17 +1,15 @@
 package com.ordonteam.tictactoe
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
 import android.widget.TextView
-import com.arasthel.swissknife.SwissKnife
-import com.arasthel.swissknife.annotations.InjectView
-import com.arasthel.swissknife.annotations.OnBackground
 import groovy.transform.CompileStatic
+import roboguice.activity.RoboActivity
+import roboguice.inject.ContentView
+import roboguice.inject.InjectView
 
 @CompileStatic
-class MainActivity extends Activity {
+@ContentView(R.layout.main_layout)
+class MainActivity extends RoboActivity {
 
     @InjectView(R.id.helloText)
     TextView helloText
@@ -19,9 +17,7 @@ class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_layout)
-        SwissKnife.inject(this)
 
-        helloText.setText('Hello Swiss Knife')
+        helloText.setText('Hello Robo Guice')
     }
 }
