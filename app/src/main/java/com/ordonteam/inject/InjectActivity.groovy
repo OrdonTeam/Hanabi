@@ -23,7 +23,9 @@ class InjectActivity extends Activity {
 
     private void applyContentView() {
         InjectContentView layoutName = this.class.getAnnotation(InjectContentView)
-        setContentView(layoutName?.value())
+        if(!layoutName)
+            throw new RuntimeException('InjectActivity have to used together with InjectContentView')
+        setContentView(layoutName.value())
     }
 
     private void applyListeners() {
