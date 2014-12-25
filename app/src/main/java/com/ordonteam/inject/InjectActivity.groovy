@@ -14,7 +14,7 @@ import java.lang.reflect.Method
 class InjectActivity extends Activity {
 
     @Override
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle)
         applyContentView()
         applyListeners()
