@@ -18,7 +18,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.ordonteam"
+        applicationId "com.ordonteam.tictactoe"
         minSdkVersion 9
         targetSdkVersion 9
         versionCode 1

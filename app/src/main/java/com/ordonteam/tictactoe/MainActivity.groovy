@@ -1,11 +1,11 @@
 package com.ordonteam.tictactoe
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.games.Games
 import com.google.android.gms.plus.Plus
@@ -37,24 +37,34 @@ class MainActivity extends InjectActivity implements GoogleApiClient.ConnectionC
     }
 
     @InjectClickListener(R.id.signIn)
-    void signInClick(View view){
-        Log.e('a jednak','działa')
+    void signInClick(View view) {
+        Log.e('MainActivity', 'signInClick')
         mGoogleApiClient.connect()
     }
 
     @Override
     void onConnected(Bundle bundle) {
-        Log.e('a jednak','onConnected')
+        Log.e('MainActivity', 'onConnected')
     }
 
     @Override
     void onConnectionSuspended(int i) {
-        Log.e('a jednak','onConnectionSuspended')
+        Log.e('MainActivity', 'onConnectionSuspended')
     }
 
     @Override
     void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e('a jednak','onConnectionFailed')
-        Log.e('a jednak',connectionResult.toString())
+        Log.e('MainActivity', "onConnectionFailed: ${connectionResult.toString()}")
+        connectionResult.startResolutionForResult(this, connectionResult.errorCode)
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        if (responseCode == RESULT_OK) {
+            Log.e('MainActivity', 'onActivityResult RESULT_OK')
+            mGoogleApiClient.connect();
+        } else {
+            Log.e('MainActivity', 'onActivityResult NOT RESULT_OK')
+        }
     }
 }
