@@ -3,8 +3,8 @@ package com.ordonteam.inject
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
-import groovy.transform.TypeCheckingMode
 
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Field
@@ -28,36 +28,27 @@ class InjectActivity extends Activity {
         setContentView(layoutName.value())
     }
 
-    @CompileStatic(TypeCheckingMode.SKIP)
+    @CompileDynamic
     private void applyListeners() {
         Collection<Method> methods = this.class.declaredMethods.findAll(has(InjectClickListener))
         methods.each { Method method ->
             InjectClickListener listener = method.getAnnotation(InjectClickListener)
-            applyListener(listener, method)
+            View foundView = findViewById(listener.value())
+            foundView.setOnClickListener { View view ->
+                method.invoke(this, view)
+            }
         }
     }
 
-    private void applyListener(InjectClickListener listener, Method method) {
-        View foundView = findViewById(listener.value())
-        foundView.setOnClickListener { View view ->
-            method.invoke(this, view)
-        }
-    }
-
-    @CompileStatic(TypeCheckingMode.SKIP)
+    @CompileDynamic
     void injectFields() {
         Collection<Field> fields = this.class.declaredFields.findAll(has(InjectView))
         fields.each { Field field ->
             InjectView view = field.getAnnotation(InjectView)
-            injectField(view, field)
+            (this."${field.name}" = findViewById(view.value()))
         }
     }
 
-
-    @CompileStatic(TypeCheckingMode.SKIP)
-    private void injectField(InjectView view, Field field) {
-        this."${field.name}" = findViewById(view.value())
-    }
 
     Closure<Closure<Boolean>> has = { Class aClass ->
         return { AnnotatedElement element ->

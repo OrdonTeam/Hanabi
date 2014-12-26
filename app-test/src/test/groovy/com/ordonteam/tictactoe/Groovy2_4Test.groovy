@@ -1,6 +1,7 @@
 package com.ordonteam.tictactoe
 
 import groovy.transform.Canonical
+import groovy.transform.CompileStatic
 import spock.lang.Specification
 
 class Groovy2_4Test extends Specification {
