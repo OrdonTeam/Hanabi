@@ -21,7 +21,8 @@ class GameActivity extends AbstractGamesActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        ArrayList<String> players = intent.getStringArrayListExtra(Games.EXTRA_PLAYER_IDS)?:new ArrayList<String>()
+        ArrayList<String> players = intent.getStringArrayListExtra(Games.EXTRA_PLAYER_IDS)?:
+                new ArrayList<String>()
         int min = intent.getIntExtra(
                 Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 0);
         int max = intent.getIntExtra(

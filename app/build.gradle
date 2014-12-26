@@ -1,5 +1,3 @@
-apply plugin: 'com.android.application'
-
 buildscript {
     repositories {
         mavenCentral()
@@ -8,42 +6,36 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.0'
         classpath 'me.champeau.gradle:gradle-groovy-android-plugin:0.2.1'
+        classpath 'se.centril.robospock:gradle-plugin-robospock:0.2.0'
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
+apply plugin: 'robospock'
+apply plugin: 'me.champeau.gradle.groovy-android'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
-
-    defaultConfig {
-        applicationId "com.ordonteam.tictactoe"
-        minSdkVersion 9
-        targetSdkVersion 9
-        versionCode 1
-        versionName "1.0"
-    }
     buildTypes {
+        defaultConfig {
+            minSdkVersion 9
+            targetSdkVersion 20
+            versionCode 1
+            versionName "1.0"
+        }
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileSdkVersion 20
+    buildToolsVersion "20"
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'org.codehaus.groovy:groovy:2.4.0-beta-4:grooid'
-    compile ('org.codehaus.groovy:groovy-json:2.4.0-beta-4') {
+    compile('org.codehaus.groovy:groovy-json:2.4.0-beta-4') {
         transitive = false
     }
-    compile 'com.google.android.gms:play-services:+'
-}
-apply plugin: 'me.champeau.gradle.groovy-android'
-
-
-task zip2jar(type: Zip, dependsOn: "compileReleaseJava") {
-    from 'build/intermediates/classes/release'
-    destinationDir = file('build/libs')
-    extension = "jar"
+    compile 'com.google.android.gms:play-services:6.5.87'
 }

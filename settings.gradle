@@ -1,2 +1,2 @@
 include ':app'
-include ':robospock'
+include ':app-test'

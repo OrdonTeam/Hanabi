@@ -23,11 +23,12 @@ class InjectActivity extends Activity {
 
     private void applyContentView() {
         InjectContentView layoutName = this.class.getAnnotation(InjectContentView)
-        if(!layoutName)
+        if (!layoutName)
             throw new RuntimeException('InjectActivity have to used together with InjectContentView')
         setContentView(layoutName.value())
     }
 
+    @CompileStatic(TypeCheckingMode.SKIP)
     private void applyListeners() {
         Collection<Method> methods = this.class.declaredMethods.findAll(has(InjectClickListener))
         methods.each { Method method ->
@@ -36,13 +37,14 @@ class InjectActivity extends Activity {
         }
     }
 
-    private void applyListener(InjectClickListener listener,Method method) {
+    private void applyListener(InjectClickListener listener, Method method) {
         View foundView = findViewById(listener.value())
         foundView.setOnClickListener { View view ->
             method.invoke(this, view)
         }
     }
 
+    @CompileStatic(TypeCheckingMode.SKIP)
     void injectFields() {
         Collection<Field> fields = this.class.declaredFields.findAll(has(InjectView))
         fields.each { Field field ->
