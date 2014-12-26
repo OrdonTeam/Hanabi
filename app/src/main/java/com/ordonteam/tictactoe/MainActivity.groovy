@@ -7,7 +7,10 @@ import android.view.View
 import android.widget.LinearLayout
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.ordonteam.gms.AbstractGamesActivity
+import com.ordonteam.inject.InjectActivity
+import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectClickListener
+import com.ordonteam.inject.InjectConstants
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
@@ -38,19 +41,13 @@ class MainActivity extends AbstractGamesActivity {
     @InjectClickListener(R.id.invite)
     void invite(View view) {
         Intent intent = TurnBasedMultiplayer.getSelectOpponentsIntent(client, 1, 4, true);
-        startActivityForResult(intent, RC_SELECT_PLAYERS);
+        startActivityForResult(intent, InjectConstants.RC_SELECT_PLAYERS);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
-        if (requestCode == RC_SELECT_PLAYERS) {
-            if (responseCode == RESULT_OK) {
-                Intent gameActivity = new Intent(this, GameActivity)
-                gameActivity.putExtras(intent)
-                startActivity(gameActivity)
-            }
-            return;
-        }
-        super.onActivityResult(requestCode, responseCode, intent)
+    @InjectActivityResult(requestCode = InjectConstants.RC_SELECT_PLAYERS, responseCode = InjectConstants.RESULT_OK)
+    void onPlayersSelected(int requestCode, int responseCode, Intent intent) {
+        Intent gameActivity = new Intent(this, GameActivity)
+        gameActivity.putExtras(intent)
+        startActivity(gameActivity)
     }
 }

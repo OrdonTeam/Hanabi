@@ -1,8 +1,11 @@
 package com.ordonteam.inject
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import com.ordonteam.tictactoe.GameActivity
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -19,6 +22,7 @@ class InjectActivity extends Activity {
         applyContentView()
         applyListeners()
         injectFields()
+        injectActivityResult()
     }
 
     private void applyContentView() {
@@ -49,10 +53,39 @@ class InjectActivity extends Activity {
         }
     }
 
-
     Closure<Closure<Boolean>> has = { Class aClass ->
         return { AnnotatedElement element ->
             element.getAnnotation(aClass) ? true : false
+        }
+    }
+
+
+    Collection<Method> activityResults
+    Collection<Method> activityResultsFailed
+
+    void injectActivityResult() {
+        this.activityResults = this.class.declaredMethods.findAll(has(InjectActivityResult))
+        this.activityResultsFailed = this.class.declaredMethods.findAll(has(InjectActivityResultFailed))
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        Method proper = findMatchingResult(requestCode, responseCode)
+        Method failed = findMatchingResultFailed(requestCode)
+        (proper ?: failed)?.invoke(this, requestCode, responseCode, intent)
+    }
+
+    private Method findMatchingResult(int requestCode, int responseCode) {
+        return activityResults.find { Method method ->
+            InjectActivityResult activityResult = method.getAnnotation(InjectActivityResult)
+            activityResult.requestCode() == requestCode &&
+                    activityResult.responseCode() == responseCode
+        }
+    }
+
+    private Method findMatchingResultFailed(int requestCode) {
+        return activityResultsFailed.find { Method method ->
+            method.getAnnotation(InjectActivityResultFailed).requestCode() == requestCode
         }
     }
 

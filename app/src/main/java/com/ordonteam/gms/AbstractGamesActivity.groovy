@@ -2,20 +2,22 @@ package com.ordonteam.gms
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.games.Games
 import com.google.android.gms.plus.Plus
 import com.ordonteam.inject.InjectActivity
+import com.ordonteam.inject.InjectActivityResult
+import com.ordonteam.inject.InjectActivityResultFailed
+import com.ordonteam.inject.InjectConstants
+import com.ordonteam.tictactoe.GameActivity
 import com.ordonteam.tictactoe.R
 import groovy.transform.CompileStatic
 
 @CompileStatic
 abstract class AbstractGamesActivity extends InjectActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    final static int RC_SIGN_IN = 9001
-    final static int RC_SELECT_PLAYERS = 10000
-    final static int RC_LOOK_AT_MATCHES = 10001
 
     GoogleApiClient client
 
@@ -54,20 +56,20 @@ abstract class AbstractGamesActivity extends InjectActivity implements GoogleApi
     @Override
     void onConnectionFailed(ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
-            connectionResult.startResolutionForResult(this, RC_SIGN_IN)
+            Log.d('onActivityResult', 'starting')
+            connectionResult.startResolutionForResult(this, InjectConstants.RC_SIGN_IN)
         } else {
             Toast.makeText(this, R.string.loginFailed, Toast.LENGTH_LONG).show()
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
-        if (requestCode == RC_SIGN_IN) {
-            if (responseCode == RESULT_OK) {
-                client.connect();
-            } else {
-                Toast.makeText(this, R.string.loginRequired, Toast.LENGTH_LONG).show()
-            }
-        }
+    @InjectActivityResult(requestCode = InjectConstants.RC_SIGN_IN, responseCode = InjectConstants.RC_SELECT_PLAYERS)
+    void onUserSingIn(int requestCode, int responseCode, Intent intent) {
+        client.connect();
+    }
+
+    @InjectActivityResultFailed(requestCode = InjectConstants.RC_SIGN_IN)
+    void onUserSingInFailed(int requestCode, int responseCode, Intent intent) {
+        Toast.makeText(this, R.string.loginRequired, Toast.LENGTH_LONG).show()
     }
 }
