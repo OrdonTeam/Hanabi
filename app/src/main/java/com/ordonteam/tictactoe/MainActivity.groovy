@@ -1,23 +1,17 @@
 package com.ordonteam.tictactoe
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
-import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.Multiplayer
-import com.google.android.gms.games.multiplayer.realtime.RoomConfig
-import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.ordonteam.gms.AbstractGamesActivity
 import com.ordonteam.inject.InjectClickListener
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
 
-import static android.app.Activity.RESULT_OK
 import static com.google.android.gms.games.Games.TurnBasedMultiplayer
 
 @CompileStatic

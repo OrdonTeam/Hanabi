@@ -5,12 +5,11 @@ import pl.polidea.robospock.RoboSpecification
 
 class MainActivitySpec extends RoboSpecification {
 
-    def "Robo Guice Test"() {
+    def "Inject Test"() {
         given:
-        def activity = Robolectric.buildActivity(EmptyActivity)
-        def create = activity.create()
+        MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().get()
 
         expect:
-        create.get() != null
+        activity.modeChooser != null
     }
 }
