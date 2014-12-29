@@ -1,4 +1,4 @@
-package com.ordonteam.tictactoe
+package com.ordonteam.hanabi
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.ordonteam.gms.AbstractGamesActivity
-import com.ordonteam.inject.InjectActivity
 import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectClickListener
 import com.ordonteam.inject.InjectConstants

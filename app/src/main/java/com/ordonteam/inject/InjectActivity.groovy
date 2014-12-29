@@ -3,9 +3,7 @@ package com.ordonteam.inject
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.ordonteam.tictactoe.GameActivity
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 

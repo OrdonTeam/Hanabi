@@ -1,7 +1,6 @@
-package com.ordonteam.tictactoe
+package com.ordonteam.hanabi
 
 import android.os.Bundle
-import android.util.Log
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.Multiplayer

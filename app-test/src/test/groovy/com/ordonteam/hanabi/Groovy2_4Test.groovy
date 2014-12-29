@@ -1,4 +1,4 @@
-package com.ordonteam.tictactoe
+package com.ordonteam.hanabi
 
 import groovy.transform.Canonical
 import spock.lang.Specification

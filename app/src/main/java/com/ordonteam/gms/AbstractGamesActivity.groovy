@@ -12,8 +12,7 @@ import com.ordonteam.inject.InjectActivity
 import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectActivityResultFailed
 import com.ordonteam.inject.InjectConstants
-import com.ordonteam.tictactoe.GameActivity
-import com.ordonteam.tictactoe.R
+import com.ordonteam.hanabi.R
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -63,13 +62,15 @@ abstract class AbstractGamesActivity extends InjectActivity implements GoogleApi
         }
     }
 
-    @InjectActivityResult(requestCode = InjectConstants.RC_SIGN_IN, responseCode = InjectConstants.RC_SELECT_PLAYERS)
+    @InjectActivityResult(requestCode = InjectConstants.RC_SIGN_IN, responseCode = InjectConstants.RESULT_OK)
     void onUserSingIn(int requestCode, int responseCode, Intent intent) {
+        Log.d('onActivityResult', 'onUserSingIn')
         client.connect();
     }
 
     @InjectActivityResultFailed(requestCode = InjectConstants.RC_SIGN_IN)
     void onUserSingInFailed(int requestCode, int responseCode, Intent intent) {
+        Log.d('onActivityResult', 'onUserSingInFailed')
         Toast.makeText(this, R.string.loginRequired, Toast.LENGTH_LONG).show()
     }
 }
