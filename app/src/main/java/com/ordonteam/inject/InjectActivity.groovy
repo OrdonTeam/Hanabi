@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.google.android.gms.common.api.Api
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -70,7 +71,12 @@ class InjectActivity extends Activity {
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         Method proper = findMatchingResult(requestCode, responseCode)
         Method failed = findMatchingResultFailed(requestCode)
-        (proper ?: failed)?.invoke(this, requestCode, responseCode, intent)
+
+        if( proper != null && failed != null ) {
+            (proper ?: failed).invoke(this, requestCode, responseCode, intent)
+        }else{
+            throw new IllegalArgumentException("There is no registred method for handling this pair of request/response codes. RequestCode = $requestCode ResponseCode = $responseCode")
+        }
     }
 
     private Method findMatchingResult(int requestCode, int responseCode) {
