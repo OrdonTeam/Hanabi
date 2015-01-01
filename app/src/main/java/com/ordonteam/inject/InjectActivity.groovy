@@ -69,14 +69,16 @@ class InjectActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
-        Method proper = findMatchingResult(requestCode, responseCode)
-        Method failed = findMatchingResultFailed(requestCode)
-
-        if( proper != null && failed != null ) {
-            (proper ?: failed).invoke(this, requestCode, responseCode, intent)
-        }else{
+        Method method = findMatchingOnActivityResult(requestCode, responseCode)
+        if (!method) {
             throw new IllegalArgumentException("There is no registred method for handling this pair of request/response codes. RequestCode = $requestCode ResponseCode = $responseCode")
         }
+        method.invoke(this, requestCode, responseCode, intent)
+    }
+
+    private Method findMatchingOnActivityResult(int requestCode, int responseCode) {
+        return findMatchingResult(requestCode, responseCode) ?:
+                findMatchingResultFailed(requestCode)
     }
 
     private Method findMatchingResult(int requestCode, int responseCode) {
