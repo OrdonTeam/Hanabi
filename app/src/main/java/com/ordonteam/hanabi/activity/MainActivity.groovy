@@ -33,8 +33,8 @@ class MainActivity extends AbstractGamesActivity {
     @InjectClickListener(R.id.play)
     void play(View view) {
         Intent gameActivity = new Intent(this, GameActivity)
-        intent.putExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 1);
-        intent.putExtra(Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, 1);
+        gameActivity.putExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 1);
+        gameActivity.putExtra(Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, 1);
         startActivity(gameActivity)
     }
 
