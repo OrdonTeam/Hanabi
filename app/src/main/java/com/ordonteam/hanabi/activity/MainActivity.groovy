@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi
+package com.ordonteam.hanabi.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,10 @@ import android.view.View
 import android.widget.LinearLayout
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.ordonteam.gms.AbstractGamesActivity
+import com.ordonteam.hanabi.R
 import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectClickListener
-import com.ordonteam.inject.InjectConstants
+import com.ordonteam.hanabi.inject.InjectConstants
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic

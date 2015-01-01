@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi
+package com.ordonteam.hanabi.activity
 
 import android.os.Bundle
 import com.google.android.gms.common.api.Status
@@ -8,6 +8,7 @@ import com.google.android.gms.games.multiplayer.realtime.RoomConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
 import com.ordonteam.gms.AbstractGamesActivity
+import com.ordonteam.hanabi.R
 import com.ordonteam.inject.InjectContentView
 import groovy.transform.CompileStatic
 

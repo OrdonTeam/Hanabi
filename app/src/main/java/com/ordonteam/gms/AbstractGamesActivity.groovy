@@ -11,7 +11,7 @@ import com.google.android.gms.plus.Plus
 import com.ordonteam.inject.InjectActivity
 import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectActivityResultFailed
-import com.ordonteam.inject.InjectConstants
+import com.ordonteam.hanabi.inject.InjectConstants
 import com.ordonteam.hanabi.R
 import groovy.transform.CompileStatic
 
