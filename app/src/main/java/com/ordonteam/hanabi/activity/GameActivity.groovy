@@ -3,12 +3,12 @@ package com.ordonteam.hanabi.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.Player
 import com.google.android.gms.games.Players
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.realtime.RoomConfig
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
@@ -50,11 +50,20 @@ class GameActivity extends AbstractGamesActivity {
         Log.e("status", "turn=${result.match?.turnStatus}")
         if (result.match?.data) {
             Log.e("status", "data=${new String(result.match.data)}")
-            //This null is wrong but only here
-            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'second'.bytes, null).setResultCallback(this.&updateMatchResult)
+            String next = nextPlayerId(result.match)
+            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'second'.bytes, next).setResultCallback(this.&updateMatchResult)
         } else {
             Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'first'.bytes, null).setResultCallback(this.&updateMatchResult)
         }
+    }
+
+    private String nextPlayerId(TurnBasedMatch match) {
+        String playerId = Games.Players.getCurrentPlayerId(client);
+        String myParticipantId = match.getParticipantId(playerId);
+        ArrayList<String> ids = match.participantIds
+        String next = ids.find { it != myParticipantId }
+        Log.e("status", "next=${next}")
+        return next
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
