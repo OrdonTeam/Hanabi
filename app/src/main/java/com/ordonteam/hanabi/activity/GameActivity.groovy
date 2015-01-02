@@ -7,6 +7,7 @@ import android.widget.Button
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.Player
 import com.google.android.gms.games.Players
+import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
@@ -27,18 +28,26 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     @InjectView(R.id.turn)
     Button turn;
 
-    private TurnBasedMatchConfig config;
+    private TurnBasedMatchConfig config
+    private String invId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        config = GameConfig.configFromIntent(intent)
+        invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
+        if(!invId)
+            config = GameConfig.configFromIntent(intent)
     }
 
     @Override
     void onConnected(Bundle bundle) {
-        Games.TurnBasedMultiplayer.createMatch(client, config).setResultCallback(this.&initiateMatchResult)
-        Games.TurnBasedMultiplayer.registerMatchUpdateListener(client,this)
+        if (invId) {
+            Games.TurnBasedMultiplayer.acceptInvitation(client,invId).setResultCallback(this.&initiateMatchResult)
+            Games.TurnBasedMultiplayer.registerMatchUpdateListener(client,this)
+        } else {
+            Games.TurnBasedMultiplayer.createMatch(client, config).setResultCallback(this.&initiateMatchResult)
+            Games.TurnBasedMultiplayer.registerMatchUpdateListener(client,this)
+        }
     }
 
     void initiateMatchResult(InitiateMatchResult result) {
@@ -48,9 +57,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         String next = nextPlayerId(result.match)
         if (result.match?.data) {
             Log.e("status", "data=${new String(result.match.data)}")
-            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'second'.bytes, next).setResultCallback(this.&updateMatchResult)
+            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'second'.bytes, next)
+                    .setResultCallback(this.&updateMatchResult)
         } else {
-            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'first'.bytes, next).setResultCallback(this.&updateMatchResult)
+            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'first'.bytes, next)
+                    .setResultCallback(this.&updateMatchResult)
         }
     }
 

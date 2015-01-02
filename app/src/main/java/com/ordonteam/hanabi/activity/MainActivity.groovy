@@ -60,11 +60,19 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
     @Override
     void onInvitationReceived(Invitation invitation) {
         Log.e("onInvitationReceived", "onInvitationReceived")
-        Toast.makeText(
-                this,
-                "An invitation has arrived from "
-                        + invitation.getInviter().getDisplayName(), Toast.LENGTH_LONG)
-                .show()
+        Intent gameActivity = new Intent(this, GameActivity)
+        gameActivity.putExtra(Multiplayer.EXTRA_INVITATION, invitation.invitationId);
+        startActivity(gameActivity)
+
+//        Intent intent = Invitations.getInvitationInboxIntent(client)
+//        startActivityForResult(intent,InjectConstants.RC_INVITATIONS)
+    }
+
+    @InjectActivityResult(requestCode = InjectConstants.RC_INVITATIONS, responseCode = InjectConstants.RESULT_OK)
+    void onInvitationAccepted(int requestCode, int responseCode, Intent intent) {
+
+
+
     }
 
     @Override
