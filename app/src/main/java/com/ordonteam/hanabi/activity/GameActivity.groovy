@@ -65,13 +65,35 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
     }
 
-    private String nextPlayerId(TurnBasedMatch match) {
+    private String nextPlayerId(TurnBasedMatch match) { //TODO: REFACTOR + TEST
         String playerId = Games.Players.getCurrentPlayerId(client);
         String myParticipantId = match.getParticipantId(playerId);
-        ArrayList<String> ids = match.participantIds
-        String next = ids.find { it != myParticipantId }
-        Log.e("status", "next=${next}")
-        return next
+
+        ArrayList<String> participantIds = match.getParticipantIds();
+
+        int desiredIndex = -1;
+
+        for (int i = 0; i < participantIds.size(); i++) {
+            if (participantIds.get(i).equals(myParticipantId)) {
+                desiredIndex = i + 1;
+            }
+        }
+
+        if (desiredIndex < participantIds.size()) {
+            Log.e("status", "next=${participantIds.get(desiredIndex)}")
+            return participantIds.get(desiredIndex);
+        }
+
+        if (match.getAvailableAutoMatchSlots() <= 0) {
+            // You've run out of automatch slots, so we start over.
+            Log.e("status", "next=${participantIds.get(0)}")
+            return participantIds.get(0);
+        } else {
+            // You have not yet fully automatched, so null will find a new
+            // person to play against.
+            Log.e("status", "next=null")
+            return null;
+        }
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
