@@ -3,6 +3,7 @@ package com.ordonteam.hanabi.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.Player
 import com.google.android.gms.games.Players
@@ -17,11 +18,15 @@ import com.ordonteam.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.R
 import com.ordonteam.inject.InjectClickListener
 import com.ordonteam.inject.InjectContentView
+import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
 class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener{
+
+    @InjectView(R.id.turn)
+    Button turn;
 
     private TurnBasedMatchConfig config;
 
@@ -88,9 +93,17 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     @Override
     void onTurnBasedMatchReceived(TurnBasedMatch match) {
-        Log.e("onTurnBasedMatchReceived", "onTurnBasedMatchReceived")
+        Log.e("status", "onTurnBasedMatchReceived")
+        Log.e("status", "match=${match?.status}")
+        Log.e("status", "turn=${match?.turnStatus}")
+        if (match?.data)
+            Log.e("status", "data=${new String(match.data)}")
         String next = nextPlayerId(match)
-        Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, 'next turn'.bytes, next).setResultCallback(this.&updateMatchResult)
+        turn.setOnClickListener({
+            Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, 'next turn'.bytes, next).setResultCallback(this.&updateMatchResult)
+            turn.setEnabled(false);
+        })
+        turn.setEnabled(true);
     }
 
     @Override
