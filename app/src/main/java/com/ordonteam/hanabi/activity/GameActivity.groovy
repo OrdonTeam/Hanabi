@@ -8,6 +8,7 @@ import com.google.android.gms.games.Player
 import com.google.android.gms.games.Players
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.realtime.RoomConfig
+import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
@@ -20,7 +21,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AbstractGamesActivity {
+class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener{
 
     private TurnBasedMatchConfig config;
 
@@ -42,6 +43,7 @@ class GameActivity extends AbstractGamesActivity {
     @Override
     void onConnected(Bundle bundle) {
         Games.TurnBasedMultiplayer.createMatch(client, config).setResultCallback(this.&initiateMatchResult)
+        Games.TurnBasedMultiplayer.registerMatchUpdateListener(client,this)
     }
 
     void initiateMatchResult(InitiateMatchResult result) {
@@ -82,5 +84,17 @@ class GameActivity extends AbstractGamesActivity {
                     Log.e("players", "player=${player.playerId}")
                 }
         })
+    }
+
+    @Override
+    void onTurnBasedMatchReceived(TurnBasedMatch match) {
+        Log.e("onTurnBasedMatchReceived", "onTurnBasedMatchReceived")
+        String next = nextPlayerId(match)
+        Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, 'next turn'.bytes, next).setResultCallback(this.&updateMatchResult)
+    }
+
+    @Override
+    void onTurnBasedMatchRemoved(String s) {
+        Log.e("onTurnBasedMatchRemoved", "onTurnBasedMatchRemoved")
     }
 }
