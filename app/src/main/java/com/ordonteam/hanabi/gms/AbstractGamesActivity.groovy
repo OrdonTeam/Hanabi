@@ -1,4 +1,4 @@
-package com.ordonteam.gms
+package com.ordonteam.hanabi.gms
 
 import android.content.Intent
 import android.os.Bundle

@@ -7,15 +7,14 @@ import android.widget.Button
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.Player
 import com.google.android.gms.games.Players
-import com.google.android.gms.games.multiplayer.Multiplayer
-import com.google.android.gms.games.multiplayer.realtime.RoomConfig
 import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
-import com.ordonteam.gms.AbstractGamesActivity
+import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.R
+import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.inject.InjectClickListener
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
@@ -33,16 +32,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
-        ArrayList<String> players = intent.getStringArrayListExtra(Games.EXTRA_PLAYER_IDS) ?:
-                new ArrayList<String>()
-        int min = intent.getIntExtra(
-                Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 0);
-        int max = intent.getIntExtra(
-                Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, 0);
-        Bundle criteria = RoomConfig.createAutoMatchCriteria(min, max, 0);
-        config = TurnBasedMatchConfig.builder()
-                .addInvitedPlayers(players)
-                .setAutoMatchCriteria(criteria).build()
+        config = GameConfig.configFromIntent(intent)
     }
 
     @Override
@@ -55,12 +45,12 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         Log.e("status", "result=${result.status}")
         Log.e("status", "match=${result.match?.status}")
         Log.e("status", "turn=${result.match?.turnStatus}")
+        String next = nextPlayerId(result.match)
         if (result.match?.data) {
             Log.e("status", "data=${new String(result.match.data)}")
-            String next = nextPlayerId(result.match)
             Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'second'.bytes, next).setResultCallback(this.&updateMatchResult)
         } else {
-            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'first'.bytes, null).setResultCallback(this.&updateMatchResult)
+            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, 'first'.bytes, next).setResultCallback(this.&updateMatchResult)
         }
     }
 
