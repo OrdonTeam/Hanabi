@@ -9,5 +9,6 @@ class HanabiGameTest extends Specification {
 
         then:
         game != null
+        game.availableCards.size() == 50
     }
 }
