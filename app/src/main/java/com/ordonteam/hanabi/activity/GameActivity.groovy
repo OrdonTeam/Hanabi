@@ -24,6 +24,7 @@ import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
+import groovy.json.JsonBuilder
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -92,12 +93,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
         if (result.match?.data) {
             HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
-            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, hanabi.persist(), next)
-                    .setResultCallback(this.&updateMatchResult)
+            submitTurnToGoogleApi(hanabi)
+            System.out.println(new JsonBuilder( hanabi ).toPrettyString())
+
         } else {
             HanabiGame hanabi = new HanabiGame(getPlayersNumber(match))
-            Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, hanabi.persist(), next)
-                    .setResultCallback(this.&updateMatchResult)
+            submitTurnToGoogleApi(hanabi)
+            System.out.println(new JsonBuilder( hanabi ).toPrettyString())
+
         }
     }
 
@@ -164,9 +167,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         row1 = (CardsRow) findViewById(R.id.playerCardRow1)
         hanabi.updateCards([row1, row2, row3, row4, row5], ourIndex())
 
-        if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
-            //TODO: enable layout
-        }
+        System.out.println(new JsonBuilder( hanabi ).toPrettyString())
     }
 
     @Override
@@ -184,6 +185,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         super.onBackPressed()
     }
 
+    private submitTurnToGoogleApi(HanabiGame hanabi) {
+        Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId(match)).setResultCallback(this.&updateMatchResult)
+    }
+
     void onCardClicked(int row, int index) {
         Log.i("tag", "row $row index $index ")
 
@@ -198,6 +203,8 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
                     int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
                     new HintPlayerColor(activePlayer, index, ourIndex()).doAction(hanabi)
 
+                    submitTurnToGoogleApi(hanabi)
+
                 }
             });
 
@@ -205,6 +212,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
                 public void onClick(DialogInterface dialog, int whichButton) {
                     int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
                     new HintPlayerNumber(activePlayer, index, ourIndex()).doAction(hanabi)
+                    submitTurnToGoogleApi(hanabi)
                 }
             });
 
@@ -225,13 +233,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             alert.setPositiveButton("Play the card.", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     new PutCardPlayerAction(index, ourIndex()).doAction(hanabi)
-
+                    submitTurnToGoogleApi(hanabi)
                 }
             });
 
             alert.setNegativeButton("Reject the card.", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     new RejectPlayerAction(index, ourIndex()).doAction(hanabi)
+                    submitTurnToGoogleApi(hanabi)
                 }
             });
 
