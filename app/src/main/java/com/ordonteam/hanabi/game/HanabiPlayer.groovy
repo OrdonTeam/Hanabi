@@ -11,4 +11,22 @@ class HanabiPlayer implements Serializable{
     HanabiPlayer(List<HanabiCard> cardsOnHand) {
         this.cardsOnHand = cardsOnHand
     }
+
+    void hintColor(CardColor cardColor) {
+        cardsOnHand.each { HanabiCard card ->
+            if (card.color == cardColor )
+                card.isColorKnown = true
+        }
+    }
+
+    void hintNumber(CardValue cardValue) {
+        cardsOnHand.each { HanabiCard card ->
+            if (card.value == cardValue )
+                card.isValueKnown = true
+        }
+    }
+
+    CardColor getColorOf(int index) {
+        return cardsOnHand.get(index).color
+    }
 }

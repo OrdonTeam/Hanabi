@@ -1,6 +1,7 @@
 package com.ordonteam.hanabi.game
 
-import com.ordonteam.hanabi.game.actions.HintPlayerAction
+import com.ordonteam.hanabi.game.actions.HintPlayerColor
+import com.ordonteam.hanabi.game.actions.HintPlayerNumber
 import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
 import com.ordonteam.hanabi.game.actions.RejectPlayerAction
 import com.ordonteam.hanabi.utils.Utils
@@ -86,6 +87,15 @@ class HanabiGame implements Serializable{
         }
         return restoredGame
     }
+
+    void makeAction(HintPlayerColor action) {
+        HanabiPlayer destinationPlayer = players.get(action.destinationPlayer)
+        CardColor color = destinationPlayer.getColorOf(action.indexCardColor)
+        destinationPlayer.hintColor(color)
+    }
+
+    void makeAction(HintPlayerNumber action) {
+        HanabiPlayer activePlayer = players.get(action.sourcePlayer)
 
     boolean makeAction(HintPlayerAction action) {
         return isGameFinished()
