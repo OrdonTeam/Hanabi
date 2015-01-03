@@ -29,4 +29,8 @@ class HanabiPlayer implements Serializable{
     CardColor getColorOf(int index) {
         return cardsOnHand.get(index).color
     }
+
+    CardValue getValueOf(int index) {
+        return cardsOnHand.get(index).value
+    }
 }

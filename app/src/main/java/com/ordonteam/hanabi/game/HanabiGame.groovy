@@ -96,7 +96,9 @@ class HanabiGame implements Serializable{
     }
 
     void makeAction(HintPlayerNumber action) {
-        HanabiPlayer activePlayer = players.get(action.sourcePlayer)
+        HanabiPlayer destinationPlayer = players.get(action.destinationPlayer)
+        CardValue value = destinationPlayer.getValueOf(action.indexCardNumber)
+        destinationPlayer.hintNumber(value)
     }
 
     boolean makeAction(PutCardPlayerAction action) {

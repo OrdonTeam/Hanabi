@@ -9,11 +9,11 @@ import groovy.transform.CompileStatic
 class HintPlayerNumber extends BasePlayerAction{
 
     Integer destinationPlayer
-    Integer cardNumber
+    Integer indexCardNumber
 
-    HintPlayerNumber(Integer destinationPlayer, Integer cardNumber, Integer sourcePlayer) {
+    HintPlayerNumber(Integer destinationPlayer, Integer indexCardNumber, Integer sourcePlayer) {
         this.destinationPlayer = destinationPlayer
-        this.cardNumber = cardNumber
+        this.indexCardNumber = indexCardNumber
         this.sourcePlayer = sourcePlayer
     }
 
