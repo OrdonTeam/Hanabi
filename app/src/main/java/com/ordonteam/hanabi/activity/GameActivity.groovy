@@ -57,7 +57,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     private TurnBasedMatch match
 
     @Override
-    @CompileDynamic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
@@ -67,9 +66,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         getCooperatorCardRows().each {
             it.setOnCardClickListener(this, it.row)
         }
-        getMyCardRow().setOnCardClickListener({ int row, int index ->
-            myCardRowClickPerform(row, index)
-        })
+        getMyCardRow().setOnCardClickListener(this.&myCardRowClickPerform,5)
     }
 
     @Override
@@ -258,7 +255,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     private CardsRow getMyCardRow() {
-        return getCardRowByIndex(5)
+        return row5
     }
 
     private boolean isMyTurn() {
