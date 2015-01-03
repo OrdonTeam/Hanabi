@@ -14,7 +14,8 @@
         android:id="@+id/playerRow1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="2sp">
         <com.ordonteam.hanabi.view.PlayerView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -23,7 +24,8 @@
         <com.ordonteam.hanabi.view.CardsRow
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:layout_marginRight="2sp">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
 
@@ -31,7 +33,8 @@
         android:id="@+id/playerRow2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="2sp">
         <com.ordonteam.hanabi.view.PlayerView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +43,8 @@
         <com.ordonteam.hanabi.view.CardsRow
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:layout_marginRight="2sp">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
 
@@ -48,7 +52,8 @@
         android:id="@+id/playerRow3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="2sp">
         <com.ordonteam.hanabi.view.PlayerView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,14 +62,16 @@
         <com.ordonteam.hanabi.view.CardsRow
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:layout_marginRight="2sp">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/playerRow4"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="2sp">
         <com.ordonteam.hanabi.view.PlayerView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -73,7 +80,8 @@
         <com.ordonteam.hanabi.view.CardsRow
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:layout_marginRight="2sp">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
 
@@ -92,7 +100,8 @@
         <com.ordonteam.hanabi.view.CardsRow
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:layout_marginRight="2sp">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
