@@ -32,10 +32,7 @@
         android:id="@+id/invite"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/invite"
-        android:layout_alignTop="@+id/play"
-        android:layout_toLeftOf="@+id/play"
-        android:layout_toStartOf="@+id/play" />
+        android:text="@string/invite"/>
 </LinearLayout>
 
 

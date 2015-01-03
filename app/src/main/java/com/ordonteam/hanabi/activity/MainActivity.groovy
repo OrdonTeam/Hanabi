@@ -1,9 +1,13 @@
 package com.ordonteam.hanabi.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.google.android.gms.games.Games
@@ -24,7 +28,7 @@ import static com.google.android.gms.games.Games.TurnBasedMultiplayer
 
 @CompileStatic
 @InjectContentView(R.layout.main_layout)
-class MainActivity extends AbstractGamesActivity implements OnInvitationReceivedListener{
+class MainActivity extends AbstractGamesActivity implements OnInvitationReceivedListener {
 
     @InjectView(R.id.modeChooser)
     LinearLayout modeChooser
@@ -38,9 +42,37 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
 
     @InjectClickListener(R.id.play)
     void play(View view) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Random match");
+        alert.setMessage("How many people do you want to play with?");
+// Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_PHONE);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                Integer value = Integer.parseInt(input.getText().toString());
+                PlayMatchedRandomly(value);
+                // Do something with value!
+            }
+        });
+
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
+    void PlayMatchedRandomly(int i) {
         Intent gameActivity = new Intent(this, GameActivity)
-        gameActivity.putExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 1);
-        gameActivity.putExtra(Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, 1);
+        gameActivity.putExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, i);
+        gameActivity.putExtra(Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, i);
         startActivity(gameActivity)
     }
 
@@ -70,7 +102,6 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
 
     @InjectActivityResult(requestCode = InjectConstants.RC_INVITATIONS, responseCode = InjectConstants.RESULT_OK)
     void onInvitationAccepted(int requestCode, int responseCode, Intent intent) {
-
 
 
     }
