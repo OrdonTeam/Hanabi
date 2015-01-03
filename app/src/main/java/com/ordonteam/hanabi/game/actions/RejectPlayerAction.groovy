@@ -1,5 +1,6 @@
 package com.ordonteam.hanabi.game.actions
 
+import com.ordonteam.hanabi.game.HanabiCard
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.game.HanabiPlayer
 import groovy.transform.CompileStatic
@@ -16,9 +17,12 @@ class RejectPlayerAction extends BasePlayerAction {
 
     @Override
     boolean doAction(HanabiGame game) {
-        HanabiPlayer activePlayer = game.players.get(sourcePlayer)
-        game.rejectedCards.add(activePlayer.removeCardAt(card))
+        HanabiPlayer activePlayer = game.getPlayerAt(sourcePlayer)
+        HanabiCard rejectedCard = activePlayer.removeCardAt(card)
+
+        game.rejectedCards.add(rejectedCard)
         activePlayer.getCardFromStack(game)
+
         if(game.tipsNumber <= 7){
             game.tipsNumber++
         }

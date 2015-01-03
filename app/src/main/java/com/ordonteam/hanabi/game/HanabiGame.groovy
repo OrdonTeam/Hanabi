@@ -136,4 +136,12 @@ class HanabiGame implements Serializable {
         cardView.setNumber("$number")
         cardView.setColor(CardColor.YELLOW.color)
     }
+
+    void addPlayerCard(HanabiCard card){
+        playedCards.add(card)
+    }
+
+    HanabiPlayer getPlayerAt(int index){
+        return players.get(index)
+    }
 }

@@ -20,7 +20,7 @@ class HintPlayerNumber extends BasePlayerAction{
 
     @Override
     boolean doAction(HanabiGame game) {
-        HanabiPlayer destinationPlayer = game.players.get(this.destinationPlayer)
+        HanabiPlayer destinationPlayer = game.getPlayerAt(this.destinationPlayer)
         CardValue value = destinationPlayer.getValueOf(this.indexCardNumber)
         destinationPlayer.hintNumber(value)
         game.tipsNumber--

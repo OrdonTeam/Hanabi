@@ -17,11 +17,11 @@ class PutCardPlayerAction extends BasePlayerAction{
 
     @Override
     boolean doAction(HanabiGame game) {
-        HanabiPlayer activePlayer = game.players.get(this.sourcePlayer)
-        HanabiCard playedCard = activePlayer.cardsOnHand.get(this.card)
-        game.playedCards.add(playedCard)
-        activePlayer.cardsOnHand.remove(playedCard)
-        activePlayer.cardsOnHand.add(game.getCardFromStack())
+        HanabiPlayer activePlayer = game.getPlayerAt(this.sourcePlayer)
+        HanabiCard playedCard = activePlayer.removeCardAt(this.card)
+
+        game.addPlayerCard(playedCard)
+        activePlayer.getCardFromStack(game)
 
         if(!game.isLowerCardWithTheSameColorOnTable(playedCard)){
             game.makeThunder()
