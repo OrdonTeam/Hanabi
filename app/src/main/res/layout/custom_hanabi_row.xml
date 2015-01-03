@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
 
     >
-    <ImageView
+    <com.ordonteam.hanabi.view.PlayerView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@drawable/ic_launcher"/>
+        android:layout_weight="1.5">
+
+        </com.ordonteam.hanabi.view.PlayerView>
 
     <ImageView
         android:layout_width="0dp"
