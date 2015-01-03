@@ -221,14 +221,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             alert.setTitle("Action");
             alert.setMessage("What do you want to do?");
 
-            alert.setPositiveButton("Play the card.", new DialogInterface.OnClickListener() {
+            alert.setPositiveButton("Play the card", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     new PutCardPlayerAction(index, ourIndex()).doAction(hanabi)
                     submitTurnToGoogleApi(hanabi)
                 }
             });
 
-            alert.setNegativeButton("Reject the card.", new DialogInterface.OnClickListener() {
+            alert.setNegativeButton("Reject the card", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     new RejectPlayerAction(index, ourIndex()).doAction(hanabi)
                     submitTurnToGoogleApi(hanabi)
