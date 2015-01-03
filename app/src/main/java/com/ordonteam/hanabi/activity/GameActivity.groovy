@@ -187,33 +187,31 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         super.onBackPressed()
     }
 
-    void makeSomeAction() {
-        HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        PutCardPlayerAction.aPutPlayerAction().build().doAction(hanabi)
-    }
-
     void onCardClicked(int row, int index) {
         Log.i("tag", "row $row index $index ")
-        HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Hint");
-        alert.setMessage("You want to give a hint about:");
 
-        alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
-                new HintPlayerColor(activePlayer, index, ourIndex()).doAction(hanabi)
-            }
-        });
+        if( isMyTurn() ) {
+            HanabiGame hanabi = HanabiGame.unpersist(match.getData())
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Hint");
+            alert.setMessage("You want to give a hint about:");
 
-        alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
-                new HintPlayerNumber(activePlayer, index, ourIndex()).doAction(hanabi)
-            }
-        });
+            alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
+                    new HintPlayerColor(activePlayer, index, ourIndex()).doAction(hanabi)
+                }
+            });
 
-        alert.show();
+            alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
+                    new HintPlayerNumber(activePlayer, index, ourIndex()).doAction(hanabi)
+                }
+            });
+
+            alert.show();
+        }
     }
 
     @CompileDynamic
