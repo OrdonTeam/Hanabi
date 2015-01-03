@@ -132,10 +132,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
-        if(result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK){
-            onTurnBasedMatchReceived(result.match)
-        }else{
-            Log.w("updateMatchResult",'status code is not ok')
+        if (result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK) {
+            this.match = result.match
+        } else {
+            Log.w("updateMatchResult", 'status code is not ok')
         }
     }
 
@@ -188,13 +188,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
         alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                new HintPlayerColor(row, index, ourIndex()).doAction(hanabi)
+                int activePlayer = (row+ourIndex())%getPlayersNumber(match)
+                hanabi.makeAction(new HintPlayerColor(activePlayer, index, ourIndex()))
             }
         });
 
         alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                new HintPlayerNumber(row, index, ourIndex()).doAction(hanabi)
+                hanabi.makeAction(new HintPlayerNumber(row, index, ourIndex()))
             }
         });
 
