@@ -29,31 +29,22 @@ class HanabiGame implements Serializable{
         players = dealCards(playersNumber)
     }
 
-    List<HanabiPlayer> dealCards(int playersNumber) {
+    private List<HanabiPlayer> dealCards(int playersNumber) {
 
         List<HanabiPlayer> players = new ArrayList<>()
         playersNumber.times {
-
-            List<HanabiCard> cardsOnHand
-            if (playersNumber == 2 || playersNumber == 3) {
-
-                cardsOnHand = new ArrayList<>()
-                5.times {
-                    cardsOnHand.add(getCardFromStack())
-                }
-                players.add(new HanabiPlayer(cardsOnHand))
+            List<HanabiCard> cardsOnHand = new ArrayList<>()
+            int numberOfCards = numberOfCardsForPlayerNumber(playersNumber)
+            numberOfCards.times {
+                cardsOnHand.add(getCardFromStack())
             }
-
-            if (playersNumber == 4 || playersNumber == 5) {
-
-                cardsOnHand = new ArrayList<>()
-                4.times {
-                    cardsOnHand.add(getCardFromStack())
-                }
-                players.add(new HanabiPlayer(cardsOnHand))
-            }
+            players.add(new HanabiPlayer(cardsOnHand))
         }
         return players
+    }
+
+    private int numberOfCardsForPlayerNumber(int playerNumber) {
+        playerNumber == 2 || playerNumber == 3 ? 5 : 4
     }
 
     HanabiCard getCardFromStack() {
