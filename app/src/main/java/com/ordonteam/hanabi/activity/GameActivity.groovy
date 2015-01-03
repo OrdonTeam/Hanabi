@@ -199,12 +199,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             }
         });
 
-        alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                new HintPlayerNumber(row, index, ourIndex()).doAction(hanabi)
-            }
-        })
-
         alert.show();
     }
 
