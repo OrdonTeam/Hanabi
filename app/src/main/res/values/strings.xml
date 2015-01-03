@@ -7,7 +7,7 @@
     <string name="loginRequired">Login is required to play.</string>
     <string name="loginFailed">Login failed but is required.</string>
     <string name="reconnecting">Reconnecting...</string>
-    <string name="play">Play</string>
-    <string name="invite">Invite</string>
+    <string name="play">Play (matched randomly)</string>
+    <string name="invite">Invite friends to the game</string>
 
 </resources>
