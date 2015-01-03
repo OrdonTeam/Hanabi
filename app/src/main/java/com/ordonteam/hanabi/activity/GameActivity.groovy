@@ -14,6 +14,7 @@ import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.I
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.game.actions.HintPlayerAction
+import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
@@ -150,7 +151,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void makeSomeAction(){
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-//        hanabi.makeAction(new HintPlayerAction.aHintPlayerAction().withSourcePlayer(1))
+        hanabi.makeAction(PutCardPlayerAction.aPutPlayerAction().build())
     }
 
     void onCardClicked(int row, int index) {
