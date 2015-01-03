@@ -3,6 +3,7 @@ package com.ordonteam.inject
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.google.android.gms.common.api.Api
 import groovy.transform.CompileDynamic
@@ -71,9 +72,9 @@ class InjectActivity extends Activity {
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         Method method = findMatchingOnActivityResult(requestCode, responseCode)
         if (!method) {
-            throw new IllegalArgumentException("There is no registred method for handling this pair of request/response codes. RequestCode = $requestCode ResponseCode = $responseCode")
+            Log.w("InjectActivity","There is no registred method for handling this pair of request/response codes. RequestCode = $requestCode ResponseCode = $responseCode")
         }
-        method.invoke(this, requestCode, responseCode, intent)
+        method?.invoke(this, requestCode, responseCode, intent)
     }
 
     private Method findMatchingOnActivityResult(int requestCode, int responseCode) {
