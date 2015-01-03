@@ -15,14 +15,14 @@ import java.util.jar.Attributes
 @CompileStatic
 class CardView extends LinearLayout{
     int index=0
-    int color = Color.WHITE
+    int color = Color.BLACK
     String number = "?"
     private TextView textView;
 
     CardView(Context context, AttributeSet attrs) {
         super(context, attrs)
-        color = Color.RED
-        number = "6"
+        color = Color.WHITE
+        number = "?"
 
         setBackgroundColor(color)
         textView = new TextView(context)
