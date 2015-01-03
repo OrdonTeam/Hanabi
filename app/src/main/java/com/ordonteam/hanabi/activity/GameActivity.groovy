@@ -84,7 +84,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     void initiateMatchResult(InitiateMatchResult result) {
         match = result.match
         (1..getPlayersNumber(match)-1).each{
-            getCooperatorCardRows().get(it-1).setVisibility(LinearLayout.VISIBLE)
+            getLinears().get(it-1).setVisibility(LinearLayout.VISIBLE)
         }
         if (result.match?.data) {
             HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
@@ -252,6 +252,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         return (1..4).collect {
             getCardRowByIndex(it)
         }
+    }
+
+    private List<LinearLayout> getLinears() {
+        return [playerRow1,playerRow2,playerRow3,playerRow4]
     }
 
     private CardsRow getMyCardRow() {
