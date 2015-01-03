@@ -1,20 +1,20 @@
 package com.ordonteam.hanabi.game
 
+import com.ordonteam.hanabi.utils.Utils
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
 class HanabiGame implements Serializable{
 
-    private int tipsNumber = 10
-    private int thundersNumber = 3
-    private List<HanabiCard> playedCards = new ArrayList<>() //TODO: getMaxColorValue()
-    private List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
+    int tipsNumber = 8
+    int thundersNumber = 3
+    List<HanabiCard> playedCards = new ArrayList<>()
+    List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
     List<HanabiCard> availableCards = new ArrayList<>()
-    private List<HanabiPlayer> players
+    List<HanabiPlayer> players = new ArrayList<>()
 
     HanabiGame() {
-
         CardColor.values().each { CardColor color ->
             CardValue.values().each { CardValue value ->
                 value.getMax().times {
@@ -25,7 +25,7 @@ class HanabiGame implements Serializable{
     }
 
     HanabiCard getCardFromStack() {
-        return availableCards.remove(randInt(availableCards.size()))
+        return Utils.removeRandom(availableCards)
     }
 
     @CompileDynamic
