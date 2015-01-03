@@ -9,8 +9,9 @@ class RejectPlayerAction extends BasePlayerAction {
 
     Integer card
 
-    RejectPlayerActionBuilder aRejectPlayerAction(){
-        return new RejectPlayerActionBuilder()
+    RejectPlayerAction(Integer card,Integer sourcePlayer) {
+        this.card = card
+        this.sourcePlayer = sourcePlayer
     }
 
     @Override
@@ -25,22 +26,4 @@ class RejectPlayerAction extends BasePlayerAction {
         return game.isGameFinished()
     }
 
-    public static class RejectPlayerActionBuilder {
-
-        private RejectPlayerAction built
-
-        public RejectPlayerActionBuilder() {
-            built = new RejectPlayerAction()
-        }
-
-        public RejectPlayerActionBuilder withSourcePlayer(int player) {
-            built.sourcePlayer = player
-            return this
-        }
-
-        public RejectPlayerActionBuilder withRejectedCard(int theCard) {
-            built.card = theCard
-            return this
-        }
-    }
 }

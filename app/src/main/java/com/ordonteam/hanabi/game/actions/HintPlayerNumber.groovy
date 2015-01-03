@@ -23,6 +23,7 @@ class HintPlayerNumber extends BasePlayerAction{
         HanabiPlayer destinationPlayer = game.players.get(this.destinationPlayer)
         CardValue value = destinationPlayer.getValueOf(this.indexCardNumber)
         destinationPlayer.hintNumber(value)
+        game.tipsNumber--
         return false
     }
 }

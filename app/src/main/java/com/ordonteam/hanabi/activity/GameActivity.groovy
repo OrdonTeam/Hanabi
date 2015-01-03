@@ -17,6 +17,8 @@ import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.game.actions.HintPlayerColor
 import com.ordonteam.hanabi.game.actions.HintPlayerNumber
+import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
+import com.ordonteam.hanabi.game.actions.RejectPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
@@ -68,16 +70,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         getMyCardRow().setOnCardClickListener({ int row, int index ->
             myCardRowClickPerform(row, index)
         })
-    }
-
-    void myCardRowClickPerform(int row, int index) {
-        Log.i("tag", "row $row index $index ")
-        if(isMyTurn()){
-            Log.i("tag", "my turn")
-        }else{
-            Log.i("tag", "no my turn ${match.getTurnStatus()}")
-        }
-
     }
 
     @Override
@@ -220,6 +212,35 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }else{
             Log.i("tag", "no my turn ${match.getTurnStatus()}")
         }
+    }
+
+    void myCardRowClickPerform(int row, int index) {
+        Log.i("tag", "row $row index $index ")
+        if(isMyTurn()){
+            HanabiGame hanabi = HanabiGame.unpersist(match.getData())
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Action");
+            alert.setMessage("What do you want to do?");
+
+            alert.setPositiveButton("Play the card.", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    new PutCardPlayerAction(index, ourIndex()).doAction(hanabi)
+
+                }
+            });
+
+            alert.setNegativeButton("Reject the card.", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    new RejectPlayerAction(index, ourIndex()).doAction(hanabi)
+                }
+            });
+
+            alert.show();
+            Log.i("tag", "my turn")
+        }else{
+            Log.i("tag", "no my turn ${match.getTurnStatus()}")
+        }
+
     }
 
     @CompileDynamic

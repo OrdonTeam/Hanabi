@@ -10,8 +10,9 @@ class PutCardPlayerAction extends BasePlayerAction{
 
     Integer card
 
-    static PutCardPlayerActionBuilder aPutPlayerAction(){
-        return new PutCardPlayerActionBuilder()
+    PutCardPlayerAction(Integer card,Integer sourcePlayer) {
+        this.card = card
+        this.sourcePlayer = sourcePlayer
     }
 
     @Override
@@ -28,26 +29,4 @@ class PutCardPlayerAction extends BasePlayerAction{
         return game.isGameFinished()
     }
 
-    static class PutCardPlayerActionBuilder {
-
-        private PutCardPlayerAction built
-
-        PutCardPlayerActionBuilder(){
-            built = new PutCardPlayerAction()
-        }
-
-        PutCardPlayerActionBuilder withSourcePlayer(int player){
-            built.sourcePlayer = player
-            return this
-        }
-
-        PutCardPlayerActionBuilder withPuttedCard(int card){
-            built.card = card
-            return this
-        }
-
-        PutCardPlayerAction build(){
-            return built
-        }
-    }
 }

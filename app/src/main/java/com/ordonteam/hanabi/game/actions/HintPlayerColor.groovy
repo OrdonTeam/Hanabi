@@ -23,6 +23,7 @@ class HintPlayerColor extends BasePlayerAction {
         HanabiPlayer destinationPlayer = game.players.get(this.destinationPlayer)
         CardColor color = destinationPlayer.getColorOf(this.indexCardColor)
         destinationPlayer.hintColor(color)
+        game.tipsNumber--
 
         return false
     }
