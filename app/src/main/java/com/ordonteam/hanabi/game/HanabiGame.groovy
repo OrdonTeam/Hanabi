@@ -94,13 +94,21 @@ class HanabiGame implements Serializable{
     void metod(List<CardsRow> cardsRow, int playerId) {
         Log.i("czy","sie wywoluje")
         players.eachWithIndex { HanabiPlayer player, int playerIndex ->
-            int rowIndex = (playerIndex - playerId + 4 ) % 5
+            int rowIndex = getSpecialIndex(playerId,playerIndex)
             CardsRow row = cardsRow.get(rowIndex)
             player.cardsOnHand.eachWithIndex { HanabiCard card, int i ->
                 CardView cardView = row.cardViewList.get(i)
                 cardView.setColor(card.color.color)
                 cardView.setNumber("$card.value.value")
             }
+        }
+    }
+
+    int getSpecialIndex(int playerId, int playerIndex) {
+        if(playerId == playerIndex)
+            return 4;
+        else{
+            return (playerIndex-playerId+players.size()-1)%players.size()
         }
     }
 }
