@@ -1,5 +1,6 @@
 package com.ordonteam.hanabi.game
 
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -14,8 +15,8 @@ class HanabiGame implements Serializable{
 
     HanabiGame() {
 
-        CardColor.values().each {CardColor color->
-            CardValue.values().each {CardValue value->
+        CardColor.values().each { CardColor color ->
+            CardValue.values().each { CardValue value ->
                 value.getMax().times {
                     availableCards.add(new HanabiCard(color, value))
                 }
@@ -27,15 +28,13 @@ class HanabiGame implements Serializable{
         return availableCards.remove(randInt(availableCards.size()))
     }
 
-    int getMaxColorValue(CardColor cardColor) {
-
-        List<HanabiCard> inColor = playedCards.findAll {
-            it.color == cardColor
-        }
-        HanabiCard max = inColor.max { HanabiCard card ->
+    @CompileDynamic
+    int getMaxPlayedColorValue(CardColor cardColor) {
+        return playedCards.findAll { HanabiCard card ->
+            card.color == cardColor
+        }?.collect {HanabiCard card ->
             card.value.value
-        }
-        return max.value.value
+        }?.max()?:0
     }
 
     public static int randInt(int max) {

@@ -12,6 +12,25 @@ class HanabiGameTest extends Specification {
         game.availableCards.size() == 50
     }
 
+    def "Test getMaxPlayedColorValue"() {
+        when:
+        HanabiGame game = new HanabiGame();
+
+        then:
+        game.getMaxPlayedColorValue(CardColor.RED) == 0
+
+    }
+
+    def "Test getMaxPlayedColorValue2"() {
+        when:
+        HanabiGame game = new HanabiGame();
+        game.playedCards = [new HanabiCard(CardColor.BLUE, CardValue.FIVE)]
+
+        then:
+        game.getMaxPlayedColorValue(CardColor.RED) == 0
+
+    }
+
     def "Should persists and unpersist hanabiGame object"() {
         given:
         HanabiGame hanabiGame = new HanabiGame()
