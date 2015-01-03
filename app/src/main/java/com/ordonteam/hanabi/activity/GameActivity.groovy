@@ -82,11 +82,9 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     void initiateMatchResult(InitiateMatchResult result) {
-        String next = nextPlayerId(result.match)
         match = result.match
-        def rows = [playerRow1, playerRow2, playerRow3, playerRow4]
         (1..getPlayersNumber(match)-1).each{
-            rows.get(it-1).setVisibility(LinearLayout.VISIBLE)
+            getCooperatorCardRows().get(it-1).setVisibility(LinearLayout.VISIBLE)
         }
         if (result.match?.data) {
             HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
@@ -105,10 +103,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     private int ourIndex() {
         String playerId = Games.Players.getCurrentPlayerId(client);
         String myParticipantId = match.getParticipantId(playerId);
-        ArrayList<String> participantIds = match.getParticipantIds();
-        for (int i = 0; i < participantIds.size(); i++) {
-            if (participantIds.get(i).equals(myParticipantId)) {
-                return i;
+        List<String> participantIds = match.getParticipantIds();
+
+        participantIds.size().times {
+            if (participantIds.get(it).equals(myParticipantId)) {
+                return it;
             }
         }
         return -1;
@@ -124,7 +123,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     private String nextPlayerId(TurnBasedMatch match, String myParticipantId) {
         int desiredIndex = -1;
 
-        ArrayList<String> participantIds = match.getParticipantIds();
+        List<String> participantIds = match.getParticipantIds();
 
         participantIds.size().times {
             if (participantIds.get(it).equals(myParticipantId)) {
@@ -158,13 +157,8 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
         this.match = match
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        row1 = (CardsRow) findViewById(R.id.playerCardRow1)
-        hanabi.updateCards([row1, row2, row3, row4, row5], ourIndex())
-        row1 = (CardsRow) findViewById(R.id.playedCardsView)
+        hanabi.updateCards(getAllRows(), ourIndex())
         hanabi.updatePlayedCards(row1)
-        if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
-            //TODO: enable layout
-        }
     }
 
     @Override
@@ -266,6 +260,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     private boolean isMyTurn() {
         return match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN
+    }
+
+    private List<CardsRow> getAllRows(){
+        return getCooperatorCardRows() + getMyCardRow()
     }
 
 }
