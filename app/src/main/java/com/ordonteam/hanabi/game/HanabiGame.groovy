@@ -8,7 +8,7 @@ import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class HanabiGame implements Serializable{
+class HanabiGame implements Serializable {
 
     int tipsNumber = 8
     int thundersNumber = 3
@@ -55,14 +55,14 @@ class HanabiGame implements Serializable{
     int getMaxPlayedColorValue(CardColor cardColor) {
         return playedCards.findAll { HanabiCard card ->
             card.color == cardColor
-        }?.collect {HanabiCard card ->
+        }?.collect { HanabiCard card ->
             card.value.value
-        }?.max()?:0
+        }?.max() ?: 0
     }
 
-    byte[] persist(){
+    byte[] persist() {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-        byteOutputStream.withObjectOutputStream {ObjectOutputStream stream ->
+        byteOutputStream.withObjectOutputStream { ObjectOutputStream stream ->
             stream.writeObject(this)
         }
         return byteOutputStream.toByteArray()
@@ -70,7 +70,7 @@ class HanabiGame implements Serializable{
 
     static HanabiGame unpersist(byte[] bytes) {
         HanabiGame restoredGame
-        new ByteArrayInputStream(bytes).withObjectInputStream {ObjectInputStream stream ->
+        new ByteArrayInputStream(bytes).withObjectInputStream { ObjectInputStream stream ->
             restoredGame = stream.readObject() as HanabiGame
         }
         return restoredGame
@@ -85,16 +85,16 @@ class HanabiGame implements Serializable{
         thundersNumber--
     }
 
-    boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard){
+    boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard) {
         return playedCards.findAll {
-            theCard.color == it.color && theCard.value.value -1 == it.value.value
+            theCard.color == it.color && theCard.value.value - 1 == it.value.value
         }.size() == 1
     }
 
     void updateCards(List<CardsRow> cardsRow, int playerId) {
-        Log.i("czy","sie wywoluje")
+        Log.i("czy", "sie wywoluje")
         players.eachWithIndex { HanabiPlayer player, int playerIndex ->
-            int rowIndex = getSpecialIndex(playerId,playerIndex)
+            int rowIndex = getSpecialIndex(playerId, playerIndex)
             CardsRow row = cardsRow.get(rowIndex)
             player.cardsOnHand.eachWithIndex { HanabiCard card, int i ->
                 CardView cardView = row.cardViewList.get(i)
@@ -105,10 +105,33 @@ class HanabiGame implements Serializable{
     }
 
     int getSpecialIndex(int playerId, int playerIndex) {
-        if(playerId == playerIndex)
+        if (playerId == playerIndex)
             return 4;
-        else{
-            return (playerIndex-playerId+players.size()-1)%players.size()
+        else {
+            return (playerIndex - playerId + players.size() - 1) % players.size()
         }
+    }
+
+    void updatePlayedCards(CardsRow cardsRow) {
+        String number = getMaxPlayedColorValue(CardColor.MAGENTA)
+        CardView cardView = cardsRow.cardViewList.get(0)
+        cardView.setNumber("$number")
+        cardView.setColor(CardColor.MAGENTA.color)
+        number = getMaxPlayedColorValue(CardColor.RED)
+        cardView = cardsRow.cardViewList.get(1)
+        cardView.setNumber("$number")
+        cardView.setColor(CardColor.RED.color)
+        number = getMaxPlayedColorValue(CardColor.BLUE)
+        cardView = cardsRow.cardViewList.get(2)
+        cardView.setNumber("$number")
+        cardView.setColor(CardColor.BLUE.color)
+        number = getMaxPlayedColorValue(CardColor.GREEN)
+        cardView = cardsRow.cardViewList.get(3)
+        cardView.setNumber("$number")
+        cardView.setColor(CardColor.GREEN.color)
+        number = getMaxPlayedColorValue(CardColor.YELLOW)
+        cardView = cardsRow.cardViewList.get(4)
+        cardView.setNumber("$number")
+        cardView.setColor(CardColor.YELLOW.color)
     }
 }

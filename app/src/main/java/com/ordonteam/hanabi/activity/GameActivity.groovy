@@ -57,6 +57,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     private TurnBasedMatch match
 
     @Override
+    @CompileDynamic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
@@ -159,6 +160,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         row1 = (CardsRow) findViewById(R.id.playerCardRow1)
         hanabi.updateCards([row1, row2, row3, row4, row5], ourIndex())
+        row1 = (CardsRow) findViewById(R.id.playedCardsView)
+        hanabi.updatePlayedCards(row1)
+        if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
+            //TODO: enable layout
+        }
     }
 
     @Override
