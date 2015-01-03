@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
@@ -24,6 +23,7 @@ import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -32,29 +32,32 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     @InjectView(R.id.turn)
     Button turn
+    @InjectView(R.id.playerCardRow1)
     CardsRow row1
+    @InjectView(R.id.playerCardRow2)
+    CardsRow row2
+    @InjectView(R.id.playerCardRow3)
+    CardsRow row3
+    @InjectView(R.id.playerCardRow4)
+    CardsRow row4
+    @InjectView(R.id.playerCardRow5)
+    CardsRow row5
 
     private TurnBasedMatchConfig config
     private String invId
     private TurnBasedMatch match
 
     @Override
+    @CompileDynamic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
         if (!invId) {
             config = GameConfig.configFromIntent(intent)
         }
-        row1 = (CardsRow) findViewById(R.id.playerCardRow1)
-        row1.setOnCardClickListener(this, 1)
-        row1 = (CardsRow) findViewById(R.id.playerCardRow2)
-        row1.setOnCardClickListener(this, 2)
-        row1 = (CardsRow) findViewById(R.id.playerCardRow3)
-        row1.setOnCardClickListener(this, 3)
-        row1 = (CardsRow) findViewById(R.id.playerCardRow4)
-        row1.setOnCardClickListener(this, 4)
-        row1 = (CardsRow) findViewById(R.id.playerCardRow5)
-        row1.setOnCardClickListener(this, 5)
+        (1..5).each{
+            this."row${it}".setOnCardClickListener(this,it)
+        }
     }
 
     @Override
@@ -111,9 +114,9 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
         ArrayList<String> participantIds = match.getParticipantIds();
 
-        for (int i = 0; i < participantIds.size(); i++) {
-            if (participantIds.get(i).equals(myParticipantId)) {
-                desiredIndex = i + 1;
+        participantIds.size().times {
+            if (participantIds.get(it).equals(myParticipantId)) {
+                desiredIndex = it + 1;
             }
         }
 
