@@ -30,7 +30,15 @@ class HanabiPlayer implements Serializable{
         return cardsOnHand.get(index-1).color
     }
 
+    HanabiCard removeCardAt(int index) {
+        return cardsOnHand.remove(index-1)
+    }
+
     CardValue getValueOf(int index) {
         return cardsOnHand.get(index-1).value
+    }
+
+    void getCardFromStack(HanabiGame game) {
+        cardsOnHand.add(game.getCardFromStack())
     }
 }

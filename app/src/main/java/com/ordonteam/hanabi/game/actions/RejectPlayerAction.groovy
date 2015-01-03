@@ -16,9 +16,9 @@ class RejectPlayerAction extends BasePlayerAction {
 
     @Override
     boolean doAction(HanabiGame game) {
-        HanabiPlayer activePlayer = game.players.get(this.sourcePlayer)
-        game.rejectedCards.add(activePlayer.cardsOnHand.get(this.card))
-        activePlayer.cardsOnHand.add(game.getCardFromStack())
+        HanabiPlayer activePlayer = game.players.get(sourcePlayer)
+        game.rejectedCards.add(activePlayer.removeCardAt(card))
+        activePlayer.getCardFromStack(game)
         if(game.tipsNumber <= 7){
             game.tipsNumber++
         }
