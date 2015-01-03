@@ -1,10 +1,6 @@
 package com.ordonteam.hanabi.game
 
 import android.util.Log
-import com.ordonteam.hanabi.game.actions.HintPlayerColor
-import com.ordonteam.hanabi.game.actions.HintPlayerNumber
-import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
-import com.ordonteam.hanabi.game.actions.RejectPlayerAction
 import com.ordonteam.hanabi.utils.Utils
 import com.ordonteam.hanabi.view.CardView
 import com.ordonteam.hanabi.view.CardsRow
@@ -89,30 +85,6 @@ class HanabiGame implements Serializable{
         return restoredGame
     }
 
-    void makeAction(HintPlayerColor action) {
-        HanabiPlayer destinationPlayer = players.get(action.destinationPlayer)
-        CardColor color = destinationPlayer.getColorOf(action.indexCardColor)
-        destinationPlayer.hintColor(color)
-    }
-
-    void makeAction(HintPlayerNumber action) {
-        HanabiPlayer destinationPlayer = players.get(action.destinationPlayer)
-        CardValue value = destinationPlayer.getValueOf(action.indexCardNumber)
-        destinationPlayer.hintNumber(value)
-    }
-
-    boolean makeAction(PutCardPlayerAction action) {
-        HanabiPlayer activePlayer = players.get(action.sourcePlayer)
-        HanabiCard playedCard = activePlayer.cardsOnHand.get(action.card)
-        playedCards.add(playedCard)
-        activePlayer.cardsOnHand.remove(playedCard)
-        activePlayer.cardsOnHand.add(getCardFromStack())
-
-        if(!isLowerCardWithTheSameColorOnTable(playedCard)){
-            makeThunder()
-        }
-        return isGameFinished()
-    }
 
     boolean isGameFinished() {
         return false
@@ -120,17 +92,6 @@ class HanabiGame implements Serializable{
 
     void makeThunder() {
         thundersNumber--
-    }
-
-    boolean makeAction(RejectPlayerAction action) {
-        HanabiPlayer activePlayer = players.get(action.sourcePlayer)
-        rejectedCards.add(activePlayer.cardsOnHand.get(action.card))
-        activePlayer.cardsOnHand.add(getCardFromStack())
-        if(tipsNumber <= 7){
-            tipsNumber++
-        }
-
-        return isGameFinished()
     }
 
     boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard){

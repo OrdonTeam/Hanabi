@@ -188,14 +188,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
-                hanabi.makeAction(new HintPlayerColor(activePlayer, index, ourIndex()))
+                new HintPlayerColor(activePlayer, index, ourIndex()).doAction(hanabi)
             }
         });
 
         alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
-                hanabi.makeAction(new HintPlayerNumber(activePlayer, index, ourIndex()))
+                new HintPlayerNumber(activePlayer, index, ourIndex()).doAction(hanabi)
             }
         });
 
