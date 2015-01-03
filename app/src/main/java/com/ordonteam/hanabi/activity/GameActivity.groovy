@@ -24,7 +24,6 @@ import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
-import groovy.json.JsonBuilder
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -94,13 +93,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         if (result.match?.data) {
             HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
             submitTurnToGoogleApi(hanabi)
-            System.out.println(new JsonBuilder( hanabi ).toPrettyString())
 
         } else {
             HanabiGame hanabi = new HanabiGame(getPlayersNumber(match))
             submitTurnToGoogleApi(hanabi)
-            System.out.println(new JsonBuilder( hanabi ).toPrettyString())
-
         }
     }
 
@@ -166,8 +162,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         row1 = (CardsRow) findViewById(R.id.playerCardRow1)
         hanabi.updateCards([row1, row2, row3, row4, row5], ourIndex())
-
-        System.out.println(new JsonBuilder( hanabi ).toPrettyString())
     }
 
     @Override
