@@ -1,6 +1,7 @@
 package com.ordonteam.hanabi.game
 
 import com.ordonteam.hanabi.utils.Utils
+import com.ordonteam.hanabi.game.actions.BasePlayerAction
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -55,5 +56,9 @@ class HanabiGame implements Serializable{
             restoredGame = stream.readObject() as HanabiGame
         }
         return restoredGame
+    }
+
+    void makeAction(BasePlayerAction playerActionReject) {
+
     }
 }
