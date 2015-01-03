@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
@@ -30,8 +29,6 @@ import groovy.transform.CompileStatic
 @InjectContentView(R.layout.game_layout)
 class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener, CardsRow.OnCardClickListener {
 
-    @InjectView(R.id.turn)
-    Button turn
     @InjectView(R.id.playerCardRow1)
     CardsRow row1
     @InjectView(R.id.playerCardRow2)
@@ -55,9 +52,16 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         if (!invId) {
             config = GameConfig.configFromIntent(intent)
         }
-        (1..5).each{
-            this."row${it}".setOnCardClickListener(this,it)
+        getCooperatorCardRows().each {
+            it.setOnCardClickListener(this, it.row)
         }
+        getMyCardRow().setOnCardClickListener({ int row, int index ->
+            myCardRowClickPerform(row, index)
+        })
+    }
+
+    void myCardRowClickPerform(int row, int index) {
+
     }
 
     @Override
@@ -133,7 +137,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
         if (result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK) {
-            this.match = result.match
+            onTurnBasedMatchReceived(result.match)
         } else {
             Log.w("updateMatchResult", 'status code is not ok')
         }
@@ -147,15 +151,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         this.match = match
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         row1 = (CardsRow) findViewById(R.id.playerCardRow1)
-        hanabi.metod([row1,row2,row3,row4,row5],ourIndex())
+        hanabi.metod([row1, row2, row3, row4, row5], ourIndex())
 
         if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
-            String next = nextPlayerId(match)
-            turn.setOnClickListener({
-                Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), next).setResultCallback(this.&updateMatchResult)
-                turn.setEnabled(false);
-            })
-            turn.setEnabled(true);
+            //TODO: enable layout
         }
     }
 
@@ -188,18 +187,44 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
         alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                int activePlayer = (row+ourIndex())%getPlayersNumber(match)
+                int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
                 hanabi.makeAction(new HintPlayerColor(activePlayer, index, ourIndex()))
             }
         });
 
         alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                int activePlayer = (row+ourIndex())%getPlayersNumber(match)
+                int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
                 hanabi.makeAction(new HintPlayerNumber(activePlayer, index, ourIndex()))
             }
         });
 
+        alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                new HintPlayerNumber(row, index, ourIndex()).doAction(hanabi)
+            }
+        })
+
         alert.show();
     }
+
+    @CompileDynamic
+    private CardsRow getCardRowByIndex(int index) {
+        return this."row${index}"
+    }
+
+    private List<CardsRow> getCooperatorCardRows() {
+        return (1..4).collect {
+            getCardRowByIndex(it)
+        }
+    }
+
+    private CardsRow getMyCardRow() {
+        return getCardRowByIndex(5)
+    }
+
+    private boolean isMyTurn() {
+        return match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN
+    }
+
 }
