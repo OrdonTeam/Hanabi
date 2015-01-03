@@ -1,5 +1,6 @@
 package com.ordonteam.hanabi.game.actions
 
+import com.ordonteam.hanabi.game.HanabiGame
 import groovy.transform.CompileStatic
 
 
@@ -7,4 +8,6 @@ import groovy.transform.CompileStatic
 abstract class BasePlayerAction {
 
     Integer sourcePlayer
+
+    abstract boolean doAction(HanabiGame game)
 }

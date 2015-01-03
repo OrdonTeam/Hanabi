@@ -174,7 +174,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void makeSomeAction() {
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        hanabi.makeAction(PutCardPlayerAction.aPutPlayerAction().build())
+        PutCardPlayerAction.aPutPlayerAction().build().doAction(hanabi)
     }
 
     void onCardClicked(int row, int index) {
@@ -186,13 +186,13 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
         alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                hanabi.makeAction(new HintPlayerColor(row, index, ourIndex()))
+                new HintPlayerColor(row, index, ourIndex()).doAction(hanabi)
             }
         });
 
         alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                hanabi.makeAction(new HintPlayerNumber(row, index, ourIndex()))
+                new HintPlayerNumber(row, index, ourIndex()).doAction(hanabi)
             }
         });
 

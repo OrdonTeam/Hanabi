@@ -1,5 +1,8 @@
 package com.ordonteam.hanabi.game.actions
 
+import com.ordonteam.hanabi.game.CardColor
+import com.ordonteam.hanabi.game.HanabiGame
+import com.ordonteam.hanabi.game.HanabiPlayer
 import groovy.transform.CompileStatic
 
 
@@ -15,6 +18,12 @@ class HintPlayerColor extends BasePlayerAction {
         this.sourcePlayer = sourcePlayer
     }
 
+    @Override
+    boolean doAction(HanabiGame game) {
+        HanabiPlayer destinationPlayer = game.players.get(this.destinationPlayer)
+        CardColor color = destinationPlayer.getColorOf(this.indexCardColor)
+        destinationPlayer.hintColor(color)
 
-
+        return false
+    }
 }

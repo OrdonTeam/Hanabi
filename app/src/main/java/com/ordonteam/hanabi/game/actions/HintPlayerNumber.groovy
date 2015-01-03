@@ -1,5 +1,7 @@
 package com.ordonteam.hanabi.game.actions
 
+import com.ordonteam.hanabi.game.HanabiGame
+import com.ordonteam.hanabi.game.HanabiPlayer
 import groovy.transform.CompileStatic
 
 
@@ -13,5 +15,12 @@ class HintPlayerNumber extends BasePlayerAction{
         this.destinationPlayer = destinationPlayer
         this.cardNumber = cardNumber
         this.sourcePlayer = sourcePlayer
+    }
+
+    @Override
+    boolean doAction(HanabiGame game) {
+        HanabiPlayer activePlayer = game.players.get(this.sourcePlayer)
+
+        return false
     }
 }
