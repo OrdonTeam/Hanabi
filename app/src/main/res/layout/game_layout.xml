@@ -9,12 +9,6 @@
         android:enabled="false"
         android:id="@+id/turn"
         android:layout_gravity="center_horizontal" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/log"
-        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

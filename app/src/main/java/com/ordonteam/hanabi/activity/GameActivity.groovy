@@ -111,16 +111,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             Log.e("status", "data=${new String(result.match.data)}")
     }
 
-    @InjectClickListener(R.id.log)
-    void onLog(View view) {
-        Games.Players.loadConnectedPlayers(client, true).setResultCallback({
-            Players.LoadPlayersResult result ->
-                result.players.each { Player player ->
-                    Log.e("players", "player=${player.playerId}")
-                }
-        })
-    }
-
     @Override
     void onTurnBasedMatchReceived(TurnBasedMatch match) {
         Log.e("status", "onTurnBasedMatchReceived")
