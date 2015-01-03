@@ -3,20 +3,32 @@ package com.ordonteam.hanabi.game.actions
 
 class RejectPlayerAction extends BasePlayerAction{
 
-    void setRejectedCard(int card){
+    private Integer card
 
+    void setRejectedCard(int theCard){
+        card = theCard
+    }
+
+    Integer getCard() {
+        return card
     }
 
     static class aRejectPlayerAction {
 
         private RejectPlayerAction built
 
-        aRejectPlayerAction(){
+        public aRejectPlayerAction(){
             built = new RejectPlayerAction()
         }
 
-        RejectPlayerAction withSourcePlayer(int player){
-            return built
+        public aRejectPlayerAction withSourcePlayer(int player){
+            built.sourcePlayer = player
+            return this
+        }
+
+        public aRejectPlayerAction withRejectedCard(int theCard){
+            built.card = theCard
+            return this
         }
     }
 }

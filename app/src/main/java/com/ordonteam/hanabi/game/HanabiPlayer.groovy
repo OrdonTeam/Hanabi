@@ -6,5 +6,5 @@ import groovy.transform.CompileStatic
 class HanabiPlayer implements Serializable{
 
     private String name
-    private List<HanabiCard> cardsOnHand
+    List<HanabiCard> cardsOnHand
 }

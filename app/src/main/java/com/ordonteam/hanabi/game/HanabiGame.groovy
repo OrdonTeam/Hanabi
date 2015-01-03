@@ -1,5 +1,8 @@
 package com.ordonteam.hanabi.game
 
+import com.ordonteam.hanabi.game.actions.HintPlayerAction
+import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
+import com.ordonteam.hanabi.game.actions.RejectPlayerAction
 import com.ordonteam.hanabi.utils.Utils
 import com.ordonteam.hanabi.game.actions.BasePlayerAction
 import groovy.transform.CompileDynamic
@@ -50,6 +53,7 @@ class HanabiGame implements Serializable{
         }
         return byteOutputStream.toByteArray()
     }
+
     static HanabiGame unpersist(byte[] bytes) {
         HanabiGame restoredGame
         new ByteArrayInputStream(bytes).withObjectInputStream {ObjectInputStream stream ->
@@ -58,7 +62,20 @@ class HanabiGame implements Serializable{
         return restoredGame
     }
 
-    void makeAction(BasePlayerAction playerActionReject) {
+    void makeAction(HintPlayerAction action) {
 
     }
+
+    void makeAction(PutCardPlayerAction action) {
+        HanabiPlayer activePlayer = players.get(action.sourcePlayer)
+        playedCards.add(activePlayer.cardsOnHand.get(action.card))
+        activePlayer.cardsOnHand.add(getCardFromStack())
+    }
+
+    void makeAction(RejectPlayerAction action) {
+        HanabiPlayer activePlayer = players.get(action.sourcePlayer)
+        rejectedCards.add(activePlayer.cardsOnHand.get(action.card))
+        activePlayer.cardsOnHand.add(getCardFromStack())
+    }
+
 }

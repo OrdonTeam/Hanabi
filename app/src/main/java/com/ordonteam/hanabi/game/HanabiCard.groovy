@@ -9,4 +9,8 @@ class HanabiCard implements Serializable {
 
     final CardColor color
     final CardValue value
+
+    boolean isColorKnown = false
+    boolean isValueKnown = false
+
 }

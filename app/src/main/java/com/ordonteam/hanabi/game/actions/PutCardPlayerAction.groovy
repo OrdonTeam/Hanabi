@@ -3,20 +3,32 @@ package com.ordonteam.hanabi.game.actions
 
 class PutCardPlayerAction extends BasePlayerAction{
 
-    void setCard(int card){
+    private Integer card
 
+    void setCard(int theCard){
+        card = theCard
     }
 
-    static class aPutCardPlayerAction {
+    Integer getCard() {
+        return card
+    }
+
+    public static class aPutCardPlayerAction {
 
         private PutCardPlayerAction built
 
-        aPutCardPlayerAction(){
+        public aPutCardPlayerAction(){
             built = new PutCardPlayerAction()
         }
 
-        PutCardPlayerAction withSourcePlayer(int player){
-            return built
+        public aPutCardPlayerAction withSourcePlayer(int player){
+            built.sourcePlayer = player
+            return this
+        }
+
+        public aPutCardPlayerAction withPuttedCard(int card){
+            built.card = card
+            return this
         }
     }
 }

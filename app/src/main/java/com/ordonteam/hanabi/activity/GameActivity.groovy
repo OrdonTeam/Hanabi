@@ -95,7 +95,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
         if(result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK){
-            this.match = match
+            this.match = result.match
         }else{
             Log.w("updateMatchResult",'status code is not ok')
         }
@@ -136,7 +136,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void makeSomeAction(){
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        hanabi.makeAction(new HintPlayerAction.aHintPlayerAction().withSourcePlayer(1))
+//        hanabi.makeAction(new HintPlayerAction.aHintPlayerAction().withSourcePlayer(1))
     }
 
 }

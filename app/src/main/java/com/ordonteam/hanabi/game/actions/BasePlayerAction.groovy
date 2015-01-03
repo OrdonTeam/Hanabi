@@ -2,8 +2,13 @@ package com.ordonteam.hanabi.game.actions
 
 abstract class BasePlayerAction {
 
-    void setSourcePlayer( int player){
+    Integer getSourcePlayer() {
+        return sourcePlayer
+    }
+    protected Integer sourcePlayer
 
+    void setSourcePlayer( int player){
+        sourcePlayer = player
     }
 
 }
