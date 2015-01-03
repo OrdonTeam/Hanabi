@@ -65,13 +65,17 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
     }
 
-    private String nextPlayerId(TurnBasedMatch match) { //TODO: REFACTOR + TEST
+    private String nextPlayerId(TurnBasedMatch match) {
         String playerId = Games.Players.getCurrentPlayerId(client);
         String myParticipantId = match.getParticipantId(playerId);
 
-        ArrayList<String> participantIds = match.getParticipantIds();
+        return nextPlayerId(match, myParticipantId)
+    }
 
+    private String nextPlayerId(TurnBasedMatch match, String myParticipantId) {
         int desiredIndex = -1;
+
+        ArrayList<String> participantIds = match.getParticipantIds();
 
         for (int i = 0; i < participantIds.size(); i++) {
             if (participantIds.get(i).equals(myParticipantId)) {
@@ -114,7 +118,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         })
     }
 
-    @Override
+   @Override
     void onTurnBasedMatchReceived(TurnBasedMatch match) {
         Log.e("status", "onTurnBasedMatchReceived")
         Log.e("status", "match=${match?.status}")
