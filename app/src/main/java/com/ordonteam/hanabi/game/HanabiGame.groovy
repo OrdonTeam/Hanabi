@@ -18,7 +18,8 @@ class HanabiGame implements Serializable{
     List<HanabiCard> availableCards = new ArrayList<>()
     List<HanabiPlayer> players = new ArrayList<>()
 
-    HanabiGame() {
+    HanabiGame(int playersNumber) {
+
         CardColor.values().each { CardColor color ->
             CardValue.values().each { CardValue value ->
                 value.getMax().times {
@@ -26,6 +27,34 @@ class HanabiGame implements Serializable{
                 }
             }
         }
+        players = dealCards(playersNumber)
+    }
+
+    List<HanabiPlayer> dealCards(int playersNumber) {
+
+        List<HanabiPlayer> players = new ArrayList<>()
+        for (int i = 0; i < playersNumber; i++) {
+
+            List<HanabiCard> cardsOnHand
+            if (playersNumber == 2 || playersNumber == 3) {
+
+                cardsOnHand = new ArrayList<>()
+                for (int j = 0; j < 5; j++) {
+                    cardsOnHand.add(getCardFromStack())
+                }
+                players.add(new HanabiPlayer(cardsOnHand))
+            }
+
+            if (playersNumber == 4 || playersNumber == 5) {
+
+                cardsOnHand = new ArrayList<>()
+                for (int j = 0; j < 4; j++) {
+                    cardsOnHand.add(getCardFromStack())
+                }
+                players.add(new HanabiPlayer(cardsOnHand))
+            }
+        }
+        return players
     }
 
     HanabiCard getCardFromStack() {
@@ -39,11 +68,6 @@ class HanabiGame implements Serializable{
         }?.collect {HanabiCard card ->
             card.value.value
         }?.max()?:0
-    }
-
-    public static int randInt(int max) {
-        Random rand = new Random();
-        return rand.nextInt(max);
     }
 
     byte[] persist(){

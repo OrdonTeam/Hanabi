@@ -52,16 +52,17 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void initiateMatchResult(InitiateMatchResult result) {
         String next = nextPlayerId(result.match)
+        match = result.match
+
         if (result.match?.data) {
             HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
             Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, hanabi.persist(), next)
                     .setResultCallback(this.&updateMatchResult)
         } else {
-            HanabiGame hanabi = new HanabiGame()
+            HanabiGame hanabi = new HanabiGame(match.getParticipantIds().size()+match.availableAutoMatchSlots)
             Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, hanabi.persist(), next)
                     .setResultCallback(this.&updateMatchResult)
         }
-        match = result.match
     }
 
     private String nextPlayerId(TurnBasedMatch match) {
