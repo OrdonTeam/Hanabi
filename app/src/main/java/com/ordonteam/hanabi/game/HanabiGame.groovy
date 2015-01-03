@@ -27,6 +27,17 @@ class HanabiGame{
         return availableCards.remove(randInt(availableCards.size()))
     }
 
+    int getMaxColorValue(CardColor cardColor) {
+
+        List<HanabiCard> inColor = playedCards.findAll {
+            it.color == cardColor
+        }
+        HanabiCard max = inColor.max { HanabiCard card ->
+            card.value.value
+        }
+        return max.value.value
+    }
+
     public static int randInt(int max) {
         Random rand = new Random();
         return rand.nextInt(max);
