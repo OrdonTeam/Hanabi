@@ -43,6 +43,9 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     @InjectView(R.id.playerCardRow5)
     CardsRow row5
 
+    @InjectView(R.id.playedCardsView)
+    CardsRow playedCardsView
+
     @InjectView(R.id.playerRow1)
     LinearLayout playerRow1
     @InjectView(R.id.playerRow2)
@@ -158,7 +161,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         this.match = match
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         hanabi.updateCards(getAllRows(), ourIndex())
-        hanabi.updatePlayedCards(row1)
+        hanabi.updatePlayedCards(playedCardsView)
     }
 
     @Override
