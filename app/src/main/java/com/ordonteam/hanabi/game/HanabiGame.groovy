@@ -98,8 +98,10 @@ class HanabiGame implements Serializable {
             CardsRow row = cardsRow.get(rowIndex)
             player.cardsOnHand.eachWithIndex { HanabiCard card, int i ->
                 CardView cardView = row.cardViewList.get(i)
-                cardView.setColor(card.color.color)
-                cardView.setNumber("$card.value.value")
+                if(playerId==playerIndex)
+                    cardView.setUserCard(card)
+                else
+                    cardView.setCard(card)
             }
         }
     }
