@@ -91,7 +91,7 @@ class HanabiGame implements Serializable{
         }.size() == 1
     }
 
-    void metod(List<CardsRow> cardsRow, int playerId) {
+    void updateCards(List<CardsRow> cardsRow, int playerId) {
         Log.i("czy","sie wywoluje")
         players.eachWithIndex { HanabiPlayer player, int playerIndex ->
             int rowIndex = getSpecialIndex(playerId,playerIndex)

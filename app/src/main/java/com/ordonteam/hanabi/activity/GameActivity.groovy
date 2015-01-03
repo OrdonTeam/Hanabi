@@ -17,7 +17,6 @@ import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.game.actions.HintPlayerColor
 import com.ordonteam.hanabi.game.actions.HintPlayerNumber
-import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
@@ -171,7 +170,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         this.match = match
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         row1 = (CardsRow) findViewById(R.id.playerCardRow1)
-        hanabi.metod([row1, row2, row3, row4, row5], ourIndex())
+        hanabi.updateCards([row1, row2, row3, row4, row5], ourIndex())
 
         if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
             //TODO: enable layout
@@ -206,6 +205,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
                 public void onClick(DialogInterface dialog, int whichButton) {
                     int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
                     new HintPlayerColor(activePlayer, index, ourIndex()).doAction(hanabi)
+
                 }
             });
 
