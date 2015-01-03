@@ -132,10 +132,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
-        if (result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK) {
-            this.match = result.match
-        } else {
-            Log.w("updateMatchResult", 'status code is not ok')
+        if(result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK){
+            onTurnBasedMatchReceived(result.match)
+        }else{
+            Log.w("updateMatchResult",'status code is not ok')
         }
     }
 
@@ -146,6 +146,8 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
         this.match = match
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
+        row1 = (CardsRow) findViewById(R.id.playerCardRow1)
+        hanabi.metod([row1,row2,row3,row4,row5],ourIndex())
 
         if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
             String next = nextPlayerId(match)

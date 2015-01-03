@@ -9,13 +9,14 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import groovy.transform.CompileStatic
 
 import java.util.jar.Attributes
-
+@CompileStatic
 class CardView extends LinearLayout{
     int index=0
-    private int color = Color.WHITE
-    private String number = "?"
+    int color = Color.WHITE
+    String number = "?"
     private TextView textView;
     CardView(Context context, AttributeSet attrs) {
         super(context, attrs)
@@ -27,5 +28,15 @@ class CardView extends LinearLayout{
 
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
         addView(textView)
+    }
+
+    void setColor(int color){
+        this.color = color
+        setBackgroundColor(color)
+    }
+
+    void setNumber(String number){
+        this.number = number
+        textView.setText(number)
     }
 }

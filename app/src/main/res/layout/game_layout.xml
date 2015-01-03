@@ -27,6 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:layout_marginRight="2sp"
+            xmlns:customNS="http://schemas.android.com/apk/res/com.ordonteam.hanabi"
+            customNS:row="1"
             android:gravity="center">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
@@ -155,10 +157,6 @@
             android:gravity="center">
         </com.ordonteam.hanabi.view.CardsRow>
     </LinearLayout>
-
-
-
-
 
 
 </LinearLayout>

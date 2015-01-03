@@ -7,7 +7,7 @@ import android.widget.LinearLayout.LayoutParams
 import com.ordonteam.hanabi.activity.GameActivity
 
 class CardsRow extends LinearLayout {
-    private ArrayList<CardView> cardViewList
+    ArrayList<CardView> cardViewList
     OnCardClickListener onCardClickListener
     int row
 
