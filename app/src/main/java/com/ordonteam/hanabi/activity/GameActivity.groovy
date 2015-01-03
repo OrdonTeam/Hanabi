@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
@@ -37,8 +38,18 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     CardsRow row3
     @InjectView(R.id.playerCardRow4)
     CardsRow row4
+
     @InjectView(R.id.playerCardRow5)
     CardsRow row5
+
+    @InjectView(R.id.playerRow1)
+    LinearLayout playerRow1
+    @InjectView(R.id.playerRow2)
+    LinearLayout playerRow2
+    @InjectView(R.id.playerRow3)
+    LinearLayout playerRow3
+    @InjectView(R.id.playerRow4)
+    LinearLayout playerRow4
 
     private TurnBasedMatchConfig config
     private String invId
@@ -78,7 +89,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     void initiateMatchResult(InitiateMatchResult result) {
         String next = nextPlayerId(result.match)
         match = result.match
-
+        def rows = [playerRow1, playerRow2, playerRow3, playerRow4]
+        (1..getPlayersNumber(match)-1).each{
+            rows.get(it-1).setVisibility(LinearLayout.VISIBLE)
+        }
         if (result.match?.data) {
             HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
             Games.TurnBasedMultiplayer.takeTurn(client, result.match.matchId, hanabi.persist(), next)

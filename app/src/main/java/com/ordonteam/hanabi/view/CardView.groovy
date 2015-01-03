@@ -18,16 +18,21 @@ class CardView extends LinearLayout{
     int color = Color.WHITE
     String number = "?"
     private TextView textView;
+
     CardView(Context context, AttributeSet attrs) {
         super(context, attrs)
         color = Color.RED
         number = "6"
+
         setBackgroundColor(color)
         textView = new TextView(context)
+
         textView.setText(number)
+
 
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
         addView(textView)
+
     }
 
     void setColor(int color){

@@ -17,6 +17,8 @@ class CardsRow extends LinearLayout {
         cardViewList = new ArrayList<>()
         LayoutParams layoutParams = new LayoutParams(context, attrs)
         layoutParams.weight = 1
+
+               
         for (int i = 0; i < 5; i++) {
             CardView tmp = new CardView(context, attrs)
             tmp.setLayoutParams(layoutParams)
