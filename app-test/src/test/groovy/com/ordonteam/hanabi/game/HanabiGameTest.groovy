@@ -11,4 +11,17 @@ class HanabiGameTest extends Specification {
         game != null
         game.availableCards.size() == 50
     }
+
+    def "Should persists and unpersist hanabiGame object"() {
+        given:
+        HanabiGame hanabiGame = new HanabiGame()
+        hanabiGame.availableCards = []
+        hanabiGame.availableCards.add(new HanabiCard())
+
+        when:
+        hanabiGame = HanabiGame.unpersist(hanabiGame.persist())
+
+        then:
+            hanabiGame.availableCards.size() == 1
+    }
 }

@@ -11,7 +11,6 @@ import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
 import com.ordonteam.hanabi.R
-import com.ordonteam.hanabi.game.HanabiCard
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
