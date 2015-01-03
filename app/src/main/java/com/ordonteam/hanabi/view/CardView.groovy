@@ -13,6 +13,7 @@ import android.widget.TextView
 import java.util.jar.Attributes
 
 class CardView extends LinearLayout{
+    int index=0
     private int color = Color.WHITE
     private String number = "?"
     private TextView textView;
@@ -26,7 +27,4 @@ class CardView extends LinearLayout{
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
         addView(textView)
     }
-//    @Override
-//    onDraw(Canvas canvas){
-//    }
 }

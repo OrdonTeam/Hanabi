@@ -16,16 +16,18 @@ import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.game.actions.HintPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
+import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener {
+class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener,CardsRow.OnCardClickListener {
 
     @InjectView(R.id.turn)
-    Button turn;
+    Button turn
+    CardsRow row1
 
     private TurnBasedMatchConfig config
     private String invId
@@ -35,8 +37,19 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
-        if (!invId)
+        if (!invId) {
             config = GameConfig.configFromIntent(intent)
+        }
+        row1 = (CardsRow) findViewById(R.id.playerCardRow1)
+        row1.setOnCardClickListener(this, 1)
+        row1 = (CardsRow) findViewById(R.id.playerCardRow2)
+        row1.setOnCardClickListener(this, 2)
+        row1 = (CardsRow) findViewById(R.id.playerCardRow3)
+        row1.setOnCardClickListener(this, 3)
+        row1 = (CardsRow) findViewById(R.id.playerCardRow4)
+        row1.setOnCardClickListener(this, 4)
+        row1 = (CardsRow) findViewById(R.id.playerCardRow5)
+        row1.setOnCardClickListener(this, 5)
     }
 
     @Override
@@ -140,4 +153,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 //        hanabi.makeAction(new HintPlayerAction.aHintPlayerAction().withSourcePlayer(1))
     }
 
+    void onCardClicked(int row, int index) {
+        Log.i("tag","row $row index $index ")
+    }
 }
