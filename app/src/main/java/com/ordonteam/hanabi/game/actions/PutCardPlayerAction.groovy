@@ -1,34 +1,28 @@
 package com.ordonteam.hanabi.game.actions
 
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class PutCardPlayerAction extends BasePlayerAction{
 
-    private Integer card
+    Integer card
 
-    void setCard(int theCard){
-        card = theCard
-    }
-
-    Integer getCard() {
-        return card
-    }
-
-    public static class aPutCardPlayerAction {
-
-        private PutCardPlayerAction built
-
-        public aPutCardPlayerAction(){
-            built = new PutCardPlayerAction()
-        }
-
-        public aPutCardPlayerAction withSourcePlayer(int player){
-            built.sourcePlayer = player
-            return this
-        }
-
-        public aPutCardPlayerAction withPuttedCard(int card){
-            built.card = card
-            return this
-        }
-    }
+//    static class aPutCardPlayerAction {
+//
+//        private PutCardPlayerAction built
+//
+//        aPutCardPlayerAction(){
+//            built = new PutCardPlayerAction()
+//        }
+//
+//        aPutCardPlayerAction withSourcePlayer(int player){
+//            built.sourcePlayer = player
+//            return this
+//        }
+//
+//        aPutCardPlayerAction withPuttedCard(int card){
+//            built.card = card
+//            return this
+//        }
+//    }
 }

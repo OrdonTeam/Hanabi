@@ -76,6 +76,9 @@ class HanabiGame implements Serializable{
         HanabiPlayer activePlayer = players.get(action.sourcePlayer)
         rejectedCards.add(activePlayer.cardsOnHand.get(action.card))
         activePlayer.cardsOnHand.add(getCardFromStack())
+        if(tipsNumber <= 7){
+            tipsNumber++
+        }
     }
 
 }
