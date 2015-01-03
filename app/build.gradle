@@ -12,7 +12,7 @@ buildscript {
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-apply plugin: 'robospock'
+//apply plugin: 'robospock'
 apply plugin: 'me.champeau.gradle.groovy-android'
 
 android {
