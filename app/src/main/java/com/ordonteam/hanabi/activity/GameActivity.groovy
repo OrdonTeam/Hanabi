@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import com.google.android.gms.games.Games
+import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
@@ -12,6 +13,7 @@ import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
+import com.ordonteam.hanabi.game.actions.HintPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.inject.InjectContentView
@@ -92,6 +94,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
+        if(result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK){
+            this.match = match
+        }else{
+            Log.w("updateMatchResult",'status code is not ok')
+        }
     }
 
     @Override
@@ -99,14 +106,17 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         if( match?.status == TurnBasedMatch.MATCH_STATUS_CANCELED ){
             super.onBackPressed()
         }
+        this.match = match
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
 
-        String next = nextPlayerId(match)
-        turn.setOnClickListener({
-            Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), next).setResultCallback(this.&updateMatchResult)
-            turn.setEnabled(false);
-        })
-        turn.setEnabled(true);
+        if( match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
+            String next = nextPlayerId(match)
+            turn.setOnClickListener({
+                Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), next).setResultCallback(this.&updateMatchResult)
+                turn.setEnabled(false);
+            })
+            turn.setEnabled(true);
+        }
     }
 
     @Override
@@ -122,6 +132,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             Games.TurnBasedMultiplayer.leaveMatch(client,match.getMatchId())
         }
         super.onBackPressed()
+    }
+
+    void makeSomeAction(){
+        HanabiGame hanabi = HanabiGame.unpersist(match.getData())
+        hanabi.makeAction(new HintPlayerAction.aHintPlayerAction().withSourcePlayer(1))
     }
 
 }
