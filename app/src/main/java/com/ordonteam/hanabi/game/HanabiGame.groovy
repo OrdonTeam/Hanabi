@@ -35,13 +35,13 @@ class HanabiGame implements Serializable{
     List<HanabiPlayer> dealCards(int playersNumber) {
 
         List<HanabiPlayer> players = new ArrayList<>()
-        for (int i = 0; i < playersNumber; i++) {
+        playersNumber.times {
 
             List<HanabiCard> cardsOnHand
             if (playersNumber == 2 || playersNumber == 3) {
 
                 cardsOnHand = new ArrayList<>()
-                for (int j = 0; j < 5; j++) {
+                5.times {
                     cardsOnHand.add(getCardFromStack())
                 }
                 players.add(new HanabiPlayer(cardsOnHand))
@@ -50,7 +50,7 @@ class HanabiGame implements Serializable{
             if (playersNumber == 4 || playersNumber == 5) {
 
                 cardsOnHand = new ArrayList<>()
-                for (int j = 0; j < 4; j++) {
+                4.times {
                     cardsOnHand.add(getCardFromStack())
                 }
                 players.add(new HanabiPlayer(cardsOnHand))
