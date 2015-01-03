@@ -31,4 +31,8 @@
             android:layout_height="wrap_content"
             android:text="@string/invite" />
     </LinearLayout>
+    <com.ordonteam.hanabi.view.CustomLinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"></com.ordonteam.hanabi.view.CustomLinearLayout>
+
 </LinearLayout>
