@@ -70,6 +70,7 @@ class InjectActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        Log.e("onActivityResult","$requestCode $responseCode")
         Method method = findMatchingOnActivityResult(requestCode, responseCode)
         if (!method) {
             Log.w("InjectActivity","There is no registred method for handling this pair of request/response codes. RequestCode = $requestCode ResponseCode = $responseCode")
