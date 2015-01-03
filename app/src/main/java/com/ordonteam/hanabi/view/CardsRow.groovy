@@ -40,4 +40,6 @@ class CardsRow extends LinearLayout {
     interface OnCardClickListener {
         void onCardClicked(int row, int index)
     }
+
+
 }

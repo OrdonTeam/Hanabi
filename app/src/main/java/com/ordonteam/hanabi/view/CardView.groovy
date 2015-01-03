@@ -24,6 +24,7 @@ class CardView extends LinearLayout{
         setBackgroundColor(color)
         textView = new TextView(context)
         textView.setText(number)
+
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
         addView(textView)
     }

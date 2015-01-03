@@ -29,5 +29,7 @@ class PlayerView extends LinearLayout {
         nameFirstLetter.setText("P")
         nameFirstLetter.setLayoutParams(layoutParams)
         addView(nameFirstLetter)
+
+
     }
 }
