@@ -18,7 +18,6 @@ import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.game.actions.HintPlayerColor
 import com.ordonteam.hanabi.game.actions.HintPlayerNumber
-import com.ordonteam.hanabi.game.actions.HintPlayerAction
 import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
