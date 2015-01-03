@@ -72,6 +72,12 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     void myCardRowClickPerform(int row, int index) {
+        Log.i("tag", "row $row index $index ")
+        if(isMyTurn()){
+            Log.i("tag", "my turn")
+        }else{
+            Log.i("tag", "no my turn ${match.getTurnStatus()}")
+        }
 
     }
 
@@ -211,6 +217,8 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             });
 
             alert.show();
+        }else{
+            Log.i("tag", "no my turn ${match.getTurnStatus()}")
         }
     }
 
