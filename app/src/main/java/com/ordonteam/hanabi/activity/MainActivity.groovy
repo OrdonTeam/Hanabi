@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.Invitation
 import com.google.android.gms.games.multiplayer.Multiplayer
@@ -23,7 +22,6 @@ import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
 
-import static com.google.android.gms.games.Games.Invitations
 import static com.google.android.gms.games.Games.TurnBasedMultiplayer
 
 @CompileStatic
@@ -45,31 +43,51 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Random match");
         alert.setMessage("How many people do you want to play with?");
-// Set an EditText view to get user input
+
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_PHONE);
         alert.setView(input);
-
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
                 Integer value = Integer.parseInt(input.getText().toString());
-                PlayMatchedRandomly(value);
-                // Do something with value!
+                playMatchedRandomly(value);
             }
         });
 
-
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
-            }
+            public void onClick(DialogInterface dialog, int whichButton) {}
         });
 
         alert.show();
     }
 
-    void PlayMatchedRandomly(int i) {
+    @Override
+    void onInvitationReceived(Invitation invitation) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Invitation");
+        alert.setMessage("You've been invited by ${invitation.getInviter().displayName} " +
+                "to join the game. Do you accept the invitation?");
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                startGameForInvitation(invitation.invitationId)
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {}
+        });
+
+        alert.show();
+    }
+
+    private void startGameForInvitation(String invitationId) {
+        Intent gameActivity = new Intent(this, GameActivity)
+        gameActivity.putExtra(Multiplayer.EXTRA_INVITATION, invitationId);
+        startActivity(gameActivity);
+    }
+
+    void playMatchedRandomly(int i) {
         Intent gameActivity = new Intent(this, GameActivity)
         gameActivity.putExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, i);
         gameActivity.putExtra(Multiplayer.EXTRA_MAX_AUTOMATCH_PLAYERS, i);
@@ -87,23 +105,6 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
         Intent gameActivity = new Intent(this, GameActivity)
         gameActivity.putExtras(intent)
         startActivity(gameActivity)
-    }
-
-    @Override
-    void onInvitationReceived(Invitation invitation) {
-        Log.e("onInvitationReceived", "onInvitationReceived")
-        Intent gameActivity = new Intent(this, GameActivity)
-        gameActivity.putExtra(Multiplayer.EXTRA_INVITATION, invitation.invitationId);
-        startActivity(gameActivity)
-
-//        Intent intent = Invitations.getInvitationInboxIntent(client)
-//        startActivityForResult(intent,InjectConstants.RC_INVITATIONS)
-    }
-
-    @InjectActivityResult(requestCode = InjectConstants.RC_INVITATIONS, responseCode = InjectConstants.RESULT_OK)
-    void onInvitationAccepted(int requestCode, int responseCode, Intent intent) {
-
-
     }
 
     @Override
