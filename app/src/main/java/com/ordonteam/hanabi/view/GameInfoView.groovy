@@ -31,8 +31,8 @@ class GameInfoView extends LinearLayout {
         LayoutParams layoutParams = new LayoutParams(context,attrs)
         layoutParams.weight = 1
 
-        hintsImg.setImageResource(R.drawable.ic_launcher)
-        thunderImg.setImageResource(R.drawable.ic_launcher)
+        hintsImg.setImageResource(R.drawable.question)
+        thunderImg.setImageResource(R.drawable.thunder)
         thundersLeft.setText("3")
         thundersLeft.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
         cluesLeft.setText("8")
