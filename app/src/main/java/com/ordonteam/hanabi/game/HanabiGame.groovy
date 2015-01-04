@@ -4,7 +4,6 @@ import android.util.Log
 import com.ordonteam.hanabi.utils.Utils
 import com.ordonteam.hanabi.view.CardView
 import com.ordonteam.hanabi.view.CardsRow
-import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -12,7 +11,7 @@ class HanabiGame implements Serializable {
 
     int tipsNumber = 8
     int thundersNumber = 3
-    List<HanabiCard> playedCards = new ArrayList<>()
+    PlayedCards playedCards = new PlayedCards()
     List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
     List<HanabiCard> availableCards = new ArrayList<>()
     List<HanabiPlayer> players = new ArrayList<>() //TODO: consider add gms id to player, and match players using them
@@ -51,13 +50,8 @@ class HanabiGame implements Serializable {
         return Utils.removeRandom(availableCards)
     }
 
-    @CompileDynamic
     int getMaxPlayedColorValue(CardColor cardColor) {
-        return playedCards.findAll { HanabiCard card ->
-            card.color == cardColor
-        }?.collect { HanabiCard card ->
-            card.value.value
-        }?.max() ?: 0
+        return playedCards.getMaxPlayedColorValue(cardColor)
     }
 
     byte[] persist() {
@@ -86,9 +80,7 @@ class HanabiGame implements Serializable {
     }
 
     boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard) {
-        return playedCards.findAll {
-            theCard.color == it.color && theCard.value.value - 1 == it.value.value
-        }.size() == 1
+        return playedCards.isLowerCardWithTheSameColorOnTable(theCard)
     }
 
     void updateCards(List<CardsRow> cardsRow, int playerId) {
