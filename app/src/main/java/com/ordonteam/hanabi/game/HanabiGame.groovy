@@ -15,7 +15,7 @@ class HanabiGame implements Serializable {
     List<HanabiCard> playedCards = new ArrayList<>()
     List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
     List<HanabiCard> availableCards = new ArrayList<>()
-    List<HanabiPlayer> players = new ArrayList<>()
+    List<HanabiPlayer> players = new ArrayList<>() //TODO: consider add gms id to player, and match players using them
 
     HanabiGame(int playersNumber) {
 

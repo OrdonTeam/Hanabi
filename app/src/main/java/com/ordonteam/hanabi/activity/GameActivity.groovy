@@ -1,6 +1,7 @@
 package com.ordonteam.hanabi.activity
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,21 @@ import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+
+//TODO: when loading dialog visible after returning from home button
+//java.lang.NullPointerException: Attempt to invoke interface method 'java.util.ArrayList com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch.getParticipantIds()' on a null object reference
+//at com.ordonteam.hanabi.activity.GameActivity.getPlayersNumber(GameActivity.groovy:105)
+//at com.ordonteam.hanabi.activity.GameActivity.initiateMatchResult(GameActivity.groovy:96)
+//at java.lang.reflect.Method.invoke(Native Method)
+//at java.lang.reflect.Method.invoke(Method.java:372)
+//at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:90)
+//at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:324)
+//at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1208)
+//at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1075)
+//at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1017)
+//at groovy.lang.Closure.call(Closure.java:423)
+//at org.codehaus.groovy.runtime.ConvertedClosure.invokeCustom(ConvertedClosure.java:51)
+//at org.codehaus.groovy.runtime.ConversionHandler.invoke(ConversionHandler.java:103)
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
@@ -58,6 +74,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     private TurnBasedMatchConfig config
     private String invId
     private TurnBasedMatch match
+    private ProgressDialog progressDialog
 
     @Override
     @CompileDynamic
@@ -71,6 +88,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             it.setOnCardClickListener(this, it.row)
         }
         getMyCardRow().setOnCardClickListener(this.&myCardRowClickPerform,5)
+
+        progressDialog = new ProgressDialog(this)
+        progressDialog.setCancelable(false)
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Patience is a virtue...");
     }
 
     @Override
@@ -86,34 +108,26 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void initiateMatchResult(InitiateMatchResult result) {
         match = result.match
-        (1..getPlayersNumber(match)-1).each{
-            getLinears().get(it-1).setVisibility(LinearLayout.VISIBLE)
+        (getPlayersNumber(match)-1).times{
+            getLinears().get(it).setVisibility(LinearLayout.VISIBLE)
         }
-        if (result.match?.data) {
-            HanabiGame hanabi = HanabiGame.unpersist(result.match.data)
-            submitTurnToGoogleApi(hanabi)
 
-        } else {
-            HanabiGame hanabi = new HanabiGame(getPlayersNumber(match))
-            submitTurnToGoogleApi(hanabi)
-        }
+        HanabiGame hanabi = result.match?.data ? HanabiGame.unpersist(result.match.data) : new HanabiGame(getPlayersNumber(match))
+        submitTurnToGoogleApi(hanabi)
     }
 
     private int getPlayersNumber(TurnBasedMatch match) {
         match.getParticipantIds().size() + match.availableAutoMatchSlots
     }
 
-    private int ourIndex() {
+    private int myIndexOnGmsList() {
         String playerId = Games.Players.getCurrentPlayerId(client);
         String myParticipantId = match.getParticipantId(playerId);
         List<String> participantIds = match.getParticipantIds();
 
-        participantIds.size().times {
-            if (participantIds.get(it).equals(myParticipantId)) {
-                return it;
-            }
-        }
-        return -1;
+        return participantIds.indexOf(participantIds.find{
+            it == myParticipantId
+        })
     }
 
     private String nextPlayerId(TurnBasedMatch match) {
@@ -129,7 +143,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         List<String> participantIds = match.getParticipantIds();
 
         participantIds.size().times {
-            if (participantIds.get(it).equals(myParticipantId)) {
+            if (participantIds.get(it) == myParticipantId) {
                 desiredIndex = it + 1;
             }
         }
@@ -156,11 +170,17 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     @Override
     void onTurnBasedMatchReceived(TurnBasedMatch match) {
         if (match?.status == TurnBasedMatch.MATCH_STATUS_CANCELED) {
+            dismissSpinner()
             super.onBackPressed()
         }
         this.match = match
+        if(isMyTurn() ){
+            dismissSpinner()
+        }else{
+            showSpinner()
+        }
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        hanabi.updateCards(getAllRows(), ourIndex())
+        hanabi.updateCards(getAllRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
     }
 
@@ -175,12 +195,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             Games.TurnBasedMultiplayer.leaveMatchDuringTurn(client, match.getMatchId(), nextPlayerId(match))
         } else {
             Games.TurnBasedMultiplayer.leaveMatch(client, match.getMatchId())
+            dismissSpinner()
         }
         super.onBackPressed()
     }
 
     private submitTurnToGoogleApi(HanabiGame hanabi) {
         Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId(match)).setResultCallback(this.&updateMatchResult)
+        showSpinner()
     }
 
     void onCardClicked(int row, int index) {
@@ -192,22 +214,17 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             alert.setTitle("Hint");
             alert.setMessage("You want to give a hint about:");
 
-            alert.setPositiveButton("color", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
-                    new HintPlayerColor(activePlayer, index, ourIndex()).doAction(hanabi)
+            alert.setPositiveButton("color", { DialogInterface dialog, int whichButton ->
+                int chosenPlayer = convertRowToHanabiIndex(row)
+                new HintPlayerColor(chosenPlayer, index, myIndexOnGmsList()).doAction(hanabi)
+                submitTurnToGoogleApi(hanabi)
 
-                    submitTurnToGoogleApi(hanabi)
-
-                }
             });
 
-            alert.setNegativeButton("number", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    int activePlayer = (row + ourIndex()) % getPlayersNumber(match)
-                    new HintPlayerNumber(activePlayer, index, ourIndex()).doAction(hanabi)
-                    submitTurnToGoogleApi(hanabi)
-                }
+            alert.setNegativeButton("number", { DialogInterface dialog, int whichButton ->
+                int chosenPlayer = convertRowToHanabiIndex(row)
+                new HintPlayerNumber(chosenPlayer, index, myIndexOnGmsList()).doAction(hanabi)
+                submitTurnToGoogleApi(hanabi)
             });
 
             alert.show();
@@ -216,26 +233,27 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
     }
 
-    void myCardRowClickPerform(int row, int index) {
+    private int convertRowToHanabiIndex(int row) {
+        return (row + myIndexOnGmsList() + getPlayersNumber(match) - 1) % getPlayersNumber(match)
+    }
+
+    void myCardRowClickPerform(int row, int index) {//TODO: android.view.WindowLeaked: Activity com.ordonteam.hanabi.activity.GameActivity has leaked window when gameCanceled
         Log.i("tag", "row $row index $index ")
         if(isMyTurn()){
+            dismissSpinner()
             HanabiGame hanabi = HanabiGame.unpersist(match.getData())
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Action");
             alert.setMessage("What do you want to do?");
 
-            alert.setPositiveButton("Play the card", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    new PutCardPlayerAction(index, ourIndex()).doAction(hanabi)
-                    submitTurnToGoogleApi(hanabi)
-                }
+            alert.setPositiveButton("Play the card", { DialogInterface dialog, int whichButton ->
+                new PutCardPlayerAction(index, myIndexOnGmsList()).doAction(hanabi)
+                submitTurnToGoogleApi(hanabi)
             });
 
-            alert.setNegativeButton("Reject the card", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    new RejectPlayerAction(index, ourIndex()).doAction(hanabi)
-                    submitTurnToGoogleApi(hanabi)
-                }
+            alert.setNegativeButton("Reject the card", { DialogInterface dialog, int whichButton ->
+                new RejectPlayerAction(index, myIndexOnGmsList()).doAction(hanabi)
+                submitTurnToGoogleApi(hanabi)
             });
 
             alert.show();
@@ -271,6 +289,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     private List<CardsRow> getAllRows(){
         return getCooperatorCardRows() + getMyCardRow()
+    }
+
+    public void showSpinner() {
+        progressDialog.show()
+    }
+
+    public void dismissSpinner() {
+        progressDialog.dismiss()
     }
 
 }
