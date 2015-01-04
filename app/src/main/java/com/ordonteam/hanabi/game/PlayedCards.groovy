@@ -1,5 +1,7 @@
 package com.ordonteam.hanabi.game
 
+import com.ordonteam.hanabi.view.CardView
+import com.ordonteam.hanabi.view.CardsRow
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -28,5 +30,13 @@ class PlayedCards implements Serializable{
 
     boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard) {
         return cards[theCard.color].value + 1 == theCard.value.value
+    }
+
+    void updatePlayedCards(CardsRow cardsRow) {
+        cards.each {CardColor color, CardValue value ->
+            CardView cardView = cardsRow.cardViewList.get(color.placeOnBoard)
+            cardView.setNumber("${value.value}")
+            cardView.setColor(color.color)
+        }
     }
 }

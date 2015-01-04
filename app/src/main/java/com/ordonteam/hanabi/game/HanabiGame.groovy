@@ -52,10 +52,6 @@ class HanabiGame implements Serializable {
         return Utils.removeRandom(availableCards)
     }
 
-    int getMaxPlayedColorValue(CardColor cardColor) {
-        return playedCards.getMaxPlayedColorValue(cardColor)
-    }
-
     byte[] persist() {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         byteOutputStream.withObjectOutputStream { ObjectOutputStream stream ->
@@ -109,26 +105,7 @@ class HanabiGame implements Serializable {
     }
 
     void updatePlayedCards(CardsRow cardsRow) {
-        String number = getMaxPlayedColorValue(CardColor.MAGENTA)
-        CardView cardView = cardsRow.cardViewList.get(0)
-        cardView.setNumber("$number")
-        cardView.setColor(CardColor.MAGENTA.color)
-        number = getMaxPlayedColorValue(CardColor.RED)
-        cardView = cardsRow.cardViewList.get(1)
-        cardView.setNumber("$number")
-        cardView.setColor(CardColor.RED.color)
-        number = getMaxPlayedColorValue(CardColor.BLUE)
-        cardView = cardsRow.cardViewList.get(2)
-        cardView.setNumber("$number")
-        cardView.setColor(CardColor.BLUE.color)
-        number = getMaxPlayedColorValue(CardColor.GREEN)
-        cardView = cardsRow.cardViewList.get(3)
-        cardView.setNumber("$number")
-        cardView.setColor(CardColor.GREEN.color)
-        number = getMaxPlayedColorValue(CardColor.YELLOW)
-        cardView = cardsRow.cardViewList.get(4)
-        cardView.setNumber("$number")
-        cardView.setColor(CardColor.YELLOW.color)
+        playedCards.updatePlayedCards(cardsRow)
     }
 
     void addPlayerCard(HanabiCard card){
