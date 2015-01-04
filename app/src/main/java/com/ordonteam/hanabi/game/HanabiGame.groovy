@@ -9,6 +9,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class HanabiGame implements Serializable {
 
+    static Map<Integer, Integer> numberOfCardsForPlayerNumber = [(2): 5, (3): 5, (4): 4, (5): 4]
+
     int tipsNumber = 8
     int thundersNumber = 3
     PlayedCards playedCards = new PlayedCards()
@@ -33,7 +35,7 @@ class HanabiGame implements Serializable {
         List<HanabiPlayer> players = new ArrayList<>()
         playersNumber.times {
             List<HanabiCard> cardsOnHand = new ArrayList<>()
-            int numberOfCards = numberOfCardsForPlayerNumber(playersNumber)
+            int numberOfCards = numberOfCardsForPlayerNumber[playersNumber]
             numberOfCards.times {
                 cardsOnHand.add(getCardFromStack())
             }

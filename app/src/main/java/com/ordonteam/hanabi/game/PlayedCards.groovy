@@ -3,27 +3,30 @@ package com.ordonteam.hanabi.game
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
+import static com.ordonteam.hanabi.game.CardValue.ZERO
+
 @CompileStatic
 class PlayedCards implements Serializable{
-    List<HanabiCard> cards = []
+//    List<HanabiCard> cards = []
+    Map<CardColor,CardValue> cards = new HashMap<>()
 
-
-    boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard) {
-        return cards.findAll {
-            theCard.color == it.color && theCard.value.value - 1 == it.value.value
-        }.size() == 1
+    PlayedCards() {
+        CardColor.values().each {CardColor color ->
+            cards.put(color, ZERO)
+        }
     }
 
     void add(HanabiCard hanabiCard) {
-        cards.add(hanabiCard)
+        if(!isLowerCardWithTheSameColorOnTable(hanabiCard))
+            throw new RuntimeException("Unplayable card!/nCurrent status: $cards/nPlayed card: $hanabiCard")
+        cards.put(hanabiCard.color,hanabiCard.value)
     }
 
-    @CompileDynamic
     int getMaxPlayedColorValue(CardColor cardColor) {
-        return cards.findAll { HanabiCard card ->
-            card.color == cardColor
-        }?.collect { HanabiCard card ->
-            card.value.value
-        }?.max() ?: 0
+        return cards[cardColor].value
+    }
+
+    boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard) {
+        return cards[theCard.color].value + 1 == theCard.value.value
     }
 }
