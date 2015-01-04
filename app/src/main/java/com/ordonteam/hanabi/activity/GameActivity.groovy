@@ -28,21 +28,6 @@ import com.ordonteam.inject.InjectView
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
-//TODO: when loading dialog visible after returning from home button
-//java.lang.NullPointerException: Attempt to invoke interface method 'java.util.ArrayList com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch.getParticipantIds()' on a null object reference
-//at com.ordonteam.hanabi.activity.GameActivity.getPlayersNumber(GameActivity.groovy:105)
-//at com.ordonteam.hanabi.activity.GameActivity.initiateMatchResult(GameActivity.groovy:96)
-//at java.lang.reflect.Method.invoke(Native Method)
-//at java.lang.reflect.Method.invoke(Method.java:372)
-//at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:90)
-//at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:324)
-//at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1208)
-//at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1075)
-//at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1017)
-//at groovy.lang.Closure.call(Closure.java:423)
-//at org.codehaus.groovy.runtime.ConvertedClosure.invokeCustom(ConvertedClosure.java:51)
-//at org.codehaus.groovy.runtime.ConversionHandler.invoke(ConversionHandler.java:103)
-
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
 class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener, CardsRow.OnCardClickListener {
@@ -237,7 +222,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         return (row + myIndexOnGmsList() + getPlayersNumber(match) - 1) % getPlayersNumber(match)
     }
 
-    void myCardRowClickPerform(int row, int index) {//TODO: android.view.WindowLeaked: Activity com.ordonteam.hanabi.activity.GameActivity has leaked window when gameCanceled
+    void myCardRowClickPerform(int row, int index) {
         Log.i("tag", "row $row index $index ")
         if(isMyTurn()){
             dismissSpinner()
