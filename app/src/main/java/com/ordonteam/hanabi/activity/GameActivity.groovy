@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.google.android.gms.games.Games
@@ -75,6 +76,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             it.setOnCardClickListener(this, it.row)
         }
         row5.setOnCardClickListener(this.&myCardRowClickPerform)
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
