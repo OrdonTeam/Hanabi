@@ -13,7 +13,8 @@ class HanabiGame implements Serializable {
     PlayedCards playedCards = new PlayedCards()
     Deck deck = new Deck()
     List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
-    List<HanabiPlayer> players = new ArrayList<>() //TODO: consider add gms id to player, and match players using them
+    List<HanabiPlayer> players = new ArrayList<>()
+    //TODO: consider add gms id to player, and match players using them
 
     HanabiGame(int playersNumber) {
         players = (1..playersNumber).collect {
@@ -41,19 +42,6 @@ class HanabiGame implements Serializable {
         return restoredGame
     }
 
-
-    boolean isGameFinished() {
-        return false
-    }
-
-    void makeThunder() {
-        thundersNumber--
-    }
-
-    boolean isLowerCardWithTheSameColorOnTable(HanabiCard theCard) {
-        return playedCards.isLowerCardWithTheSameColorOnTable(theCard)
-    }
-
     void updateCards(List<CardsRow> cardsRow, int playerId) {
         Log.i("czy", "sie wywoluje")
         players.eachWithIndex { HanabiPlayer player, int playerIndex ->
@@ -61,7 +49,7 @@ class HanabiGame implements Serializable {
             CardsRow row = cardsRow.get(rowIndex)
             player.cardsOnHand.eachWithIndex { HanabiCard card, int i ->
                 CardView cardView = row.cardViewList.get(i)
-                if(playerId==playerIndex)
+                if (playerId == playerIndex)
                     cardView.setUserCard(card)
                 else
                     cardView.setCard(card)
@@ -81,42 +69,49 @@ class HanabiGame implements Serializable {
         playedCards.updatePlayedCards(cardsRow)
     }
 
-    boolean hintPlayerColor(int playerIndex, int indexCardNumber){
-        HanabiPlayer player = players.get(playerIndex)
-        player.hintColor(indexCardNumber)
-        tipsNumber--
-        return true
+    boolean hintPlayerColor(int playerIndex, int indexCardNumber) {
+        if (tipsNumber > 0) {
+            HanabiPlayer player = players.get(playerIndex)
+            player.hintColor(indexCardNumber)
+            tipsNumber--
+            return true
+        }
+        return false
     }
+
     boolean hintPlayerNumber(int playerIndex, int indexCardNumber) {
-        HanabiPlayer player = players.get(playerIndex)
-        player.hintNumber(indexCardNumber)
-        tipsNumber--
-        return true
+        if (tipsNumber > 0) {
+            HanabiPlayer player = players.get(playerIndex)
+            player.hintNumber(indexCardNumber)
+            tipsNumber--
+            return true
+        }
+        return false
     }
 
     boolean rejectPlayerCard(int playerIndex, int indexCardNumber) {
         HanabiPlayer player = players.get(playerIndex)
-        HanabiCard rejectedCard = player.rejectCard(indexCardNumber)
-
-        rejectedCards.add(rejectedCard)
-        player.drawCard(drawCard())
-
-        if(tipsNumber <= 7){
+        rejectedCards.add(player.rejectCard(indexCardNumber, drawCard()))
+        if (tipsNumber <= 7) {
             tipsNumber++
         }
-
         return true
     }
+
     boolean playPlayerCard(int playerIndex, int indexCardNumber) {
         HanabiPlayer player = players.get(playerIndex)
-        HanabiCard playedCard = player.rejectCard(indexCardNumber)
+        HanabiCard playedCard = player.rejectCard(indexCardNumber, drawCard())
 
-        playedCards.add(playedCard)
-        player.drawCard(drawCard())
-
-        if(!isLowerCardWithTheSameColorOnTable(playedCard)){
-            makeThunder()
+        if (playedCards.isPlayable(playedCard)) {
+            playedCards.add(playedCard)
+        } else {
+            rejectedCards.add(playedCard)
+            thundersNumber--
         }
         return true
+    }
+
+    boolean isGameFinished() {
+        return false
     }
 }

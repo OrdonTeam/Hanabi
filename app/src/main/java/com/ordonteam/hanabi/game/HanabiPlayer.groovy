@@ -6,7 +6,6 @@ import groovy.transform.CompileStatic
 class HanabiPlayer implements Serializable{
     static Map<Integer, IntRange> maxCardsFor = [(2): (1..5), (3): (1..5), (4): (1..4), (5): (1..4)]
 
-    private String name
     List<HanabiCard> cardsOnHand = []
 
     HanabiPlayer(HanabiGame game,int playersNumber){
@@ -17,31 +16,21 @@ class HanabiPlayer implements Serializable{
 
     void hintColor(int cardIndex) {
         cardsOnHand.each { HanabiCard card ->
-            if (card.color == getColorOf(cardIndex) )
+            if (card.color == cardsOnHand.get(cardIndex).color )
                 card.isColorKnown = true
         }
     }
 
     void hintNumber(int cardIndex) {
         cardsOnHand.each { HanabiCard card ->
-            if (card.value == getValueOf(cardIndex) )
+            if (card.value == cardsOnHand.get(cardIndex).value )
                 card.isValueKnown = true
         }
     }
 
-    CardColor getColorOf(int index) {
-        return cardsOnHand.get(index).color
-    }
-
-    HanabiCard rejectCard(int index) {
-        return cardsOnHand.remove(index)
-    }
-
-    CardValue getValueOf(int index) {
-        return cardsOnHand.get(index).value
-    }
-
-    void drawCard(HanabiCard card) {
-        cardsOnHand.add(card)
+    HanabiCard rejectCard(int index, HanabiCard newCard) {
+        HanabiCard rejected = cardsOnHand.remove(index)
+        cardsOnHand.add(newCard)
+        return rejected
     }
 }
