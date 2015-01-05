@@ -10,19 +10,9 @@ import static com.ordonteam.hanabi.game.CardValue.TWO
 
 class HanabiGameTest extends Specification {
 
-    def "Test HanabiGame Constructor"() {
-        int playersNumber = 5
-        when:
-        HanabiGame game = new HanabiGame(playersNumber);
-
-        then:
-        game != null
-    }
-
     def "Should persists and unpersist hanabiGame object"() {
-        int playersNumber = 5
         given:
-        HanabiGame hanabiGame = new HanabiGame(playersNumber)
+        HanabiGame hanabiGame = new HanabiGame(5)
         hanabiGame.rejectedCards = [new HanabiCard(RED,ONE)]
 
         when:
@@ -33,9 +23,8 @@ class HanabiGameTest extends Specification {
     }
 
     def "Should create 5 players and deal 4 cards each"() {
-        int playersNumber = 5
         when:
-        HanabiGame hanabiGame = new HanabiGame(playersNumber)
+        HanabiGame hanabiGame = new HanabiGame(5)
 
         then:
         hanabiGame.players.every{ HanabiPlayer player ->
@@ -70,7 +59,7 @@ class HanabiGameTest extends Specification {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
         hanabiGame.players[0] = Mock(HanabiPlayer)
-        hanabiGame.tipsNumber = 0
+        hanabiGame.tips.tips = 0
 
         when:
         boolean success = hanabiGame.hintPlayerColor(0, 0)
@@ -97,7 +86,7 @@ class HanabiGameTest extends Specification {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
         hanabiGame.players[0] = Mock(HanabiPlayer)
-        hanabiGame.tipsNumber = 0
+        hanabiGame.tips.tips = 0
 
         when:
         boolean success = hanabiGame.hintPlayerNumber(0, 0)
@@ -110,27 +99,27 @@ class HanabiGameTest extends Specification {
     def "Test rejectPlayerCard should increase tip number"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
-        hanabiGame.tipsNumber = 0
+        hanabiGame.tips.tips = 0
 
         when:
         boolean success = hanabiGame.rejectPlayerCard(0, 0)
 
         then:
         success
-        1 == hanabiGame.tipsNumber
+        1 == hanabiGame.tips.tips
     }
 
     def "Test rejectPlayerCard should NOT increase tip number when 8 of them"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
-        hanabiGame.tipsNumber = 8
+        hanabiGame.tips.tips = 8
 
         when:
         boolean success = hanabiGame.rejectPlayerCard(0, 0)
 
         then:
         success
-        8 == hanabiGame.tipsNumber
+        8 == hanabiGame.tips.tips
     }
 
     def "Test rejectPlayerCard should increase rejected card number"() {

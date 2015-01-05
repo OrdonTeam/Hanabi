@@ -11,7 +11,7 @@ import static com.ordonteam.hanabi.game.CardValue.FIVE
 @CompileStatic
 class HanabiGame implements Serializable {
 
-    int tipsNumber = 8
+    Tips tips = new Tips()
     int thundersNumber = 3
     PlayedCards playedCards = new PlayedCards()
     Deck deck = new Deck()
@@ -73,31 +73,23 @@ class HanabiGame implements Serializable {
     }
 
     boolean hintPlayerColor(int playerIndex, int indexCardNumber) {
-        if (tipsNumber > 0) {
+        return tips.useTip {
             HanabiPlayer player = players.get(playerIndex)
             player.hintColor(indexCardNumber)
-            tipsNumber--
-            return true
         }
-        return false
     }
 
     boolean hintPlayerNumber(int playerIndex, int indexCardNumber) {
-        if (tipsNumber > 0) {
+        return tips.useTip {
             HanabiPlayer player = players.get(playerIndex)
             player.hintNumber(indexCardNumber)
-            tipsNumber--
-            return true
         }
-        return false
     }
 
     boolean rejectPlayerCard(int playerIndex, int indexCardNumber) {
         HanabiPlayer player = players.get(playerIndex)
         rejectedCards.add(player.rejectCard(indexCardNumber, drawCard()))
-        if (tipsNumber <= 7) {
-            tipsNumber++
-        }
+        tips.add()
         return true
     }
 
@@ -107,8 +99,8 @@ class HanabiGame implements Serializable {
 
         if (playedCards.isPlayable(playedCard)) {
             playedCards.add(playedCard)
-            if(playedCard.value == FIVE){
-                tipsNumber++//TODO test it
+            if (playedCard.value == FIVE) {
+                tips.add()
             }
         } else {
             rejectedCards.add(playedCard)
@@ -117,14 +109,14 @@ class HanabiGame implements Serializable {
         return true
     }
 
-    boolean isGameFinished() {
-        return false
+    void updateGameInfo(GameInfoView gameInfoView) {
+        gameInfoView.setTipsNumber(tips.get())
+        gameInfoView.setThundersNumber(thundersNumber)
+        if (!rejectedCards.empty)
+            gameInfoView.setTopRejectedCard(rejectedCards.last())
     }
 
-    void updateGameInfo(GameInfoView gameInfoView) {
-        gameInfoView.setTipsNumber(tipsNumber)
-        gameInfoView.setThundersNumber(thundersNumber)
-        if(!rejectedCards.empty)
-            gameInfoView.setTopRejectedCard(rejectedCards.last())
+    boolean isGameFinished() {
+        return false
     }
 }
