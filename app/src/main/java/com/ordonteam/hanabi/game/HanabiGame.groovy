@@ -6,6 +6,8 @@ import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.GameInfoView
 import groovy.transform.CompileStatic
 
+import static com.ordonteam.hanabi.game.CardValue.FIVE
+
 @CompileStatic
 class HanabiGame implements Serializable {
 
@@ -105,6 +107,9 @@ class HanabiGame implements Serializable {
 
         if (playedCards.isPlayable(playedCard)) {
             playedCards.add(playedCard)
+            if(playedCard.value == FIVE){
+                tipsNumber++//TODO test it
+            }
         } else {
             rejectedCards.add(playedCard)
             thundersNumber--
@@ -117,7 +122,9 @@ class HanabiGame implements Serializable {
     }
 
     void updateGameInfo(GameInfoView gameInfoView) {
-        gameInfoView.cluesLeft.setText("$tipsNumber")
-        gameInfoView.thundersLeft.setText("$thundersNumber")
+        gameInfoView.setTipsNumber(tipsNumber)
+        gameInfoView.setThundersNumber(thundersNumber)
+        if(!rejectedCards.empty)
+            gameInfoView.setTopRejectedCard(rejectedCards.last())
     }
 }

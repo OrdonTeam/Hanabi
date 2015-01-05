@@ -28,9 +28,12 @@ class CardsRow extends LinearLayout {
             addView(it)
         }
     }
+    void setOnCardClickListener(OnCardClickListener listener) {
+        setOnCardClickListener(listener,-1)
+    }
 
-    void setOnCardClickListener(OnCardClickListener gameActivity, int row) {
-        this.onCardClickListener = gameActivity
+    void setOnCardClickListener(OnCardClickListener listener, int row) {
+        this.onCardClickListener = listener
         this.row = row
         cardViewList.eachWithIndex { CardView view, int i ->
             view.setOnClickListener({

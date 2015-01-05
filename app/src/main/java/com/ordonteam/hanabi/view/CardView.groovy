@@ -3,6 +3,7 @@ package com.ordonteam.hanabi.view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -16,42 +17,46 @@ import java.util.jar.Attributes
 
 @CompileStatic
 class CardView extends LinearLayout {
-    int index = 0
-    int color = Color.BLACK
-    String number = "?"
     private TextView textView;
+    private Paint paint = new Paint();
+    private boolean hasWhiteLine = false;
 
     CardView(Context context, AttributeSet attrs) {
         super(context, attrs)
-        color = Color.WHITE
-        number = "?"
+        setBackgroundColor(Color.WHITE)
 
-        setBackgroundColor(color)
-        textView = new TextView(context)
-
-        textView.setText(number)
-
-
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40)
+        textView = new BigTextView(context, "?")
         addView(textView)
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(4);
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas)
+        if(hasWhiteLine){
+            int times = (int)(getWidth()/5)
+            (0..5).each {
+                canvas.drawLine(0, it*times, getWidth()-it*times, getHeight(), paint);
+                canvas.drawLine(it*times, 0, getWidth(), getHeight()-it*times, paint);
+            }
+        }
     }
 
     void setColor(int color) {
-        this.color = color
         setBackgroundColor(color)
     }
 
     void setNumber(String number) {
-        this.number = number
         textView.setText(number)
     }
 
     void setCard(HanabiCard hanabiCard) {
         setBackgroundColor(hanabiCard.color.color)
-        setAlpha(hanabiCard.isColorKnown ? 1.0f : 0.3f)
+        hasWhiteLine = !hanabiCard.isColorKnown
         textView.setText("${hanabiCard.value.value}")
-        textView.setTextColor(hanabiCard.isValueKnown ? Color.BLACK : Color.GRAY)
+        textView.setTextColor(hanabiCard.isValueKnown ? Color.BLACK : Color.LTGRAY)
     }
 
     void setUserCard(HanabiCard hanabiCard) {

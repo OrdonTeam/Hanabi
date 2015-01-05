@@ -7,51 +7,59 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.ordonteam.hanabi.R
-import android.widget.LinearLayout.LayoutParams
-
+import com.ordonteam.hanabi.game.HanabiCard
 
 class GameInfoView extends LinearLayout {
 
-    private ImageView hintsImg
-    private ImageView thunderImg
-    private CardView knownCards
-    TextView cluesLeft
-    TextView thundersLeft
+    ImageView tipsImgage
+    TextView tipsNumberText
+
+    ImageView thunderImage
+    TextView thundersNumberText
+
+    CardView knownCards
+
     GameInfoView(Context context, AttributeSet attrs) {
         super(context, attrs)
+        setOrientation(HORIZONTAL)
 
-        setOrientation(this.HORIZONTAL)
+        tipsImgage = new ImageView(context)
+        tipsNumberText = new TextView(context, attrs)
 
-        hintsImg = new ImageView(context)
-        thunderImg = new ImageView(context)
-        knownCards = new CardView(context,attrs)
-        cluesLeft = new TextView(context,attrs)
-        thundersLeft = new TextView(context,attrs)
+        thunderImage = new ImageView(context)
+        thundersNumberText = new TextView(context, attrs)
 
-        LayoutParams layoutParams = new LayoutParams(context,attrs)
+        knownCards = new CardView(context, attrs)
+
+        tipsImgage.setImageResource(R.drawable.question)
+        tipsNumberText.setText("8")
+        tipsNumberText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40)
+
+        thunderImage.setImageResource(R.drawable.thunder)
+        thundersNumberText.setText("3")
+        thundersNumberText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40)
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(context, attrs)
         layoutParams.weight = 1
 
-        hintsImg.setImageResource(R.drawable.question)
-        thunderImg.setImageResource(R.drawable.thunder)
-        thundersLeft.setText("3")
-        thundersLeft.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
-        cluesLeft.setText("8")
-        cluesLeft.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
+        [tipsImgage, tipsNumberText, thunderImage, thundersNumberText, knownCards].each {
+            it.setLayoutParams(layoutParams)
+            addView(it)
+        }
+    }
 
+    void setTipsNumber(int tipsNumber) {
+        tipsNumberText.setText("$tipsNumber")
+    }
 
-        hintsImg.setLayoutParams(layoutParams)
-        thunderImg.setLayoutParams(layoutParams)
-        knownCards.setLayoutParams(layoutParams)
-        thundersLeft.setLayoutParams(layoutParams)
-        cluesLeft.setLayoutParams(layoutParams)
+    void setThundersNumber(int thundersNumber) {
+        thundersNumberText.setText("$thundersNumber")
+    }
 
-        addView(hintsImg)
-        addView(cluesLeft)
-        addView(thunderImg)
-        addView(thundersLeft)
-        addView(knownCards)
-
-
-
+    void setTopRejectedCard(HanabiCard hanabiCard) {
+        if (hanabiCard) {
+            knownCards.setColor(hanabiCard.color.color)
+            knownCards.setNumber("${hanabiCard.value.value}")
+        }
     }
 }
