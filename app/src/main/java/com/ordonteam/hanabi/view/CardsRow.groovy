@@ -34,7 +34,7 @@ class CardsRow extends LinearLayout {
         this.row = row
         cardViewList.eachWithIndex { CardView view, int i ->
             view.setOnClickListener({
-                onCardClickListener?.onCardClicked(row, i+1)
+                onCardClickListener?.onCardClicked(row, i)
             })
         }
     }
