@@ -46,25 +46,11 @@ class HanabiGame implements Serializable {
     }
 
     void updateCards(List<CardsRow> cardsRow, int playerId) {
-        Log.i("czy", "sie wywoluje")
-        players.eachWithIndex { HanabiPlayer player, int playerIndex ->
-            int rowIndex = getSpecialIndex(playerId, playerIndex)
-            CardsRow row = cardsRow.get(rowIndex)
-            player.cardsOnHand.eachWithIndex { HanabiCard card, int i ->
-                CardView cardView = row.cardViewList.get(i)
-                if (playerId == playerIndex)
-                    cardView.setUserCard(card)
-                else
-                    cardView.setCard(card)
-            }
-        }
-    }
-
-    int getSpecialIndex(int playerId, int playerIndex) {
-        if (playerId == playerIndex)
-            return 4;
-        else {
-            return (playerIndex - playerId + players.size() - 1) % players.size()
+        Log.e("updateCards","playerId=$playerId")
+        List<CardsRow> cut = cardsRow.take(players.size())
+        List<CardsRow> list = (cut + cut).drop(players.size() - playerId).take(players.size())
+        for (int i = 0; i < players.size(); i++) {
+            players[i].updateCards(list[i].cardViewList, (i == playerId))
         }
     }
 

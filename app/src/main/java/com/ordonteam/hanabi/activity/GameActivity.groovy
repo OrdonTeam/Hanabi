@@ -72,8 +72,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         if (!invId) {
             config = GameConfig.configFromIntent(intent)
         }
-        getCooperatorCardRows().each {
-            it.setOnCardClickListener(this, it.row)
+
+        List<CardsRow> rows = getCooperatorCardRows()
+        for (int i = 0; i < rows.size(); i++) {
+            rows[i].setOnCardClickListener(this, i)
         }
         row5.setOnCardClickListener(this.&myCardRowClickPerform)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -164,7 +166,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             showSpinner()
         }
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        hanabi.updateCards(getAllRows(), myIndexOnGmsList())
+        hanabi.updateCards(([row5, row1,row2,row3,row4]), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
     }
@@ -209,7 +211,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     private int convertRowToHanabiIndex(int row) {
-        return (row + myIndexOnGmsList() + getPlayersNumber() - 1) % getPlayersNumber()
+        return (row + myIndexOnGmsList() +1) % getPlayersNumber()
     }
 
     void myCardRowClickPerform(int row, int index) {
