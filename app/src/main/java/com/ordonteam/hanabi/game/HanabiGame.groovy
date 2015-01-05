@@ -1,7 +1,6 @@
 package com.ordonteam.hanabi.game
 
 import android.util.Log
-import com.ordonteam.hanabi.utils.Utils
 import com.ordonteam.hanabi.view.CardView
 import com.ordonteam.hanabi.view.CardsRow
 import groovy.transform.CompileStatic
@@ -9,47 +8,21 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class HanabiGame implements Serializable {
 
-    static Map<Integer, Integer> numberOfCardsForPlayerNumber = [(2): 5, (3): 5, (4): 4, (5): 4]
-
     int tipsNumber = 8
     int thundersNumber = 3
     PlayedCards playedCards = new PlayedCards()
+    Deck deck = new Deck()
     List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
-    List<HanabiCard> availableCards = new ArrayList<>()
     List<HanabiPlayer> players = new ArrayList<>() //TODO: consider add gms id to player, and match players using them
 
     HanabiGame(int playersNumber) {
-
-        CardColor.values().each { CardColor color ->
-            CardValue.values().each { CardValue value ->
-                value.getMax().times {
-                    availableCards.add(new HanabiCard(color, value))
-                }
-            }
+        players = (1..playersNumber).collect {
+            new HanabiPlayer(this, playersNumber)
         }
-        players = dealCards(playersNumber)
     }
 
-    private List<HanabiPlayer> dealCards(int playersNumber) {
-
-        List<HanabiPlayer> players = new ArrayList<>()
-        playersNumber.times {
-            List<HanabiCard> cardsOnHand = new ArrayList<>()
-            int numberOfCards = numberOfCardsForPlayerNumber[playersNumber]
-            numberOfCards.times {
-                cardsOnHand.add(getCardFromStack())
-            }
-            players.add(new HanabiPlayer(cardsOnHand))
-        }
-        return players
-    }
-
-    private int numberOfCardsForPlayerNumber(int playerNumber) {
-        playerNumber == 2 || playerNumber == 3 ? 5 : 4
-    }
-
-    HanabiCard getCardFromStack() {
-        return Utils.removeRandom(availableCards)
+    HanabiCard drawCard() {
+        return deck.drawCard()
     }
 
     byte[] persist() {

@@ -17,25 +17,13 @@ class HanabiGameTest extends Specification {
         int playersNumber = 5
         given:
         HanabiGame hanabiGame = new HanabiGame(playersNumber)
-        hanabiGame.availableCards = [new HanabiCard()]
+        hanabiGame.rejectedCards = [new HanabiCard(CardColor.RED,CardValue.ONE)]
 
         when:
         hanabiGame = HanabiGame.unpersist(hanabiGame.persist())
 
         then:
-        hanabiGame.availableCards.size() == 1
-    }
-
-    def "Should remove random element"() {
-        int playersNumber = 5
-        given:
-        HanabiGame hanabiGame = new HanabiGame(playersNumber)
-
-        when:
-        hanabiGame.getCardFromStack()
-
-        then:
-        hanabiGame.availableCards.size() == 29 // 50 - 5*4 - 1
+        hanabiGame.rejectedCards.size() == 1
     }
 
     def "Should create 5 players and deal 4 cards each"() {
@@ -44,8 +32,9 @@ class HanabiGameTest extends Specification {
         HanabiGame hanabiGame = new HanabiGame(playersNumber)
 
         then:
-        hanabiGame.availableCards.size() == 30 // 50 - 5*4
-        hanabiGame.players.get(0).cardsOnHand.size() == 4
+        hanabiGame.players.every{ HanabiPlayer player ->
+            player.cardsOnHand.size() == 4
+        }
     }
 
     def "Should create 2 players and deal 5 cards each"() {
@@ -54,8 +43,9 @@ class HanabiGameTest extends Specification {
         HanabiGame hanabiGame = new HanabiGame(playersNumber)
 
         then:
-        hanabiGame.availableCards.size() == 40 // 50 - 2*5
-        hanabiGame.players.get(0).cardsOnHand.size() == 5
+        hanabiGame.players.every{ HanabiPlayer player ->
+            player.cardsOnHand.size() == 5
+        }
     }
 
 //    def "Should throw exception for mora than 5 players"() {

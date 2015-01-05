@@ -4,12 +4,15 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class HanabiPlayer implements Serializable{
+    static Map<Integer, IntRange> maxCardsFor = [(2): (1..5), (3): (1..5), (4): (1..4), (5): (1..4)]
 
     private String name
-    List<HanabiCard> cardsOnHand
+    List<HanabiCard> cardsOnHand = []
 
-    HanabiPlayer(List<HanabiCard> cardsOnHand) {
-        this.cardsOnHand = cardsOnHand
+    HanabiPlayer(HanabiGame game,int playersNumber){
+        cardsOnHand = maxCardsFor[playersNumber].collect{
+            game.drawCard()
+        }
     }
 
     void hintColor(CardColor cardColor) {
@@ -39,6 +42,6 @@ class HanabiPlayer implements Serializable{
     }
 
     void getCardFromStack(HanabiGame game) {
-        cardsOnHand.add(game.getCardFromStack())
+        cardsOnHand.add(game.drawCard())
     }
 }
