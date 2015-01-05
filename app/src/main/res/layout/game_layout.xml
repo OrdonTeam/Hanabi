@@ -1,171 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/playerRow1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2sp"
-        android:visibility="invisible">
-        <com.ordonteam.hanabi.view.PlayerView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
-        </com.ordonteam.hanabi.view.PlayerView>
-        <com.ordonteam.hanabi.view.CardsRow
-            android:id="@+id/playerCardRow1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginRight="2sp"
-            xmlns:customNS="http://schemas.android.com/apk/res/com.ordonteam.hanabi"
-            customNS:row="1"
-            android:gravity="center">
-        </com.ordonteam.hanabi.view.CardsRow>
-    </LinearLayout>
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/playerRow2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2sp"
-        android:visibility="invisible">
-        <com.ordonteam.hanabi.view.PlayerView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
-        </com.ordonteam.hanabi.view.PlayerView>
-        <com.ordonteam.hanabi.view.CardsRow
-            android:id="@+id/playerCardRow2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginRight="2sp"
-            android:gravity="center">
-        </com.ordonteam.hanabi.view.CardsRow>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/playerRow3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2sp"
-        android:visibility="invisible">
-        <com.ordonteam.hanabi.view.PlayerView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
-        </com.ordonteam.hanabi.view.PlayerView>
-        <com.ordonteam.hanabi.view.CardsRow
-            android:id="@+id/playerCardRow3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginRight="2sp"
-            android:gravity="center">
-        </com.ordonteam.hanabi.view.CardsRow>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/playerRow4"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2sp"
-        android:visibility="invisible"
-        >
-        <com.ordonteam.hanabi.view.PlayerView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
-        </com.ordonteam.hanabi.view.PlayerView>
-        <com.ordonteam.hanabi.view.CardsRow
-            android:id="@+id/playerCardRow4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginRight="2sp"
-            android:gravity="center"
-            >
-        </com.ordonteam.hanabi.view.CardsRow>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        >
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/gameInfoRow"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:layout_marginTop="7dp"
-        >
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <com.ordonteam.hanabi.view.CardsRow
-            android:id="@+id/playedCardsView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginRight="3dp"
-
-            android:gravity="center">
-
-            </com.ordonteam.hanabi.view.CardsRow>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        </LinearLayout>
         <LinearLayout
+            android:id="@+id/playerRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
             android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <com.ordonteam.hanabi.view.PlayerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <com.ordonteam.hanabi.view.CardsRow xmlns:customNS="http://schemas.android.com/apk/res/com.ordonteam.hanabi"
+                android:id="@+id/playerCardRow1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2sp"
+                android:layout_weight="5"
+                android:gravity="center"
+                customNS:row="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/playerRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <com.ordonteam.hanabi.view.PlayerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <com.ordonteam.hanabi.view.CardsRow
+                android:id="@+id/playerCardRow2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2sp"
+                android:layout_weight="5"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/playerRow3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <com.ordonteam.hanabi.view.PlayerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <com.ordonteam.hanabi.view.CardsRow
+                android:id="@+id/playerCardRow3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2sp"
+                android:layout_weight="5"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/playerRow4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <com.ordonteam.hanabi.view.PlayerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <com.ordonteam.hanabi.view.CardsRow
+                android:id="@+id/playerCardRow4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2sp"
+                android:layout_weight="5"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            >
-        <com.ordonteam.hanabi.view.GameInfoView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:gravity="center"
-            />
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/gameInfoRow"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="7dp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.ordonteam.hanabi.view.CardsRow
+                    android:id="@+id/playedCardsView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="5"
+
+                    android:gravity="center">
+
+                </com.ordonteam.hanabi.view.CardsRow>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+
+                <com.ordonteam.hanabi.view.GameInfoView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="blabla bla" />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="blabla bla"/>
+
+        <LinearLayout
+            android:id="@+id/playerRow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:orientation="horizontal">
+
+            <com.ordonteam.hanabi.view.PlayerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <com.ordonteam.hanabi.view.CardsRow
+                android:id="@+id/playerCardRow5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2sp"
+                android:layout_weight="5"
+                android:gravity="center" />
+        </LinearLayout>
+
+
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/playerRow"
+
+    <RelativeLayout
+        android:id="@+id/spinner"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2sp">
-        <com.ordonteam.hanabi.view.PlayerView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
-        </com.ordonteam.hanabi.view.PlayerView>
-        <com.ordonteam.hanabi.view.CardsRow
-            android:id="@+id/playerCardRow5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginRight="2sp"
-            android:gravity="center">
-        </com.ordonteam.hanabi.view.CardsRow>
-    </LinearLayout>
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="@color/wallet_bright_foreground_holo_light"
+        android:alpha="0.5">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wait for others players"
+            android:id="@+id/textView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

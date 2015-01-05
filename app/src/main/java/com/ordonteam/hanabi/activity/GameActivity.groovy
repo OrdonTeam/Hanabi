@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
@@ -52,13 +53,14 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     @InjectView(R.id.playerRow4)
     LinearLayout playerRow4
 
+    @InjectView(R.id.spinner)
+    RelativeLayout spinner
+
     private TurnBasedMatchConfig config
     private String invId
     private TurnBasedMatch match
-    private ProgressDialog progressDialog
 
     @Override
-    @CompileDynamic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
@@ -69,11 +71,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             it.setOnCardClickListener(this, it.row)
         }
         getMyCardRow().setOnCardClickListener(this.&myCardRowClickPerform,5)
-
-        progressDialog = new ProgressDialog(this)
-        progressDialog.setCancelable(false)
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Patience is a virtue...");
     }
 
     @Override
@@ -272,11 +269,11 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     public void showSpinner() {
-        progressDialog.show()
+        spinner.setVisibility(RelativeLayout.VISIBLE)
     }
 
     public void dismissSpinner() {
-        progressDialog.dismiss()
+        spinner.setVisibility(RelativeLayout.GONE)
     }
 
 }
