@@ -3,6 +3,7 @@ package com.ordonteam.hanabi.game
 import android.util.Log
 import com.ordonteam.hanabi.view.CardView
 import com.ordonteam.hanabi.view.CardsRow
+import com.ordonteam.hanabi.view.GameInfoView
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -113,5 +114,10 @@ class HanabiGame implements Serializable {
 
     boolean isGameFinished() {
         return false
+    }
+
+    void updateGameInfo(GameInfoView gameInfoView) {
+        gameInfoView.cluesLeft.setText("$tipsNumber")
+        gameInfoView.thundersLeft.setText("$thundersNumber")
     }
 }

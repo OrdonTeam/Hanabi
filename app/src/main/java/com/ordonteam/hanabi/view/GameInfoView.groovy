@@ -15,8 +15,8 @@ class GameInfoView extends LinearLayout {
     private ImageView hintsImg
     private ImageView thunderImg
     private CardView knownCards
-    private TextView cluesLeft
-    private TextView thundersLeft
+    TextView cluesLeft
+    TextView thundersLeft
     GameInfoView(Context context, AttributeSet attrs) {
         super(context, attrs)
 

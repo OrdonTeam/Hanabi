@@ -141,6 +141,7 @@
                 android:orientation="horizontal">
 
                 <com.ordonteam.hanabi.view.GameInfoView
+                    android:id="@+id/gameInfo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

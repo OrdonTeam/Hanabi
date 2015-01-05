@@ -20,6 +20,7 @@ import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
+import com.ordonteam.hanabi.view.GameInfoView
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileDynamic
@@ -52,6 +53,9 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     LinearLayout playerRow3
     @InjectView(R.id.playerRow4)
     LinearLayout playerRow4
+
+    @InjectView(R.id.gameInfo)
+    GameInfoView gameInfoView
 
     @InjectView(R.id.spinner)
     RelativeLayout spinner
@@ -160,6 +164,7 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         hanabi.updateCards(getAllRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
+        hanabi.updateGameInfo(gameInfoView)
     }
 
     @Override
