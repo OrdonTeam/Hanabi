@@ -88,4 +88,45 @@ class HanabiGame implements Serializable {
     HanabiPlayer getPlayerAt(int index){
         return players.get(index)
     }
+
+    boolean hintPlayerColor(int player, int indexCardNumber){
+        HanabiPlayer destinationPlayer = getPlayerAt(player)
+        CardColor color = destinationPlayer.getColorOf(indexCardNumber)
+        destinationPlayer.hintColor(color)
+        tipsNumber--
+        return isGameFinished()
+    }
+    boolean hintPlayerNumber(int player, int indexCardNumber) {
+        HanabiPlayer destinationPlayer = getPlayerAt(player)
+        CardValue value = destinationPlayer.getValueOf(indexCardNumber)
+        destinationPlayer.hintNumber(value)
+        tipsNumber--
+        return isGameFinished()
+    }
+
+    boolean rejectPlayerCard(int player, int indexCardNumber) {
+        HanabiPlayer activePlayer = getPlayerAt(player)
+        HanabiCard rejectedCard = activePlayer.removeCardAt(indexCardNumber)
+
+        rejectedCards.add(rejectedCard)
+        activePlayer.getCardFromStack(this)
+
+        if(tipsNumber <= 7){
+            tipsNumber++
+        }
+
+        return isGameFinished()
+    }
+    boolean playPlayerCard(int player, int indexCardNumber) {
+        HanabiPlayer activePlayer = getPlayerAt(player)
+        HanabiCard playedCard = activePlayer.removeCardAt(indexCardNumber)
+
+        addPlayerCard(playedCard)
+        activePlayer.getCardFromStack(this)
+
+        if(!isLowerCardWithTheSameColorOnTable(playedCard)){
+            makeThunder()
+        }
+        return isGameFinished()
+    }
 }

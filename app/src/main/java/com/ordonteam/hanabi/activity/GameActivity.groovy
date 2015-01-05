@@ -16,10 +16,6 @@ import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
-import com.ordonteam.hanabi.game.actions.HintPlayerColor
-import com.ordonteam.hanabi.game.actions.HintPlayerNumber
-import com.ordonteam.hanabi.game.actions.PutCardPlayerAction
-import com.ordonteam.hanabi.game.actions.RejectPlayerAction
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
@@ -190,8 +186,9 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         showSpinner()
     }
 
-    void onCardClicked(int row, int index) {
-        Log.i("tag", "row $row index $index ")
+    void onCardClicked(int row, int cardIndex) {
+        Log.i("tag", "row $row index $cardIndex ")
+        int chosenPlayer = convertRowToHanabiIndex(row)
 
         if( isMyTurn() ) {
             HanabiGame hanabi = HanabiGame.unpersist(match.getData())
@@ -200,15 +197,13 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             alert.setMessage("You want to give a hint about:");
 
             alert.setPositiveButton("color", { DialogInterface dialog, int whichButton ->
-                int chosenPlayer = convertRowToHanabiIndex(row)
-                new HintPlayerColor(chosenPlayer, index, myIndexOnGmsList()).doAction(hanabi)
+                hanabi.hintPlayerColor(chosenPlayer,cardIndex)
                 submitTurnToGoogleApi(hanabi)
 
             });
 
             alert.setNegativeButton("number", { DialogInterface dialog, int whichButton ->
-                int chosenPlayer = convertRowToHanabiIndex(row)
-                new HintPlayerNumber(chosenPlayer, index, myIndexOnGmsList()).doAction(hanabi)
+                hanabi.hintPlayerNumber(chosenPlayer,cardIndex)
                 submitTurnToGoogleApi(hanabi)
             });
 
@@ -232,12 +227,12 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
             alert.setMessage("What do you want to do?");
 
             alert.setPositiveButton("Play the card", { DialogInterface dialog, int whichButton ->
-                new PutCardPlayerAction(index, myIndexOnGmsList()).doAction(hanabi)
+                hanabi.playPlayerCard( myIndexOnGmsList(),index)
                 submitTurnToGoogleApi(hanabi)
             });
 
             alert.setNegativeButton("Reject the card", { DialogInterface dialog, int whichButton ->
-                new RejectPlayerAction(index, myIndexOnGmsList()).doAction(hanabi)
+                hanabi.rejectPlayerCard( myIndexOnGmsList(),index)
                 submitTurnToGoogleApi(hanabi)
             });
 
