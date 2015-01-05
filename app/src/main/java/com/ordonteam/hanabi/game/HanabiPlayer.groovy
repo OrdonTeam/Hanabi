@@ -15,16 +15,16 @@ class HanabiPlayer implements Serializable{
         }
     }
 
-    void hintColor(CardColor cardColor) {
+    void hintColor(int cardIndex) {
         cardsOnHand.each { HanabiCard card ->
-            if (card.color == cardColor )
+            if (card.color == getColorOf(cardIndex) )
                 card.isColorKnown = true
         }
     }
 
-    void hintNumber(CardValue cardValue) {
+    void hintNumber(int cardIndex) {
         cardsOnHand.each { HanabiCard card ->
-            if (card.value == cardValue )
+            if (card.value == getValueOf(cardIndex) )
                 card.isValueKnown = true
         }
     }
@@ -33,7 +33,7 @@ class HanabiPlayer implements Serializable{
         return cardsOnHand.get(index).color
     }
 
-    HanabiCard removeCardAt(int index) {
+    HanabiCard rejectCard(int index) {
         return cardsOnHand.remove(index)
     }
 
@@ -41,7 +41,7 @@ class HanabiPlayer implements Serializable{
         return cardsOnHand.get(index).value
     }
 
-    void getCardFromStack(HanabiGame game) {
-        cardsOnHand.add(game.drawCard())
+    void drawCard(HanabiCard card) {
+        cardsOnHand.add(card)
     }
 }

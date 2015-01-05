@@ -81,52 +81,42 @@ class HanabiGame implements Serializable {
         playedCards.updatePlayedCards(cardsRow)
     }
 
-    void addPlayerCard(HanabiCard card){
-        playedCards.add(card)
-    }
-
-    HanabiPlayer getPlayerAt(int index){
-        return players.get(index)
-    }
-
-    boolean hintPlayerColor(int player, int indexCardNumber){
-        HanabiPlayer destinationPlayer = getPlayerAt(player)
-        CardColor color = destinationPlayer.getColorOf(indexCardNumber)
-        destinationPlayer.hintColor(color)
+    boolean hintPlayerColor(int playerIndex, int indexCardNumber){
+        HanabiPlayer player = players.get(playerIndex)
+        player.hintColor(indexCardNumber)
         tipsNumber--
-        return isGameFinished()
+        return true
     }
-    boolean hintPlayerNumber(int player, int indexCardNumber) {
-        HanabiPlayer destinationPlayer = getPlayerAt(player)
-        CardValue value = destinationPlayer.getValueOf(indexCardNumber)
-        destinationPlayer.hintNumber(value)
+    boolean hintPlayerNumber(int playerIndex, int indexCardNumber) {
+        HanabiPlayer player = players.get(playerIndex)
+        player.hintNumber(indexCardNumber)
         tipsNumber--
-        return isGameFinished()
+        return true
     }
 
-    boolean rejectPlayerCard(int player, int indexCardNumber) {
-        HanabiPlayer activePlayer = getPlayerAt(player)
-        HanabiCard rejectedCard = activePlayer.removeCardAt(indexCardNumber)
+    boolean rejectPlayerCard(int playerIndex, int indexCardNumber) {
+        HanabiPlayer player = players.get(playerIndex)
+        HanabiCard rejectedCard = player.rejectCard(indexCardNumber)
 
         rejectedCards.add(rejectedCard)
-        activePlayer.getCardFromStack(this)
+        player.drawCard(drawCard())
 
         if(tipsNumber <= 7){
             tipsNumber++
         }
 
-        return isGameFinished()
+        return true
     }
-    boolean playPlayerCard(int player, int indexCardNumber) {
-        HanabiPlayer activePlayer = getPlayerAt(player)
-        HanabiCard playedCard = activePlayer.removeCardAt(indexCardNumber)
+    boolean playPlayerCard(int playerIndex, int indexCardNumber) {
+        HanabiPlayer player = players.get(playerIndex)
+        HanabiCard playedCard = player.rejectCard(indexCardNumber)
 
-        addPlayerCard(playedCard)
-        activePlayer.getCardFromStack(this)
+        playedCards.add(playedCard)
+        player.drawCard(drawCard())
 
         if(!isLowerCardWithTheSameColorOnTable(playedCard)){
             makeThunder()
         }
-        return isGameFinished()
+        return true
     }
 }
