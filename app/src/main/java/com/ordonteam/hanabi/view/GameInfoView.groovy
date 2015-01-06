@@ -30,7 +30,7 @@ class GameInfoView extends LinearLayout {
         thunderImage = new ImageView(context)
         thundersNumberText = new TextView(context, attrs)
 
-        deck = new DeckView(context)
+        deck = new DeckView(context, attrs)
         knownCards = new CardView(context, attrs)
 
         tipsImgage.setImageResource(R.drawable.question)

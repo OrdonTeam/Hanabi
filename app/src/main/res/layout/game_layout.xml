@@ -184,17 +184,17 @@
         android:id="@+id/spinner"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
+        android:alpha="0.5"
         android:background="@color/wallet_bright_foreground_holo_light"
-        android:alpha="0.5">
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wait for other players"
-            android:id="@+id/textView"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:text="Wait for other players" />
     </RelativeLayout>
 
 </RelativeLayout>

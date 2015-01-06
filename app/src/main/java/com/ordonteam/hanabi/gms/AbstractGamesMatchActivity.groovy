@@ -2,6 +2,7 @@ package com.ordonteam.hanabi.gms
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.view.WindowManager
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
@@ -12,11 +13,6 @@ import groovy.transform.CompileStatic
 abstract class AbstractGamesMatchActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener{
     protected TurnBasedMatch match
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState)
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    }
     protected void leaveMatch() {
         if (isMyTurn()) {
             Games.TurnBasedMultiplayer.leaveMatchDuringTurn(client, match.getMatchId(), nextPlayerId())

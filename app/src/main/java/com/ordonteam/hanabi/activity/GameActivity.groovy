@@ -72,8 +72,11 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     }
 
     @Override
-    void onConnected(Bundle bundle) {
-        if (invId) {
+    void onConnected(Bundle connectionHint) {
+        match = connectionHint?.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH) as TurnBasedMatch;
+        if (match != null) {
+            onTurnBasedMatchReceived(match);
+        } else if (invId) {
             Games.TurnBasedMultiplayer.acceptInvitation(client, invId).setResultCallback(this.&initiateMatchResult)
             Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
         } else {
