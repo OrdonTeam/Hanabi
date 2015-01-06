@@ -18,7 +18,7 @@ apply plugin: 'me.champeau.gradle.groovy-android'
 android {
     buildTypes {
         defaultConfig {
-            minSdkVersion 9
+            minSdkVersion 11
             targetSdkVersion 20
             versionCode 1
             versionName "1.0"

@@ -9,30 +9,28 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2sp"
-            android:orientation="horizontal"
-            android:visibility="invisible">
+            android:orientation="horizontal">
+            <!--android:visibility="invisible">-->
 
             <com.ordonteam.hanabi.view.PlayerView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
 
-            <com.ordonteam.hanabi.view.CardsRow xmlns:customNS="http://schemas.android.com/apk/res/com.ordonteam.hanabi"
-                android:id="@+id/playerCardRow1"
+            <com.ordonteam.hanabi.view.CardsRow
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2sp"
                 android:layout_weight="5"
-                android:gravity="center"
-                customNS:row="1" />
-        </LinearLayout>
+                android:gravity="center"/>
+        </com.ordonteam.hanabi.view.FullRow>
 
-        <LinearLayout
+        <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -46,15 +44,14 @@
                 android:layout_weight="2" />
 
             <com.ordonteam.hanabi.view.CardsRow
-                android:id="@+id/playerCardRow2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2sp"
                 android:layout_weight="5"
                 android:gravity="center" />
-        </LinearLayout>
+        </com.ordonteam.hanabi.view.FullRow>
 
-        <LinearLayout
+        <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -68,15 +65,14 @@
                 android:layout_weight="2" />
 
             <com.ordonteam.hanabi.view.CardsRow
-                android:id="@+id/playerCardRow3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2sp"
                 android:layout_weight="5"
                 android:gravity="center" />
-        </LinearLayout>
+        </com.ordonteam.hanabi.view.FullRow>
 
-        <LinearLayout
+        <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -90,13 +86,12 @@
                 android:layout_weight="2" />
 
             <com.ordonteam.hanabi.view.CardsRow
-                android:id="@+id/playerCardRow4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2sp"
                 android:layout_weight="5"
                 android:gravity="center" />
-        </LinearLayout>
+        </com.ordonteam.hanabi.view.FullRow>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -156,7 +151,7 @@
                 android:text="blabla bla" />
         </LinearLayout>
 
-        <LinearLayout
+        <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -175,26 +170,11 @@
                 android:layout_marginRight="2sp"
                 android:layout_weight="5"
                 android:gravity="center" />
-        </LinearLayout>
+        </com.ordonteam.hanabi.view.FullRow>
 
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:alpha="0.5"
-        android:background="@color/wallet_bright_foreground_holo_light"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Wait for other players" />
-    </RelativeLayout>
+    <include layout="@layout/spinner" />
 
 </RelativeLayout>

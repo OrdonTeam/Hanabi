@@ -19,6 +19,7 @@ import com.ordonteam.hanabi.gms.AbstractGamesMatchActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.ColorNumberDialog
+import com.ordonteam.hanabi.view.FullRow
 import com.ordonteam.hanabi.view.GameInfoView
 import com.ordonteam.hanabi.view.PlayRejectDialog
 import com.ordonteam.inject.InjectContentView
@@ -29,32 +30,23 @@ import groovy.transform.CompileStatic
 @InjectContentView(R.layout.game_layout)
 class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCardClickListener {
 
-    @InjectView(R.id.playerCardRow1)
-    CardsRow row1
-    @InjectView(R.id.playerCardRow2)
-    CardsRow row2
-    @InjectView(R.id.playerCardRow3)
-    CardsRow row3
-    @InjectView(R.id.playerCardRow4)
-    CardsRow row4
-
-    @InjectView(R.id.playerCardRow5)
-    CardsRow row5
+    @InjectView(R.id.playerRow1)
+    FullRow playerRow1
+    @InjectView(R.id.playerRow2)
+    FullRow playerRow2
+    @InjectView(R.id.playerRow3)
+    FullRow playerRow3
+    @InjectView(R.id.playerRow4)
+    FullRow playerRow4
 
     @InjectView(R.id.playedCardsView)
     CardsRow playedCardsView
 
-    @InjectView(R.id.playerRow1)
-    LinearLayout playerRow1
-    @InjectView(R.id.playerRow2)
-    LinearLayout playerRow2
-    @InjectView(R.id.playerRow3)
-    LinearLayout playerRow3
-    @InjectView(R.id.playerRow4)
-    LinearLayout playerRow4
-
     @InjectView(R.id.gameInfo)
     GameInfoView gameInfoView
+
+    @InjectView(R.id.playerCardRow5)
+    CardsRow cardsRowMy
 
     @InjectView(R.id.spinner)
     RelativeLayout spinner
@@ -93,15 +85,14 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     }
 
     private void initGameField() {
-        [playerRow1, playerRow2, playerRow3, playerRow4]
-                .take(getPlayersNumber() - 1)
+        otherPlayers().take(getPlayersNumber() - 1)
                 .each { it.setVisibility(LinearLayout.VISIBLE) }
 
-        List<CardsRow> rows = [row1, row2, row3, row4]
+        List<CardsRow> rows = otherPlayers()*.cardsRow
         for (int i = 0; i < rows.size(); i++) {
             rows[i].setOnCardClickListener(this, (i + myIndexOnGmsList() + 1) % getPlayersNumber())
         }
-        row5.setOnCardClickListener(this.&myCardRowClickPerform)
+        cardsRowMy.setOnCardClickListener(this.&myCardRowClickPerform)
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
@@ -125,7 +116,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
             showSpinner()
         }
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        hanabi.updateCards(([row5, row1, row2, row3, row4]), myIndexOnGmsList())
+        hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
     }
@@ -184,6 +175,14 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
 
     public void dismissSpinner() {
         spinner.setVisibility(RelativeLayout.GONE)
+    }
+
+    private List<FullRow> otherPlayers() {
+        return [playerRow1, playerRow2, playerRow3, playerRow4]
+    }
+
+    private List<CardsRow> allCardsRows() {
+        return [cardsRowMy] + otherPlayers()*.cardsRow
     }
 
 }

@@ -2,34 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/backgrr">
-
+    android:background="@drawable/backgrr"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:id="@+id/modeChooser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
-    <Button
-        android:id="@+id/play"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="@string/play"
-        android:enabled="false" />
+        <Button
+            android:id="@+id/invite"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/invite" />
 
-    <Button
-        android:id="@+id/invite"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="@string/invite"
-        android:enabled="false" />
-</LinearLayout>
+        <Button
+            android:id="@+id/play"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/play" />
+    </LinearLayout>
 
 
-    </RelativeLayout>
+</RelativeLayout>
