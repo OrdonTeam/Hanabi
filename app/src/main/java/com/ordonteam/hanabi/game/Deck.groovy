@@ -3,7 +3,7 @@ package com.ordonteam.hanabi.game
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Deck implements Serializable{
+class Deck extends Version {
     List<HanabiCard> cards = []
 
     Deck() {

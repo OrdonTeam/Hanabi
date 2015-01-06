@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 import static com.ordonteam.hanabi.game.CardValue.FIVE
 
 @CompileStatic
-class HanabiGame implements Serializable {
+class HanabiGame extends Version {
 
     Tips tips = new Tips()
     int thundersNumber = 3
