@@ -111,7 +111,7 @@ class HanabiGame extends Version {
     }
 
     void updateLogs(TextView textView, List<Participant> participants, int myPosition) {
-        String logsString = logs.join('\n')
+        String logsString = logs.reverse().join('\n')
         for (int i = 0; i < participants.size(); i++) {
             String name = i==myPosition ? 'You' : participants[i].displayName
             logsString = logsString.replaceAll("$i", name)
