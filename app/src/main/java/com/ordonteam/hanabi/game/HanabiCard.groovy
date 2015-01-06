@@ -5,7 +5,8 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @Canonical
-class HanabiCard extends Version {
+class HanabiCard implements Serializable {
+    static final long serialVersionUID = 42L;
 
     final CardColor color
     final CardValue value

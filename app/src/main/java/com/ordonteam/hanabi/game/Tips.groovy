@@ -3,7 +3,9 @@ package com.ordonteam.hanabi.game
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Tips extends Version {
+class Tips implements Serializable {
+    static final long serialVersionUID = 42L;
+
     int tips = 8
 
     void add() {

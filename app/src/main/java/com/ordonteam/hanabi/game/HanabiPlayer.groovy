@@ -5,7 +5,8 @@ import com.ordonteam.hanabi.view.CardsRow
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class HanabiPlayer extends Version {
+class HanabiPlayer implements Serializable{
+    static final long serialVersionUID = 42L;
     static Map<Integer, IntRange> maxCardsFor = [(2): (1..5), (3): (1..5), (4): (1..4), (5): (1..4)]
 
     List<HanabiCard> cardsOnHand = []

@@ -7,8 +7,8 @@ import groovy.transform.CompileStatic
 import static com.ordonteam.hanabi.game.CardValue.ZERO
 
 @CompileStatic
-class PlayedCards extends Version {
-//    List<HanabiCard> cards = []
+class PlayedCards implements Serializable{
+    static final long serialVersionUID = 42L;
     Map<CardColor,CardValue> cards = new HashMap<>()
 
     PlayedCards() {
