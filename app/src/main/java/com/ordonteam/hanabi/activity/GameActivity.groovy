@@ -123,7 +123,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
-        hanabi.updateLogs(logs)
+        hanabi.updateLogs(logs,match.participants,myIndexOnGmsList())
     }
 
     @Override

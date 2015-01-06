@@ -2,6 +2,7 @@ package com.ordonteam.hanabi.game
 
 import android.util.Log
 import android.widget.TextView
+import com.google.android.gms.games.multiplayer.Participant
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.GameInfoView
 import groovy.transform.CompileStatic
@@ -15,7 +16,7 @@ class HanabiGame extends Version {
     int thundersNumber = 3
     PlayedCards playedCards = new PlayedCards()
     Deck deck = new Deck()
-    List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
+    List<HanabiCard> rejectedCards = new ArrayList<>()
     List<HanabiPlayer> players = new ArrayList<>()
     List<String> logs = []
     //TODO: consider add gms id to player, and match players using them
@@ -63,7 +64,7 @@ class HanabiGame extends Version {
         return tips.useTip {
             HanabiPlayer player = players.get(playerIndex)
             CardColor color = player.hintColor(indexCardNumber)
-            logs.add("Player $currentPlayer gave tip to player $playerIndex. Color ${color.name()}".toString())
+            logs.add("$currentPlayer gave tip to $playerIndex. Color ${color.name()}".toString())
         }
     }
 
@@ -71,7 +72,7 @@ class HanabiGame extends Version {
         return tips.useTip {
             HanabiPlayer player = players.get(playerIndex)
             CardValue value = player.hintNumber(indexCardNumber)
-            logs.add("Player $currentPlayer gave tip to player $playerIndex. Value ${value.name()}".toString())
+            logs.add("$currentPlayer gave tip to $playerIndex. Value ${value.name()}".toString())
         }
     }
 
@@ -80,7 +81,7 @@ class HanabiGame extends Version {
         HanabiCard rejectedCard = player.rejectCard(indexCardNumber, drawCard())
         rejectedCards.add(rejectedCard)
         tips.add()
-        logs.add("Player $playerIndex rejected card. ${rejectedCard.value.name()} ${rejectedCard.color.name()}".toString())
+        logs.add("$playerIndex rejected card. ${rejectedCard.value.name()} ${rejectedCard.color.name()}".toString())
         return true
     }
 
@@ -97,7 +98,7 @@ class HanabiGame extends Version {
             rejectedCards.add(playedCard)
             thundersNumber--
         }
-        logs.add("Player $playerIndex played card. ${playedCard.value.name()} ${playedCard.color.name()}".toString())
+        logs.add("$playerIndex played card. ${playedCard.value.name()} ${playedCard.color.name()}".toString())
         return true
     }
 
@@ -109,8 +110,13 @@ class HanabiGame extends Version {
             gameInfoView.setTopRejectedCard(rejectedCards.last())
     }
 
-    void updateLogs(TextView textView) {
-        textView.setText(logs.join('\n'))
+    void updateLogs(TextView textView, List<Participant> participants, int myPosition) {
+        String logsString = logs.join('\n')
+        for (int i = 0; i < participants.size(); i++) {
+            String name = i==myPosition ? 'You' : participants[i].displayName
+            logsString = logsString.replaceAll("$i", name)
+        }
+        textView.setText(logsString)
     }
 
     boolean isGameFinished() {

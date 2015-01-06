@@ -29,7 +29,6 @@
         <activity android:name=".activity.GameActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:keepScreenOn="true"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
     </application>
 
