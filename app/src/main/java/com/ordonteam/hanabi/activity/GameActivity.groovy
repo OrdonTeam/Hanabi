@@ -45,8 +45,8 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     @InjectView(R.id.gameInfo)
     GameInfoView gameInfoView
 
-    @InjectView(R.id.playerCardRow5)
-    CardsRow cardsRowMy
+    @InjectView(R.id.playerRow)
+    FullRow playerRow
 
     @InjectView(R.id.spinner)
     RelativeLayout spinner
@@ -92,7 +92,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         for (int i = 0; i < rows.size(); i++) {
             rows[i].setOnCardClickListener(this, (i + myIndexOnGmsList() + 1) % getPlayersNumber())
         }
-        cardsRowMy.setOnCardClickListener(this.&myCardRowClickPerform)
+        playerRow.cardsRow.setOnCardClickListener(this.&myCardRowClickPerform)
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
@@ -182,7 +182,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     }
 
     private List<CardsRow> allCardsRows() {
-        return [cardsRowMy] + otherPlayers()*.cardsRow
+        return [playerRow.cardsRow] + otherPlayers()*.cardsRow
     }
 
 }
