@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
@@ -44,6 +45,9 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
 
     @InjectView(R.id.gameInfo)
     GameInfoView gameInfoView
+
+    @InjectView(R.id.logs)
+    TextView logs
 
     @InjectView(R.id.playerRow)
     FullRow playerRow
@@ -119,6 +123,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
+        hanabi.updateLogs(logs)
     }
 
     @Override
@@ -133,12 +138,12 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         if (isMyTurn()) {
             HanabiGame hanabi = HanabiGame.unpersist(match.getData())
             new ColorNumberDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
-                if (hanabi.hintPlayerColor(chosenPlayer, cardIndex))
+                if (hanabi.hintPlayerColor(chosenPlayer, cardIndex, myIndexOnGmsList()))
                     submitTurnToGoogleApi(hanabi)
                 else
                     Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
             }, { DialogInterface dialog, int whichButton ->
-                if (hanabi.hintPlayerNumber(chosenPlayer, cardIndex))
+                if (hanabi.hintPlayerNumber(chosenPlayer, cardIndex, myIndexOnGmsList()))
                     submitTurnToGoogleApi(hanabi)
                 else
                     Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()

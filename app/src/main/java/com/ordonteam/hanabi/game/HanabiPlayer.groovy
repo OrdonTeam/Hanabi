@@ -16,18 +16,22 @@ class HanabiPlayer extends Version {
         }
     }
 
-    void hintColor(int cardIndex) {
+    CardColor hintColor(int cardIndex) {
+        CardColor color = cardsOnHand.get(cardIndex).color
         cardsOnHand.each { HanabiCard card ->
-            if (card.color == cardsOnHand.get(cardIndex).color)
+            if (card.color == color)
                 card.isColorKnown = true
         }
+        return color
     }
 
-    void hintNumber(int cardIndex) {
+    CardValue hintNumber(int cardIndex) {
+        CardValue value = cardsOnHand.get(cardIndex).value
         cardsOnHand.each { HanabiCard card ->
-            if (card.value == cardsOnHand.get(cardIndex).value)
+            if (card.value == value)
                 card.isValueKnown = true
         }
+        return value
     }
 
     HanabiCard rejectCard(int index, HanabiCard newCard) {

@@ -1,6 +1,7 @@
 package com.ordonteam.hanabi.game
 
 import android.util.Log
+import android.widget.TextView
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.GameInfoView
 import groovy.transform.CompileStatic
@@ -16,6 +17,7 @@ class HanabiGame extends Version {
     Deck deck = new Deck()
     List<HanabiCard> rejectedCards = new ArrayList<>() //TODO: rejectCard()
     List<HanabiPlayer> players = new ArrayList<>()
+    List<String> logs = []
     //TODO: consider add gms id to player, and match players using them
 
     HanabiGame(int playersNumber) {
@@ -57,24 +59,28 @@ class HanabiGame extends Version {
         playedCards.updatePlayedCards(cardsRow)
     }
 
-    boolean hintPlayerColor(int playerIndex, int indexCardNumber) {
+    boolean hintPlayerColor(int playerIndex, int indexCardNumber, int currentPlayer) {
         return tips.useTip {
             HanabiPlayer player = players.get(playerIndex)
-            player.hintColor(indexCardNumber)
+            CardColor color = player.hintColor(indexCardNumber)
+            logs.add("Player $currentPlayer gave tip to player $playerIndex. Color ${color.name()}".toString())
         }
     }
 
-    boolean hintPlayerNumber(int playerIndex, int indexCardNumber) {
+    boolean hintPlayerNumber(int playerIndex, int indexCardNumber, int currentPlayer) {
         return tips.useTip {
             HanabiPlayer player = players.get(playerIndex)
-            player.hintNumber(indexCardNumber)
+            CardValue value = player.hintNumber(indexCardNumber)
+            logs.add("Player $currentPlayer gave tip to player $playerIndex. Value ${value.name()}".toString())
         }
     }
 
     boolean rejectPlayerCard(int playerIndex, int indexCardNumber) {
         HanabiPlayer player = players.get(playerIndex)
-        rejectedCards.add(player.rejectCard(indexCardNumber, drawCard()))
+        HanabiCard rejectedCard = player.rejectCard(indexCardNumber, drawCard())
+        rejectedCards.add(rejectedCard)
         tips.add()
+        logs.add("Player $playerIndex rejected card. ${rejectedCard.value.name()} ${rejectedCard.color.name()}".toString())
         return true
     }
 
@@ -91,6 +97,7 @@ class HanabiGame extends Version {
             rejectedCards.add(playedCard)
             thundersNumber--
         }
+        logs.add("Player $playerIndex played card. ${playedCard.value.name()} ${playedCard.color.name()}".toString())
         return true
     }
 
@@ -100,6 +107,10 @@ class HanabiGame extends Version {
         gameInfoView.setRemainingCardsLeft(deck.size())
         if (!rejectedCards.empty)
             gameInfoView.setTopRejectedCard(rejectedCards.last())
+    }
+
+    void updateLogs(TextView textView) {
+        textView.setText(logs.join('\n'))
     }
 
     boolean isGameFinished() {
