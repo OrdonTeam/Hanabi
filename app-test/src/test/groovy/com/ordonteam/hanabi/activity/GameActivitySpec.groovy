@@ -8,65 +8,65 @@ class GameActivitySpec extends RoboSpecification {
     def "nextPlayerId should return first player when only one player"() {
         given:
         GameActivity activity = new GameActivity()
-        TurnBasedMatch basedMatch = Mock(TurnBasedMatch)
+        activity.match = Mock(TurnBasedMatch)
 
         when:
-            basedMatch.getParticipantIds() >> { ['123'] }
-            basedMatch.getAvailableAutoMatchSlots() >> {0}
+        activity.match.getParticipantIds() >> { ['123'] }
+        activity.match.getAvailableAutoMatchSlots() >> { 0 }
 
         then:
-            activity.nextPlayerId(basedMatch,'123') == '123'
+        activity.nextPlayerId( '123') == '123'
     }
 
     def "nextPlayerId should return second player when there is two players and current turn was player one"() {
         given:
-            GameActivity activity = new GameActivity()
-            TurnBasedMatch basedMatch = Mock(TurnBasedMatch)
+        GameActivity activity = new GameActivity()
+        activity.match = Mock(TurnBasedMatch)
 
         when:
-            basedMatch.getParticipantIds() >> { ['1','2'] }
-            basedMatch.getAvailableAutoMatchSlots() >> {0}
+        activity.match.getParticipantIds() >> { ['1', '2'] }
+        activity.match.getAvailableAutoMatchSlots() >> { 0 }
 
         then:
-            activity.nextPlayerId(basedMatch,'1') == '2'
+        activity.nextPlayerId( '1') == '2'
     }
 
     def "nextPlayerId should return first player when there is two players and current turn was player two"() {
         given:
-            GameActivity activity = new GameActivity()
-            TurnBasedMatch basedMatch = Mock(TurnBasedMatch)
+        GameActivity activity = new GameActivity()
+        activity.match = Mock(TurnBasedMatch)
 
         when:
-            basedMatch.getParticipantIds() >> { ['1','2'] }
-            basedMatch.getAvailableAutoMatchSlots() >> {0}
+        activity.match.getParticipantIds() >> { ['1', '2'] }
+        activity.match.getAvailableAutoMatchSlots() >> { 0 }
 
         then:
-            activity.nextPlayerId(basedMatch,'2') == '1'
+        activity.nextPlayerId( '2') == '1'
     }
 
     def "nextPlayerId should return second player when there is two players and current turn was player one and there are available slots"() {
         given:
         GameActivity activity = new GameActivity()
-        TurnBasedMatch basedMatch = Mock(TurnBasedMatch)
+        activity.match = Mock(TurnBasedMatch)
 
         when:
-        basedMatch.getParticipantIds() >> { ['1','2'] }
-        basedMatch.getAvailableAutoMatchSlots() >> {1}
+        activity.match.getParticipantIds() >> { ['1', '2'] }
+        activity.match.getAvailableAutoMatchSlots() >> { 1 }
 
         then:
-        activity.nextPlayerId(basedMatch,'1') == '2'
+        activity.nextPlayerId( '1') == '2'
     }
 
     def "nextPlayerId should return null when there is two players and current turn was player two and there are available slots"() {
         given:
         GameActivity activity = new GameActivity()
-        TurnBasedMatch basedMatch = Mock(TurnBasedMatch)
+        activity.match = Mock(TurnBasedMatch)
 
         when:
-        basedMatch.getParticipantIds() >> { ['1','2'] }
-        basedMatch.getAvailableAutoMatchSlots() >> {1}
+        activity.match.getParticipantIds() >> { ['1', '2'] }
+        activity.match.getAvailableAutoMatchSlots() >> { 1 }
 
         then:
-        activity.nextPlayerId(basedMatch,'2') == null
+        activity.nextPlayerId('2') == null
     }
 }

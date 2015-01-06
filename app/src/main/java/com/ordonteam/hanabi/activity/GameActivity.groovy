@@ -3,21 +3,19 @@ package com.ordonteam.hanabi.activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
-import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
-import com.ordonteam.hanabi.gms.AbstractGamesActivity
+import com.ordonteam.hanabi.gms.AbstractGamesMatchActivity
 import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.ColorNumberDialog
@@ -29,7 +27,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener, CardsRow.OnCardClickListener {
+class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCardClickListener {
 
     @InjectView(R.id.playerCardRow1)
     CardsRow row1
@@ -63,7 +61,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     private TurnBasedMatchConfig config
     private String invId
-    private TurnBasedMatch match
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +69,6 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         if (!invId) {
             config = GameConfig.configFromIntent(intent)
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -88,56 +84,21 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
 
     void initiateMatchResult(InitiateMatchResult result) {
         match = result.match
-        getLinears().take(getPlayersNumber() - 1).each {
-            it.setVisibility(LinearLayout.VISIBLE)
-        }
+        initGameField()
+        HanabiGame hanabi = match?.data ? HanabiGame.unpersist(match.data) : new HanabiGame(getPlayersNumber())
+        submitTurnToGoogleApi(hanabi)
+    }
 
-        List<CardsRow> rows = getCooperatorCardRows()
+    private void initGameField() {
+        [playerRow1, playerRow2, playerRow3, playerRow4]
+                .take(getPlayersNumber() - 1)
+                .each { it.setVisibility(LinearLayout.VISIBLE) }
+
+        List<CardsRow> rows = [row1, row2, row3, row4]
         for (int i = 0; i < rows.size(); i++) {
             rows[i].setOnCardClickListener(this, (i + myIndexOnGmsList() + 1) % getPlayersNumber())
         }
         row5.setOnCardClickListener(this.&myCardRowClickPerform)
-
-        HanabiGame hanabi = result.match?.data ? HanabiGame.unpersist(result.match.data) : new HanabiGame(getPlayersNumber())
-        submitTurnToGoogleApi(hanabi)
-    }
-
-    private int getPlayersNumber() {
-        match.getParticipantIds().size() + match.availableAutoMatchSlots
-    }
-
-    private int myIndexOnGmsList() {
-        String playerId = Games.Players.getCurrentPlayerId(client);
-        String myParticipantId = match.getParticipantId(playerId);
-        List<String> participantIds = match.getParticipantIds();
-
-        return participantIds.indexOf(participantIds.find {
-            it == myParticipantId
-        })
-    }
-
-    private String nextPlayerId(TurnBasedMatch match) {
-        String playerId = Games.Players.getCurrentPlayerId(client);
-        String myParticipantId = match.getParticipantId(playerId);
-
-        return nextPlayerId(myParticipantId)
-    }
-
-    private String nextPlayerId(String myParticipantId) {
-        int desiredIndex = -1;
-        List<String> participantIds = match.getParticipantIds();
-        participantIds.size().times {
-            if (participantIds.get(it) == myParticipantId) {
-                desiredIndex = it + 1;
-            }
-        }
-        if (desiredIndex < participantIds.size()) {
-            return participantIds.get(desiredIndex);
-        }else if (match.getAvailableAutoMatchSlots() <= 0) {
-            return participantIds.get(0);
-        } else {
-            return null;
-        }
     }
 
     void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
@@ -167,24 +128,10 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
     }
 
     @Override
-    void onTurnBasedMatchRemoved(String s) {
-        Log.e("onTurnBasedMatchRemoved", "onTurnBasedMatchRemoved")
-    }
-
-    @Override
     void onBackPressed() {
-        if (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN) {
-            Games.TurnBasedMultiplayer.leaveMatchDuringTurn(client, match.getMatchId(), nextPlayerId(match))
-        } else {
-            Games.TurnBasedMultiplayer.leaveMatch(client, match.getMatchId())
-            dismissSpinner()
-        }
+        leaveMatch()
+        dismissSpinner()
         super.onBackPressed()
-    }
-
-    private submitTurnToGoogleApi(HanabiGame hanabi) {
-        Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId(match)).setResultCallback(this.&updateMatchResult)
-        showSpinner()
     }
 
     void onCardClicked(int chosenPlayer, int cardIndex) {
@@ -223,16 +170,9 @@ class GameActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpda
         }
     }
 
-    private List<CardsRow> getCooperatorCardRows() {
-        return [row1, row2, row3, row4]
-    }
-
-    private List<LinearLayout> getLinears() {
-        return [playerRow1, playerRow2, playerRow3, playerRow4]
-    }
-
-    private boolean isMyTurn() {
-        return match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN
+    private submitTurnToGoogleApi(HanabiGame hanabi) {
+        Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId()).setResultCallback(this.&updateMatchResult)
+        showSpinner()
     }
 
     public void showSpinner() {

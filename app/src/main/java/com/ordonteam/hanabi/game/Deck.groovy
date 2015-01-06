@@ -21,4 +21,8 @@ class Deck implements Serializable{
         int index = rand.nextInt(cards.size())
         return cards.remove(index)
     }
+
+    int size() {
+        return cards.size()
+    }
 }

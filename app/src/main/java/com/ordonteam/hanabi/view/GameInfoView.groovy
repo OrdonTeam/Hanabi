@@ -17,6 +17,7 @@ class GameInfoView extends LinearLayout {
     ImageView thunderImage
     TextView thundersNumberText
 
+    DeckView deck
     CardView knownCards
 
     GameInfoView(Context context, AttributeSet attrs) {
@@ -29,6 +30,7 @@ class GameInfoView extends LinearLayout {
         thunderImage = new ImageView(context)
         thundersNumberText = new TextView(context, attrs)
 
+        deck = new DeckView(context)
         knownCards = new CardView(context, attrs)
 
         tipsImgage.setImageResource(R.drawable.question)
@@ -42,10 +44,14 @@ class GameInfoView extends LinearLayout {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(context, attrs)
         layoutParams.weight = 1
 
-        [tipsImgage, tipsNumberText, thunderImage, thundersNumberText, knownCards].each {
+        [tipsImgage, tipsNumberText, thunderImage, thundersNumberText, deck, knownCards].each {
             it.setLayoutParams(layoutParams)
             addView(it)
         }
+    }
+
+    void setRemainingCardsLeft(int count){
+        deck.setRemainingCardsLeft(count)
     }
 
     void setTipsNumber(int tipsNumber) {

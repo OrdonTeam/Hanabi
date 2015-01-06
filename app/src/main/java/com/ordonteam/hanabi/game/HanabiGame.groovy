@@ -1,7 +1,6 @@
 package com.ordonteam.hanabi.game
 
 import android.util.Log
-import com.ordonteam.hanabi.view.CardView
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.GameInfoView
 import groovy.transform.CompileStatic
@@ -98,6 +97,7 @@ class HanabiGame implements Serializable {
     void updateGameInfo(GameInfoView gameInfoView) {
         gameInfoView.setTipsNumber(tips.get())
         gameInfoView.setThundersNumber(thundersNumber)
+        gameInfoView.setRemainingCardsLeft(deck.size())
         if (!rejectedCards.empty)
             gameInfoView.setTopRejectedCard(rejectedCards.last())
     }
