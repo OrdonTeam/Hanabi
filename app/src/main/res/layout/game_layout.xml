@@ -123,5 +123,4 @@
     </LinearLayout>
 
     <include layout="@layout/spinner" />
-
 </RelativeLayout>
