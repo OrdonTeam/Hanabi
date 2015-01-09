@@ -10,6 +10,8 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.ordonteam.hanabi.game.CardColor
+import com.ordonteam.hanabi.game.CardValue
 import com.ordonteam.hanabi.game.HanabiCard
 import groovy.transform.CompileStatic
 
@@ -44,15 +46,8 @@ class CardView extends LinearLayout {
         }
     }
 
-    void setColor(int color) {
-        setBackgroundColor(color)
-    }
-
-    void setNumber(String number) {
-        textView.setText(number)
-    }
-
-    void setCard(HanabiCard hanabiCard) {
+    void setPlayerCard(HanabiCard hanabiCard) {
+        setVisibility(VISIBLE)
         setBackgroundColor(hanabiCard.color.color)
         hasWhiteLine = !hanabiCard.isColorKnown
         textView.setText("${hanabiCard.value.value}")
@@ -60,6 +55,7 @@ class CardView extends LinearLayout {
     }
 
     void setUserCard(HanabiCard hanabiCard) {
+        setVisibility(VISIBLE)
         if (hanabiCard.isColorKnown)
             setBackgroundColor(hanabiCard.color.color)
         else
@@ -70,5 +66,11 @@ class CardView extends LinearLayout {
             textView.setText("${hanabiCard.value.value}")
         else
             textView.setText('?')
+    }
+
+    void setCard(CardColor color, CardValue value) {
+        setVisibility(VISIBLE)
+        setBackgroundColor(color.color)
+        textView.setText("${value.value}")
     }
 }

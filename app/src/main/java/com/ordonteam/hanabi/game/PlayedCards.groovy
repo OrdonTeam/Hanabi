@@ -34,8 +34,7 @@ class PlayedCards implements Serializable{
     void updatePlayedCards(CardsRow cardsRow) {
         cards.each {CardColor color, CardValue value ->
             CardView cardView = cardsRow.cardViewList.get(color.placeOnBoard)
-            cardView.setNumber("${value.value}")
-            cardView.setColor(color.color)
+            cardView.setCard(color, value)
         }
     }
 }

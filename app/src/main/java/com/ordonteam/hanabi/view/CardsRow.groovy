@@ -23,9 +23,8 @@ class CardsRow extends LinearLayout {
             CardView tmp = new CardView(context, attrs)
             tmp.setLayoutParams(layoutParams)
             cardViewList.add(tmp)
-        }
-        cardViewList.each {
-            addView(it)
+            tmp.setVisibility(GONE)
+            addView(tmp)
         }
     }
     void setOnCardClickListener(OnCardClickListener listener) {

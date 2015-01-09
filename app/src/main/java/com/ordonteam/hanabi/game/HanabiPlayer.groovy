@@ -1,7 +1,6 @@
 package com.ordonteam.hanabi.game
 
 import com.ordonteam.hanabi.view.CardView
-import com.ordonteam.hanabi.view.CardsRow
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -46,7 +45,7 @@ class HanabiPlayer implements Serializable{
             if (self)
                 row[i].setUserCard(cardsOnHand[i])
             else
-                row[i].setCard(cardsOnHand[i])
+                row[i].setPlayerCard(cardsOnHand[i])
         }
     }
 }

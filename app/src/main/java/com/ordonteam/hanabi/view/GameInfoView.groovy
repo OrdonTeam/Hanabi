@@ -64,8 +64,7 @@ class GameInfoView extends LinearLayout {
 
     void setTopRejectedCard(HanabiCard hanabiCard) {
         if (hanabiCard) {
-            knownCards.setColor(hanabiCard.color.color)
-            knownCards.setNumber("${hanabiCard.value.value}")
+            knownCards.setCard(hanabiCard.color,hanabiCard.value)
         }
     }
 }
