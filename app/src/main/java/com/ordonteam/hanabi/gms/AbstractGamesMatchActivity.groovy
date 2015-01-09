@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import com.google.android.gms.common.api.Result
+import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import groovy.transform.CompileStatic
 
 @CompileStatic
-abstract class AbstractGamesMatchActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener{
+abstract class AbstractGamesMatchActivity extends AbstractGamesActivity
+        implements OnTurnBasedMatchUpdateReceivedListener{
     protected TurnBasedMatch match
 
     @Override
@@ -18,6 +23,30 @@ abstract class AbstractGamesMatchActivity extends AbstractGamesActivity implemen
         super.onCreate(savedInstanceState)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
+    void acceptInvitation(String invitationId) {
+        Games.TurnBasedMultiplayer.acceptInvitation(client, invitationId).setResultCallback(this.&onInitiateMatchResult)
+    }
+
+    void createMatch(TurnBasedMatchConfig config) {
+        Games.TurnBasedMultiplayer.createMatch(client, config).setResultCallback(this.&onInitiateMatchResult)
+    }
+
+    void onInitiateMatchResult(TurnBasedMultiplayer.InitiateMatchResult result) {
+        initMatch(result.match)
+    }
+    void loadMatch(String matchId) {
+        Games.TurnBasedMultiplayer.loadMatch(client,matchId).setResultCallback(this.&onLoadMatchResult)
+    }
+    void onLoadMatchResult(TurnBasedMultiplayer.LoadMatchResult result) {
+        onResult(result,result.match)
+    }
+    void onResult(Result result, TurnBasedMatch match) {
+        if(result.getStatus().success)
+            initMatch(match)
+    }
+
+    abstract void initMatch(TurnBasedMatch match);
 
     protected void leaveMatch() {
         if (isMyTurn()) {

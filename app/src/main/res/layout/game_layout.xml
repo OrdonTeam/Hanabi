@@ -106,8 +106,8 @@
             <TextView
                 android:id="@+id/logs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Starting game..." />
+                android:layout_height="wrap_content"
+                android:text="@string/startingGame" />
         </ScrollView>
 
         <com.ordonteam.hanabi.view.FullRow

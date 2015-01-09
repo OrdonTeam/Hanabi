@@ -27,6 +27,7 @@ import com.ordonteam.hanabi.view.PlayRejectDialog
 import com.ordonteam.hanabi.view.PlayerView
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -65,7 +66,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
         matchId = intent.getStringExtra(Multiplayer.EXTRA_TURN_BASED_MATCH)
-        if(matchId)
+        if (matchId)
             return
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
         if (invId)
@@ -75,36 +76,22 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
 
     @Override
     void onConnected(Bundle connectionHint) {
-        match = connectionHint?.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH) as TurnBasedMatch;
-        if (match != null) {
+        Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
+        TurnBasedMatch match = connectionHint?.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH) as TurnBasedMatch;
+        if (match) {
             onTurnBasedMatchReceived(match);
-            return
-        }
-        if(matchId){
-            Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
-            Games.TurnBasedMultiplayer.loadMatch(client,matchId).setResultCallback(this.&loadMatchResult)
-        }
-        if (invId) {
-            Games.TurnBasedMultiplayer.acceptInvitation(client, invId).setResultCallback(this.&initiateMatchResult)
-            Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
-            return
-        }
-        if (config){
-            Games.TurnBasedMultiplayer.createMatch(client, config).setResultCallback(this.&initiateMatchResult)
-            Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
-            return
+        } else if (matchId) {
+            loadMatch(matchId)
+        } else if (invId) {
+            acceptInvitation(invId)
+        } else if (config) {
+            createMatch(config)
         }
     }
 
-    void loadMatchResult(TurnBasedMultiplayer.LoadMatchResult result) {
-        match = result.match
-        initGameField()
-        HanabiGame hanabi = match?.data ? HanabiGame.unpersist(match.data) : new HanabiGame(getPlayersNumber())
-        submitTurnToGoogleApi(hanabi)
-    }
-
-    void initiateMatchResult(InitiateMatchResult result) {
-        match = result.match
+    @Override
+    void initMatch(TurnBasedMatch match) {
+        this.match = match
         initGameField()
         HanabiGame hanabi = match?.data ? HanabiGame.unpersist(match.data) : new HanabiGame(getPlayersNumber())
         submitTurnToGoogleApi(hanabi)
@@ -146,11 +133,11 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
-        hanabi.updateLogs(logs,match.participants,myIndexOnGmsList())
+        hanabi.updateLogs(logs, match.participants, myIndexOnGmsList())
     }
 
     private void updatePlayersInfo() {
-        List<PlayerView> rows = otherPlayers()*.playerView.take(getPlayersNumber()-1)
+        List<PlayerView> rows = otherPlayers()*.playerView.take(getPlayersNumber() - 1)
         playerRow.playerView.setPlayerInfo(match.participants[myIndexOnGmsList()])
         for (int i = 0; i < rows.size(); i++) {
             rows[i].setPlayerInfo(match.participants[(i + myIndexOnGmsList() + 1) % getPlayersNumber()])

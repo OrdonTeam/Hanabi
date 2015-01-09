@@ -10,5 +10,6 @@
     <string name="play">Play (matched randomly)</string>
     <string name="invite">Invite friends to the game</string>
     <string name="pleaseWait">Wait for other players</string>
+    <string name="startingGame">Starting game...</string>
 
 </resources>
