@@ -14,4 +14,7 @@ class HanabiCard implements Serializable {
     boolean isColorKnown = false
     boolean isValueKnown = false
 
+    static HanabiCard emptyCard() {
+        return new HanabiCard(CardColor.EMPTY,CardValue.EMPTY,true,true)
+    }
 }

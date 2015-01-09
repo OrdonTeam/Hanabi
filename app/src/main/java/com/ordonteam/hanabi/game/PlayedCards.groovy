@@ -12,7 +12,7 @@ class PlayedCards implements Serializable{
     Map<CardColor,CardValue> cards = new HashMap<>()
 
     PlayedCards() {
-        CardColor.values().each {CardColor color ->
+        CardColor.colors().each {CardColor color ->
             cards.put(color, ZERO)
         }
     }
@@ -21,10 +21,6 @@ class PlayedCards implements Serializable{
         if(!isPlayable(hanabiCard))
             throw new RuntimeException("Unplayable card!/nCurrent status: $cards/nPlayed card: $hanabiCard")
         cards.put(hanabiCard.color,hanabiCard.value)
-    }
-
-    int getMaxPlayedColorValue(CardColor cardColor) {
-        return cards[cardColor].value
     }
 
     boolean isPlayable(HanabiCard theCard) {

@@ -9,7 +9,7 @@ class Deck implements Serializable {
     List<HanabiCard> cards = []
 
     Deck() {
-        CardColor.values().each { CardColor color ->
+        CardColor.colors().each { CardColor color ->
             CardValue.values().each { CardValue value ->
                 value.amount().times {
                     cards.add(new HanabiCard(color, value))
@@ -19,9 +19,13 @@ class Deck implements Serializable {
     }
 
     HanabiCard drawCard() {
-        Random rand = new Random()
-        int index = rand.nextInt(cards.size())
-        return cards.remove(index)
+        if(!cards.empty){
+            Random rand = new Random()
+            int index = rand.nextInt(cards.size())
+            return cards.remove(index)
+        } else {
+            return HanabiCard.emptyCard()
+        }
     }
 
     int size() {
