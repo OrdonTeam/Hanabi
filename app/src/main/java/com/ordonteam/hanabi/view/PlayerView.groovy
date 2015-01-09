@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import com.ordonteam.hanabi.R
+import com.ordonteam.hanabi.activity.GameActivity
 
 
 class PlayerView extends LinearLayout {
@@ -24,12 +25,15 @@ class PlayerView extends LinearLayout {
         playerImage.setLayoutParams(layoutParams)
         addView(playerImage)
 
-        nameFirstLetter = new TextView(context)
-        nameFirstLetter.setTextSize(TypedValue.COMPLEX_UNIT_SP,40)
-        nameFirstLetter.setText("P")
+        nameFirstLetter = new BigTextView(context,'?')
         nameFirstLetter.setLayoutParams(layoutParams)
         addView(nameFirstLetter)
 
 
+    }
+
+    void setFirstLetter(String c) {
+        nameFirstLetter.setText(c.toUpperCase())
+        playerImage.setImageResource(R.drawable.av1) // TODO choose random icon based on this letter
     }
 }

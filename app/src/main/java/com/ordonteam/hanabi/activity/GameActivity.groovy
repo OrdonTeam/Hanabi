@@ -23,6 +23,7 @@ import com.ordonteam.hanabi.view.ColorNumberDialog
 import com.ordonteam.hanabi.view.FullRow
 import com.ordonteam.hanabi.view.GameInfoView
 import com.ordonteam.hanabi.view.PlayRejectDialog
+import com.ordonteam.hanabi.view.PlayerView
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
@@ -119,11 +120,23 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         } else {
             showSpinner()
         }
+        updatePlayersInfo()
         HanabiGame hanabi = HanabiGame.unpersist(match.getData())
         hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
         hanabi.updateLogs(logs,match.participants,myIndexOnGmsList())
+    }
+
+    private void updatePlayersInfo() {
+        List<String> firstLetters = match.participants*.displayName.collect{String it ->
+            return it.substring(0,1)
+        }
+        List<PlayerView> rows = otherPlayers()*.playerView.take(getPlayersNumber()-1)
+        playerRow.playerView.setFirstLetter(firstLetters[myIndexOnGmsList()])
+        for (int i = 0; i < rows.size(); i++) {
+            rows[i].setFirstLetter(firstLetters[(i + myIndexOnGmsList() + 1) % getPlayersNumber()])
+        }
     }
 
     @Override
