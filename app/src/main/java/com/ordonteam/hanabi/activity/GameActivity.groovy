@@ -129,13 +129,10 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     }
 
     private void updatePlayersInfo() {
-        List<String> firstLetters = match.participants*.displayName.collect{String it ->
-            return it.substring(0,1)
-        }
         List<PlayerView> rows = otherPlayers()*.playerView.take(getPlayersNumber()-1)
-        playerRow.playerView.setFirstLetter(firstLetters[myIndexOnGmsList()])
+        playerRow.playerView.setFirstLetter(match.participants[myIndexOnGmsList()])
         for (int i = 0; i < rows.size(); i++) {
-            rows[i].setFirstLetter(firstLetters[(i + myIndexOnGmsList() + 1) % getPlayersNumber()])
+            rows[i].setFirstLetter(match.participants[(i + myIndexOnGmsList() + 1) % getPlayersNumber()])
         }
     }
 
