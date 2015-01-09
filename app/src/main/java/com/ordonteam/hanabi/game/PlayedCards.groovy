@@ -2,6 +2,7 @@ package com.ordonteam.hanabi.game
 
 import com.ordonteam.hanabi.view.CardView
 import com.ordonteam.hanabi.view.CardsRow
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 import static com.ordonteam.hanabi.game.CardValue.ZERO
@@ -11,6 +12,7 @@ class PlayedCards implements Serializable{
     static final long serialVersionUID = 42L;
     Map<CardColor,CardValue> cards = new HashMap<>()
 
+    @CompileDynamic
     PlayedCards() {
         CardColor.colors().each {CardColor color ->
             cards.put(color, ZERO)

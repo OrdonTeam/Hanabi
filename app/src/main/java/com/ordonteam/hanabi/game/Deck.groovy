@@ -1,5 +1,6 @@
 package com.ordonteam.hanabi.game
 
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -8,6 +9,7 @@ class Deck implements Serializable {
 
     List<HanabiCard> cards = []
 
+    @CompileDynamic
     Deck() {
         CardColor.colors().each { CardColor color ->
             CardValue.values().each { CardValue value ->

@@ -16,7 +16,7 @@ public enum CardColor implements Serializable{
         this.placeOnBoard = placeOnBoard
     }
 
-    static List<CardColor> colors(){
-        return [RED,YELLOW,BLUE,MAGENTA,GREEN]
+    static ArrayList<CardColor> colors(){
+        return [RED,YELLOW,BLUE,MAGENTA,GREEN] as ArrayList
     }
 }
