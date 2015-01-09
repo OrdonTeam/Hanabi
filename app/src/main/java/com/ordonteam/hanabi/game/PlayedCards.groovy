@@ -24,7 +24,7 @@ class PlayedCards implements Serializable{
     }
 
     boolean isPlayable(HanabiCard theCard) {
-        return cards[theCard.color].value + 1 == theCard.value.value
+        return cards[theCard.color].inNext(theCard.value)
     }
 
     void updatePlayedCards(CardsRow cardsRow) {
