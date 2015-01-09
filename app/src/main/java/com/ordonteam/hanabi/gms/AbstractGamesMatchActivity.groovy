@@ -13,6 +13,12 @@ import groovy.transform.CompileStatic
 abstract class AbstractGamesMatchActivity extends AbstractGamesActivity implements OnTurnBasedMatchUpdateReceivedListener{
     protected TurnBasedMatch match
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
     protected void leaveMatch() {
         if (isMyTurn()) {
             Games.TurnBasedMultiplayer.leaveMatchDuringTurn(client, match.getMatchId(), nextPlayerId())

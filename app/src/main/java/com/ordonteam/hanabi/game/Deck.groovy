@@ -11,7 +11,7 @@ class Deck implements Serializable {
     Deck() {
         CardColor.values().each { CardColor color ->
             CardValue.values().each { CardValue value ->
-                value.getMax().times {
+                value.amount().times {
                     cards.add(new HanabiCard(color, value))
                 }
             }

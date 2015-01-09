@@ -12,4 +12,7 @@ public enum CardValue implements Serializable {
         this.max = max
     }
 
+    int amount() {
+        return max
+    }
 }

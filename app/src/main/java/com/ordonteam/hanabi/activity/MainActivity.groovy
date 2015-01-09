@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -42,6 +43,7 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
         buttonInvite.setEnabled(true)
         Games.Invitations.registerInvitationListener(client, this);
         modeChooser.setVisibility(View.VISIBLE)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @InjectClickListener(R.id.play)
