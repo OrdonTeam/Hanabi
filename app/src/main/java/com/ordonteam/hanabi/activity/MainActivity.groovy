@@ -16,6 +16,7 @@ import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.Invitation
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.OnInvitationReceivedListener
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.R
 import com.ordonteam.inject.InjectActivityResult
@@ -35,15 +36,22 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
     LinearLayout modeChooser
 
     @Override
-    void onConnected(Bundle bundle) {
-        Log.e('MainActivity', 'onConnected')
-        Button buttonPlay = (Button)findViewById(R.id.play)
-        Button buttonInvite = (Button)findViewById(R.id.invite)
-        buttonPlay.setEnabled(true)
-        buttonInvite.setEnabled(true)
-        Games.Invitations.registerInvitationListener(client, this);
-        modeChooser.setVisibility(View.VISIBLE)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    void onConnected(Bundle connectionHint) {
+        TurnBasedMatch match = connectionHint?.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH) as TurnBasedMatch;
+        if (match) {
+            Intent gameActivity = new Intent(this, GameActivity)
+            gameActivity.putExtra(Multiplayer.EXTRA_TURN_BASED_MATCH, match.matchId);
+            startActivity(gameActivity)
+            Log.e('MainActivity', "onConnected ${match?.participants?.get(0)?.displayName}")
+        } else {
+            Button buttonPlay = (Button) findViewById(R.id.play)
+            Button buttonInvite = (Button) findViewById(R.id.invite)
+            buttonPlay.setEnabled(true)
+            buttonInvite.setEnabled(true)
+            Games.Invitations.registerInvitationListener(client, this);
+            modeChooser.setVisibility(View.VISIBLE)
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 
     @InjectClickListener(R.id.play)

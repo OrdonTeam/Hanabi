@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
@@ -58,14 +59,18 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
 
     private TurnBasedMatchConfig config
     private String invId
+    private String matchId
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState)
+        matchId = intent.getStringExtra(Multiplayer.EXTRA_TURN_BASED_MATCH)
+        if(matchId)
+            return
         invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
-        if (!invId) {
-            config = GameConfig.configFromIntent(intent)
-        }
+        if (invId)
+            return
+        config = GameConfig.configFromIntent(intent)
     }
 
     @Override
@@ -73,13 +78,29 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         match = connectionHint?.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH) as TurnBasedMatch;
         if (match != null) {
             onTurnBasedMatchReceived(match);
-        } else if (invId) {
+            return
+        }
+        if(matchId){
+            Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
+            Games.TurnBasedMultiplayer.loadMatch(client,matchId).setResultCallback(this.&loadMatchResult)
+        }
+        if (invId) {
             Games.TurnBasedMultiplayer.acceptInvitation(client, invId).setResultCallback(this.&initiateMatchResult)
             Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
-        } else {
+            return
+        }
+        if (config){
             Games.TurnBasedMultiplayer.createMatch(client, config).setResultCallback(this.&initiateMatchResult)
             Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
+            return
         }
+    }
+
+    void loadMatchResult(TurnBasedMultiplayer.LoadMatchResult result) {
+        match = result.match
+        initGameField()
+        HanabiGame hanabi = match?.data ? HanabiGame.unpersist(match.data) : new HanabiGame(getPlayersNumber())
+        submitTurnToGoogleApi(hanabi)
     }
 
     void initiateMatchResult(InitiateMatchResult result) {

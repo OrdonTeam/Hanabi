@@ -42,7 +42,7 @@ class PlayerView extends LinearLayout {
         String name = participant.getDisplayName()
         nameFirstLetter.setText(name.substring(0,1))
 
-        Uri uri = participant.iconImageUri
+        Uri uri = participant.hiResImageUri
         if(uri){
             if(this.uri != uri){
                 this.uri = uri
