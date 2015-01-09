@@ -36,26 +36,26 @@ class PlayerView extends LinearLayout {
         nameFirstLetter = new BigTextView(context,'?')
         nameFirstLetter.setLayoutParams(layoutParams)
         addView(nameFirstLetter)
-
-
     }
 
-    @CompileDynamic
-    void setFirstLetter(Participant participant) {
+    void setPlayerInfo(Participant participant) {
         String name = participant.getDisplayName()
         nameFirstLetter.setText(name.substring(0,1))
 
-
         Uri uri = participant.iconImageUri
-        Log.e('setFirstLetter',"$uri")
         if(uri){
             if(this.uri != uri){
                 this.uri = uri
                 ImageManager.create(context).loadImage(playerImage,uri)//TODO handle size
             }
         } else{
-            int nr = Math.abs(name.hashCode()) % 6 + 1
-            playerImage.setImageResource(R.drawable."av$nr") // TODO choose random icon based on this letter
+            setLetterBasedOnString(name)
         }
+    }
+
+    @CompileDynamic
+    private void setLetterBasedOnString(String name) {
+        int nr = Math.abs(name.hashCode()) % 6 + 1
+        playerImage.setImageResource(R.drawable."av$nr")
     }
 }
