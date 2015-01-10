@@ -11,6 +11,7 @@ import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
 import com.google.android.gms.games.multiplayer.Multiplayer
+import com.google.android.gms.games.multiplayer.ParticipantResult
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
@@ -121,6 +122,9 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         if (match?.status == TurnBasedMatch.MATCH_STATUS_CANCELED) {
             dismissSpinner()
             super.onBackPressed()
+        }else if(match?.status == TurnBasedMatch.MATCH_STATUS_COMPLETE) {
+            dismissSpinner()
+            Toast.makeText(this,"Match is finished",Toast.LENGTH_LONG).show()
         }
         this.match = match
         if (isMyTurn()) {
@@ -188,8 +192,15 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     }
 
     private submitTurnToGoogleApi(HanabiGame hanabi) {
-        Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId()).setResultCallback(this.&updateMatchResult)
-        showSpinner()
+        if (hanabi.isGameFinished()) {
+            List<ParticipantResult> participantResults = match.getParticipantIds().collect {
+                new ParticipantResult(it, hanabi.score(), 1);
+            }
+            Games.TurnBasedMultiplayer.finishMatch(client, match.matchId, hanabi.persist(), participantResults).setResultCallback(this.&updateMatchResult)
+        } else {
+            Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId()).setResultCallback(this.&updateMatchResult)
+            showSpinner()
+        }
     }
 
     public void showSpinner() {

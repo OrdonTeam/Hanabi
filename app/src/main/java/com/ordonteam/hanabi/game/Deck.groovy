@@ -33,4 +33,8 @@ class Deck implements Serializable {
     int size() {
         return cards.size()
     }
+
+    boolean isEmpty() {
+        return cards.empty
+    }
 }
