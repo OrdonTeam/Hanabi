@@ -114,7 +114,7 @@
             android:id="@+id/playerRow"
             android:layout_width="fill_parent"
             android:layout_height="57dp"
-            android:layout_marginBottom="2sp"
+            android:layout_marginTop="2sp"
             android:orientation="horizontal">
 
             <include layout="@layout/full_row_content" />
