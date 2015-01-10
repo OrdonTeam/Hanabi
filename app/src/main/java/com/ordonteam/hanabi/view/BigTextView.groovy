@@ -2,6 +2,7 @@ package com.ordonteam.hanabi.view
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.Gravity
 import android.widget.TextView
 import groovy.transform.CompileStatic
 
@@ -14,5 +15,6 @@ class BigTextView extends TextView{
     BigTextView(Context context) {
         super(context)
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 40)
+        setGravity(Gravity.CENTER)
     }
 }

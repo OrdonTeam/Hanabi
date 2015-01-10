@@ -13,7 +13,7 @@
         <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow1"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginBottom="2sp"
             android:orientation="horizontal"
             android:visibility="invisible">
@@ -24,7 +24,7 @@
         <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow2"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginBottom="2sp"
             android:orientation="horizontal"
             android:visibility="invisible">
@@ -35,7 +35,7 @@
         <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow3"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginBottom="2sp"
             android:orientation="horizontal"
             android:visibility="invisible">
@@ -46,7 +46,7 @@
         <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow4"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginBottom="2sp"
             android:orientation="horizontal"
             android:visibility="invisible">
@@ -113,7 +113,7 @@
         <com.ordonteam.hanabi.view.FullRow
             android:id="@+id/playerRow"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginBottom="2sp"
             android:orientation="horizontal">
 

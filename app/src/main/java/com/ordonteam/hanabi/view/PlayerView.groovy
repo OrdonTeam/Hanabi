@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -27,6 +28,9 @@ class PlayerView extends LinearLayout {
 
         LayoutParams layoutParams = new LayoutParams(context,attrs)
         layoutParams.weight = 1
+        layoutParams.width = 0
+        layoutParams.height = LayoutParams.MATCH_PARENT
+        layoutParams.gravity = Gravity.CENTER
 
         playerImage = new ImageView(context)
         playerImage.setImageResource(R.drawable.ic_launcher)
@@ -39,6 +43,8 @@ class PlayerView extends LinearLayout {
     }
 
     void setPlayerInfo(Participant participant) {
+        if(!participant)
+            return
         String name = participant.getDisplayName()
         nameFirstLetter.setText(name.substring(0,1))
 
