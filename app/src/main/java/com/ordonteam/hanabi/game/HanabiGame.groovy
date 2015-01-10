@@ -84,7 +84,7 @@ class HanabiGame implements Serializable {
             tips.useTip {
                 HanabiPlayer player = players.get(playerIndex)
                 CardColor color = player.hintColor(indexCardNumber)
-                logs.add("$currentPlayer gave tip to $playerIndex. Color ${color.name()}".toString())
+                logs.add("> $currentPlayer gave tip to $playerIndex. Color ${color.name()}".toString())
             }
         }
     }
@@ -94,7 +94,7 @@ class HanabiGame implements Serializable {
             tips.useTip {
                 HanabiPlayer player = players.get(playerIndex)
                 CardValue value = player.hintNumber(indexCardNumber)
-                logs.add("$currentPlayer gave tip to $playerIndex. Value ${value.name()}".toString())
+                logs.add("> $currentPlayer gave tip to $playerIndex. Value ${value.name()}".toString())
             }
         }
     }
@@ -105,7 +105,7 @@ class HanabiGame implements Serializable {
             HanabiCard rejectedCard = player.rejectCard(indexCardNumber, drawCard())
             rejectedCards.add(rejectedCard)
             tips.add()
-            logs.add("$playerIndex rejected card. ${rejectedCard.value.name()} ${rejectedCard.color.name()}".toString())
+            logs.add("> $playerIndex rejected card. ${rejectedCard.value.name()} ${rejectedCard.color.name()}".toString())
             return true
         }
     }
@@ -124,7 +124,7 @@ class HanabiGame implements Serializable {
                 rejectedCards.add(playedCard)
                 thundersNumber--
             }
-            logs.add("$playerIndex played card. ${playedCard.value.name()} ${playedCard.color.name()}".toString())
+            logs.add("> $playerIndex played card. ${playedCard.value.name()} ${playedCard.color.name()}".toString())
             return true
         }
     }
