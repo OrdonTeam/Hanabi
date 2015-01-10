@@ -32,6 +32,7 @@ class CardView extends LinearLayout {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(4);
+        paint.setAntiAlias(true);
     }
 
     @Override
@@ -40,8 +41,8 @@ class CardView extends LinearLayout {
         if(hasWhiteLine){
             int times = (int)(getWidth()/5)
             (0..5).each {
-                canvas.drawLine(0, it*times, getWidth()-it*times, getHeight(), paint);
-                canvas.drawLine(it*times, 0, getWidth(), getHeight()-it*times, paint);
+                canvas.drawLine(0, it*times, getWidth(), getHeight()+it*times, paint);
+                canvas.drawLine(it*times, 0, getWidth()+it*times, getHeight(), paint);
             }
         }
     }
