@@ -73,5 +73,6 @@ class CardView extends LinearLayout {
         setVisibility(VISIBLE)
         setBackgroundColor(color.color)
         textView.setText("${value.value}")
+        textView.setTextColor(Color.BLACK)
     }
 }
