@@ -115,7 +115,7 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
         Intent intent = TurnBasedMultiplayer.getSelectOpponentsIntent(client, 1, 4, true);
         startActivityForResult(intent, InjectConstants.RC_SELECT_PLAYERS);
     }
-    @InjectClickListener(R.id.about)
+     @InjectClickListener(R.id.about)
     void about(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("OrdonTeam\nhttps://github.com/OrdonTeam\nParticipants:\n" +
