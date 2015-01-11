@@ -1,6 +1,7 @@
 package com.ordonteam.hanabi.activity
 
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
@@ -10,6 +11,7 @@ import android.widget.Toast
 import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
+import com.google.android.gms.games.Player
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.ParticipantResult
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
@@ -127,9 +129,16 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
             Toast.makeText(this,"Match is finished",Toast.LENGTH_LONG).show()
         }
         this.match = match
+        otherPlayers().each {
+            it.setBackgroundColor(Color.TRANSPARENT)
+        }
         if (isMyTurn()) {
             dismissSpinner()
         } else {
+            if(match.getStatus() != TurnBasedMatch.MATCH_STATUS_AUTO_MATCHING){
+                int index = (getPlayersNumber() + currentIndexOnGmsList() - myIndexOnGmsList() - 1)%getPlayersNumber()
+                otherPlayers()[index].setBackgroundColor(Color.rgb(255,100,0))//TODO change to nice color
+            }
             showSpinner()
         }
         updatePlayersInfo()

@@ -101,4 +101,12 @@ abstract class AbstractGamesMatchActivity extends AbstractGamesActivity
     void onTurnBasedMatchRemoved(String s) {
         Log.e("onTurnBasedMatchRemoved", "onTurnBasedMatchRemoved")
     }
+
+    int currentIndexOnGmsList() {
+        String current = match.pendingParticipantId;
+        List<String> participantIds = match.getParticipantIds();
+        return participantIds.indexOf(participantIds.find {
+            it == current
+        })
+    }
 }
