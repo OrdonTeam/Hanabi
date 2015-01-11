@@ -28,6 +28,11 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:text="@string/play" />
+        <Button
+            android:id="@+id/about"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="About creators"/>
     </LinearLayout>
 
 
