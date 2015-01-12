@@ -3,7 +3,6 @@ package com.ordonteam.hanabi.activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -17,6 +16,7 @@ import com.google.android.gms.games.multiplayer.Invitation
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.OnInvitationReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
+import com.ordonteam.hanabi.dialog.LeaderboardsDialog
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.R
 import com.ordonteam.inject.InjectActivityResult
@@ -34,6 +34,14 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
 
     @InjectView(R.id.modeChooser)
     LinearLayout modeChooser
+    @InjectView(R.id.play)
+    Button buttonPlay
+    @InjectView(R.id.invite)
+    Button buttonInvite
+    @InjectView(R.id.achievements)
+    Button buttonAchievements
+    @InjectView(R.id.leaderboard)
+    Button buttonLeaderboard
 
     @Override
     void onConnected(Bundle connectionHint) {
@@ -44,10 +52,10 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
             startActivity(gameActivity)
             Log.e('MainActivity', "onConnected ${match?.participants?.get(0)?.displayName}")
         } else {
-            Button buttonPlay = (Button) findViewById(R.id.play)
-            Button buttonInvite = (Button) findViewById(R.id.invite)
             buttonPlay.setEnabled(true)
             buttonInvite.setEnabled(true)
+            buttonAchievements.setEnabled(true)
+            buttonLeaderboard.setEnabled(true)
             Games.Invitations.registerInvitationListener(client, this);
             modeChooser.setVisibility(View.VISIBLE)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -115,10 +123,23 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
         Intent intent = TurnBasedMultiplayer.getSelectOpponentsIntent(client, 1, 4, true);
         startActivityForResult(intent, InjectConstants.RC_SELECT_PLAYERS);
     }
-     @InjectClickListener(R.id.about)
+
+    @InjectClickListener(R.id.achievements)
+    void achievements(View view){
+        startActivityForResult(Games.Achievements.getAchievementsIntent(client),
+                InjectConstants.REQUEST_ACHIEVEMENTS);
+    }
+
+    @InjectClickListener(R.id.leaderboard)
+    void leaderboard(View view){
+        AlertDialog.Builder alert = new LeaderboardsDialog(this);
+        alert.show();
+    }
+
+    @InjectClickListener(R.id.about)
     void about(View view){
         Intent intent = new Intent(this, AboutActivity)
-         startActivity(intent)
+        startActivity(intent)
     }
 
     @InjectActivityResult(requestCode = InjectConstants.RC_SELECT_PLAYERS, responseCode = InjectConstants.RESULT_OK)
