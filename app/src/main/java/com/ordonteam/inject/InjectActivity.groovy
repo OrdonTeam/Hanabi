@@ -64,8 +64,8 @@ class InjectActivity extends Activity {
     Collection<Method> activityResultsFailed
 
     void injectActivityResult() {
-        this.activityResults = this.class.declaredMethods.findAll(has(InjectActivityResult))
-        this.activityResultsFailed = this.class.declaredMethods.findAll(has(InjectActivityResultFailed))
+        this.activityResults = this.class.methods.findAll(has(InjectActivityResult))
+        this.activityResultsFailed = this.class.methods.findAll(has(InjectActivityResultFailed))
     }
 
     @Override
