@@ -125,7 +125,20 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
             dismissSpinner()
             super.onBackPressed()
         }else if(match?.status == TurnBasedMatch.MATCH_STATUS_COMPLETE) {
+            HanabiGame hanabi = HanabiGame.unpersist(match.getData())
             dismissSpinner()
+            int score = hanabi.score()
+            Games.Achievements.unlock(client, getString(R.string.achievement_first_match));
+            Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_total_points), score);
+            if(score ==25){
+                Games.Achievements.unlock(client, getString(R.string.achievement_first_perfect_firework));
+                Games.Achievements.increment(client, getString(R.string.achievement_3_prefect_fireworks),1);
+                Games.Achievements.increment(client, getString(R.string.achievement_5_perfect_fireworks),1);
+                Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_perfect_fireworks), 1);
+            }
+            if(hanabi.thundersNumber == 0){
+                Games.Achievements.unlock(client, getString(R.string.achievement_bad_move));
+            }
             Toast.makeText(this,"Match is finished",Toast.LENGTH_LONG).show()
         }
         this.match = match
