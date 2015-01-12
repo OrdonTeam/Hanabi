@@ -8,10 +8,6 @@
         android:autoLink="web"
         android:id="@+id/tvAbout"
         />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Close"
-        android:id="@+id/bClose"/>
+
 
 </LinearLayout>
