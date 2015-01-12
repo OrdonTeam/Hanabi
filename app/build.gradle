@@ -20,8 +20,8 @@ android {
         defaultConfig {
             minSdkVersion 11
             targetSdkVersion 20
-            versionCode 1
-            versionName "1.0"
+            versionCode 2
+            versionName "1.0.1"
         }
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
