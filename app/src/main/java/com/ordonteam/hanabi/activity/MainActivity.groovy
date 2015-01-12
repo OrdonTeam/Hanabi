@@ -117,23 +117,8 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
     }
      @InjectClickListener(R.id.about)
     void about(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("OrdonTeam\nhttps://github.com/OrdonTeam\nParticipants:\n" +
-                "ghostbuster91\nhttps://github.com/ghostbuster91\n" +
-                "olabeee\nhttps://github.com/olabeee\n" +
-                "wokatorek\nhttps://github.com/wokatorek\n" +
-                "pared\nhttps://github.com/pared\n" +
-                "daruziek\nhttps://github.com/daruziek");
-        builder.setCancelable(true);
-        builder.setNegativeButton("Close",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
+        Intent intent = new Intent(this, AboutActivity)
+         startActivity(intent)
     }
 
     @InjectActivityResult(requestCode = InjectConstants.RC_SELECT_PLAYERS, responseCode = InjectConstants.RESULT_OK)
