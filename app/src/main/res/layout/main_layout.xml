@@ -44,6 +44,12 @@
             android:text="@string/leaderboard" />
 
         <Button
+            android:id="@+id/howTo"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/howToPlay"/>
+
+        <Button
             android:id="@+id/about"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

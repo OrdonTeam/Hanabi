@@ -28,4 +28,5 @@
     <string name="dialog_leadreboard_text">We have two leaderboards:</string>
     <string name="dialog_leadreboard_total">Total</string>
     <string name="dialog_leadreboard_perfect">Only perfect</string>
+    <string name="howToPlay">How to play</string>
 </resources>

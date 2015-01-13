@@ -136,6 +136,12 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
         alert.show();
     }
 
+    @InjectClickListener(R.id.howTo)
+    void howToPlay(View view){
+        Intent intent = new Intent(this, HowToActivity)
+        startActivity(intent)
+    }
+
     @InjectClickListener(R.id.about)
     void about(View view){
         Intent intent = new Intent(this, AboutActivity)
