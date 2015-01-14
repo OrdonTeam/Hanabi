@@ -42,6 +42,8 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
     Button buttonAchievements
     @InjectView(R.id.leaderboard)
     Button buttonLeaderboard
+    @InjectView(R.id.moreView)
+    LinearLayout moreView
 
     @Override
     void onConnected(Bundle connectionHint) {
@@ -122,6 +124,12 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
     void invite(View view) {
         Intent intent = TurnBasedMultiplayer.getSelectOpponentsIntent(client, 1, 4, true);
         startActivityForResult(intent, InjectConstants.RC_SELECT_PLAYERS);
+    }
+
+    @InjectClickListener(R.id.moreButton)
+    void more(View view){
+        view.setVisibility(LinearLayout.GONE)
+        moreView.setVisibility(LinearLayout.VISIBLE)
     }
 
     @InjectClickListener(R.id.achievements)

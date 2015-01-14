@@ -29,31 +29,49 @@
             android:enabled="false"
             android:text="@string/play" />
 
-        <Button
-            android:id="@+id/achievements"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/achievements" />
 
         <Button
-            android:id="@+id/leaderboard"
+            android:id="@+id/moreButton"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/leaderboard" />
+            android:text="@string/more" />
 
-        <Button
-            android:id="@+id/howTo"
-            android:layout_width="300dp"
+        <LinearLayout
+            android:id="@+id/moreView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/howToPlay"/>
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <Button
-            android:id="@+id/about"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="@string/about"/>
+            <Button
+                android:id="@+id/achievements"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/achievements" />
+
+            <Button
+                android:id="@+id/leaderboard"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/leaderboard" />
+
+            <Button
+                android:id="@+id/howTo"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/howToPlay"/>
+
+            <Button
+                android:id="@+id/about"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="@string/about"/>
+
+            </LinearLayout>
+
+
     </LinearLayout>
 
 
