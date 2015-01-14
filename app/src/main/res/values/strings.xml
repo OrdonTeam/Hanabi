@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_id">883750991049</string>
+    <string name="app_id">641186284810</string>
 
-    <string name="achievement_first_match">CgkIyemnndwZEAIQBA</string>
-    <string name="achievement_first_perfect_firework">CgkIyemnndwZEAIQBQ</string>
-    <string name="achievement_bad_move">CgkIyemnndwZEAIQBg</string>
-    <string name="achievement_3_prefect_fireworks">CgkIyemnndwZEAIQBw</string>
-    <string name="achievement_5_perfect_fireworks">CgkIyemnndwZEAIQCA</string>
+    <string name="achievement_first_match">CgkIioq5zdQSEAIQAg</string>
+    <string name="achievement_first_perfect_firework">CgkIioq5zdQSEAIQAw</string>
+    <string name="achievement_3_prefect_fireworks">CgkIioq5zdQSEAIQBA</string>
+    <string name="achievement_5_perfect_fireworks">CgkIioq5zdQSEAIQBQ</string>
+    <string name="achievement_bad_move">CgkIioq5zdQSEAIQBg</string>
 
-    <string name="leaderboard_total_points">CgkIyemnndwZEAIQAg</string>
-    <string name="leaderboard_perfect_fireworks">CgkIyemnndwZEAIQAw</string>
+    <string name="leaderboard_total_points">CgkIioq5zdQSEAIQBw</string>
+    <string name="leaderboard_perfect_fireworks">CgkIioq5zdQSEAIQCA</string>
 
     <string name="app_name">Hanabi Online</string>
     <string name="loginRequired">Login is required to play.</string>
