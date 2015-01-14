@@ -31,8 +31,6 @@ import static com.google.android.gms.games.Games.TurnBasedMultiplayer
 @InjectContentView(R.layout.main_layout)
 class MainActivity extends AbstractGamesActivity implements OnInvitationReceivedListener {
 
-    @InjectView(R.id.modeChooser)
-    LinearLayout modeChooser
     @InjectView(R.id.play)
     Button buttonPlay
     @InjectView(R.id.invite)
@@ -58,7 +56,6 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
             buttonAchievements.setEnabled(true)
             buttonLeaderboard.setEnabled(true)
             Games.Invitations.registerInvitationListener(client, this);
-            modeChooser.setVisibility(View.VISIBLE)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
