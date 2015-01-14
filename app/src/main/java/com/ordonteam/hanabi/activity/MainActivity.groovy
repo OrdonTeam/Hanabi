@@ -4,18 +4,17 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.Invitation
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.OnInvitationReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
+import com.ordonteam.hanabi.dialog.HowManyDialog
 import com.ordonteam.hanabi.dialog.LeaderboardsDialog
 import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.R
@@ -66,25 +65,9 @@ class MainActivity extends AbstractGamesActivity implements OnInvitationReceived
 
     @InjectClickListener(R.id.play)
     void play(View view) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Random match");
-        alert.setMessage("How many people do you want to play with?");
-
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_PHONE);
-        alert.setView(input);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Integer value = Integer.parseInt(input.getText().toString());
-                playMatchedRandomly(value);
-            }
-        });
-
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {}
-        });
-
-        alert.show();
+        new HowManyDialog(this).setOnHowManyChooseListener({
+            playMatchedRandomly(it);
+        }).show();
     }
 
     @Override

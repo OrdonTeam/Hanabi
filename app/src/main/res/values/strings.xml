@@ -30,4 +30,6 @@
     <string name="dialog_leadreboard_perfect">Only perfect</string>
     <string name="howToPlay">How to play</string>
     <string name="more">More</string>
+    <string name="dialog_how_many_title">Random match</string>
+    <string name="dialog_how_many_message">How many people do you want to play with?</string>
 </resources>
