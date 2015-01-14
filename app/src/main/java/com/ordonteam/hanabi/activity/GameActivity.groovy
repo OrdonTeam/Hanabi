@@ -8,16 +8,13 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
-import com.google.android.gms.games.Player
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.ParticipantResult
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
-import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.gms.AbstractGamesMatchActivity
@@ -30,7 +27,6 @@ import com.ordonteam.hanabi.view.PlayRejectDialog
 import com.ordonteam.hanabi.view.PlayerView
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
-import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -215,13 +211,21 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
 
     private submitTurnToGoogleApi(HanabiGame hanabi) {
         if (hanabi.isGameFinished()) {
-            List<ParticipantResult> participantResults = match.getParticipantIds().collect {
-                new ParticipantResult(it, hanabi.score(), 1);
+            List<ParticipantResult> participantResults = match.getParticipantIds().collect{
+                newParticipantResult(it,hanabi)
             }
             Games.TurnBasedMultiplayer.finishMatch(client, match.matchId, hanabi.persist(), participantResults).setResultCallback(this.&updateMatchResult)
         } else {
             Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId()).setResultCallback(this.&updateMatchResult)
             showSpinner()
+        }
+    }
+
+    private ParticipantResult newParticipantResult(String it, HanabiGame hanabi) {
+        if (hanabi.score() == 25) {
+            return new ParticipantResult(it, ParticipantResult.MATCH_RESULT_WIN, 1);
+        } else {
+            return new ParticipantResult(it, ParticipantResult.MATCH_RESULT_LOSS, 1);
         }
     }
 
