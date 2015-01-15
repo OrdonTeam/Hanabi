@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
+import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.ParticipantResult
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
@@ -125,12 +126,16 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
             dismissSpinner()
             int score = hanabi.score()
             Games.Achievements.unlock(client, getString(R.string.achievement_first_match));
-            Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_total_points), score);
+            Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,getString(R.string.leaderboard_total_points),LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback({
+                Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_total_points), it.getScore().getRawScore()+score);
+            })
             if(score ==25){
                 Games.Achievements.unlock(client, getString(R.string.achievement_first_perfect_firework));
                 Games.Achievements.increment(client, getString(R.string.achievement_3_prefect_fireworks),1);
                 Games.Achievements.increment(client, getString(R.string.achievement_5_perfect_fireworks),1);
-                Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_perfect_fireworks), 1);
+                Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,getString(R.string.leaderboard_perfect_fireworks),LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback({
+                    Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_perfect_fireworks), it.getScore().getRawScore()+1);
+                })
             }
             if(hanabi.thundersNumber == 0){
                 Games.Achievements.unlock(client, getString(R.string.achievement_bad_move));
