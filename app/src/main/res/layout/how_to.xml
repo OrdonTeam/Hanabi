@@ -13,31 +13,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Summary" />
+            android:text="Introduction"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Hanabi is cooperative game were players work together against game. They have to complete 5 fireworks in different colors by playing cards rising in number in each color." />
+            android:text="Hanabi is a cooperative game where players work together against the game itself. They have to complete 5 fireworks in different colors by playing cards increasingly by numbers in each color." />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Cards" />
+            android:text="Cards"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="In deck there is 50 cards. Three one'c, two tow's three's four's and one five in each color." />
+            android:text="There are 50 cards in the deck: three 1s, two 2s, 3s, 4s and one 5 in each color." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="When game starts player don't know his own cards what is represent as question mark on white background. When player receives tips about cards it changes color or value according to given clue." />
+            android:text="When the game starts, a player doesn't know his own cards, which is represented as a question mark on the white background. When the player receives tips about his cards, they change color or value, according to the given hint." />
 
         <include
             android:id="@+id/how_to_row"
@@ -47,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Unlike his own cards, each player knows the cards of other players. To mark cards about owner doesn't know color or value, white strips and gray font were used." />
+            android:text="Each player may not know his own cards, but does see the cards of all the other players. To mark the cards which color or value the owner doesn't know, white stripes and gray font were used." />
 
         <include
             android:id="@+id/how_to_row_2"
@@ -58,37 +60,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Game View" />
+            android:text="Game View"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Game view contains tips, thunders, deck, and rejected cards." />
+            android:text="Game view contains the number of tips and thunders left, deck, and rejected cards." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Tips are necessary to give a clue to other players. Every time clue is given tips count decrease." />
+            android:text="The non-zero tips counter is required to give hints to other players. Every time the hint is given, the tips counter decreases." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Thunders are used when wrong card is played. When third thunder is consumed game ends whit terrible explosion." />
+            android:text="Thunders are used when a wrong card is played. When the third thunder hits, the game ends with a terrible explosion." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Number on top of hidden cards represent number of cards left in deck." />
+            android:text="The number on the deck indicates how many cards are still left." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Rejected cards change every time card is rejected or not matching card is played." />
+            android:text="Rejected cards pile changes each time a card is rejected or a non-matching card is played." />
 
         <com.ordonteam.hanabi.view.GameInfoView
             android:id="@+id/how_to_game"
@@ -102,38 +105,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Moves" />
+            android:text="Taking a turn"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="In every turn player have to take one from the following actions:" />
+            android:text="In each turn player has to take one of the following actions:" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Use tip: If there is at lest one tip, player can use it to tell other about color or value. In this situation all cards in the same color/value are reviled to owner." />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3sp"
-            android:text="Play a card: When player suspect that his card can be played, he/she can click on it and choose play option. Every time five is played players get additional clue." />
+            android:text="1) Give a hint: if there is at lest one tip left, a player can use it to tell one of the other players about a color or value. In this situation all cards in the same color/value are revealed to the owner." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Reject a card: Player can also reject card. It gives new clue, but rejected card can not be used to complete firework." />
+            android:text="2) Play a card: When the player suspects that his card can match the board, he/she can click on it and choose the play option. Each time a five is played, the tips counter increases by one." />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="3) Reject a card: Player can also reject a card. This action increases the tips counter by one." />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="Game end" />
+            android:text="The end of the game"
+            android:textStyle="bold" />
 
 
         <TextView
@@ -146,25 +151,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="All fire works are done. It is great success and every player gets 25 points." />
+            android:text="1) Each of the five piles contains numbers from 1 to 5, in the increasing order. All fireworks are done!" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="When last cards is drawn all players (including drawer) have last move." />
+            android:text="2) The last cards is drawn, all players (including the drawing one) have their last move." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="When all 3 thunders are used." />
+            android:text="3) All 3 thunders are used." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3sp"
-            android:text="When game ends all players gets points equal to number of played cards." />
+            android:text="When the game ends, all players get points equal to the number of cards on the board." />
 
 
     </LinearLayout>
