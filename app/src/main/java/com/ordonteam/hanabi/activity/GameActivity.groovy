@@ -146,7 +146,7 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
         } else {
             if(match.getStatus() != TurnBasedMatch.MATCH_STATUS_AUTO_MATCHING){
                 int index = (getPlayersNumber() + currentIndexOnGmsList() - myIndexOnGmsList() - 1)%getPlayersNumber()
-                otherPlayers()[index].setBackgroundColor(Color.rgb(255,100,0))//TODO change to nice color
+                otherPlayers()[index].setBackgroundColor(Color.rgb(255,150,50))//TODO change to nice color
             }
             showSpinner()
         }

@@ -2,6 +2,7 @@ package com.ordonteam.hanabi.view
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
@@ -38,6 +39,7 @@ class PlayerView extends LinearLayout {
         addView(playerImage)
 
         nameFirstLetter = new BigTextView(context,'?')
+        nameFirstLetter.setTextColor(Color.BLACK)
         nameFirstLetter.setLayoutParams(layoutParams)
         addView(nameFirstLetter)
     }
