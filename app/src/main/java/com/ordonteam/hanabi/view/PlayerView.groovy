@@ -39,7 +39,6 @@ class PlayerView extends LinearLayout {
         addView(playerImage)
 
         nameFirstLetter = new BigTextView(context,'?')
-        nameFirstLetter.setTextColor(Color.BLACK)
         nameFirstLetter.setLayoutParams(layoutParams)
         addView(nameFirstLetter)
     }
@@ -65,5 +64,9 @@ class PlayerView extends LinearLayout {
     private void setLetterBasedOnString(String name) {
         int nr = Math.abs(name.hashCode()) % 6 + 1
         playerImage.setImageResource(R.drawable."av$nr")
+    }
+
+    void setLetterColor(int color) {
+        nameFirstLetter.setTextColor(color)
     }
 }
