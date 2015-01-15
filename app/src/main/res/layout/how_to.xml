@@ -12,22 +12,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="3sp"
             android:text="Summary" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="more summary" />
+            android:layout_margin="3sp"
+            android:text="Hanabi is cooperative game were players work together against game. They have to complete 5 fireworks in different colors by playing cards rising in number in each color." />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="3sp"
             android:text="Cards" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="your cards" />
+            android:layout_margin="3sp"
+            android:text="In deck there is 50 cards. Three one'c, two tow's three's four's and one five in each color." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="When game starts player don't know his own cards what is represent as question mark on white background. When player receives tips about cards it changes color or value according to given clue." />
 
         <include
             android:id="@+id/how_to_row"
@@ -36,7 +46,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="players cards" />
+            android:layout_margin="3sp"
+            android:text="Unlike his own cards, each player knows the cards of other players. To mark cards about owner doesn't know color or value, white strips and gray font were used." />
 
         <include
             android:id="@+id/how_to_row_2"
@@ -46,27 +57,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="3sp"
             android:text="Game View" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="tips" />
+            android:layout_margin="3sp"
+            android:text="Game view contains tips, thunders, deck, and rejected cards." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="thunders" />
+            android:layout_margin="3sp"
+            android:text="Tips are necessary to give a clue to other players. Every time clue is given tips count decrease." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="deck" />
+            android:layout_margin="3sp"
+            android:text="Thunders are used when wrong card is played. When third thunder is consumed game ends whit terrible explosion." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="rejected cards" />
+            android:layout_margin="3sp"
+            android:text="Number on top of hidden cards represent number of cards left in deck." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="Rejected cards change every time card is rejected or not matching card is played." />
 
         <com.ordonteam.hanabi.view.GameInfoView
             android:id="@+id/how_to_game"
@@ -79,59 +101,70 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Move" />
+            android:layout_margin="3sp"
+            android:text="Moves" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="tips" />
+            android:layout_margin="3sp"
+            android:text="In every turn player have to take one from the following actions:" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="play" />
+            android:layout_margin="3sp"
+            android:text="Use tip: If there is at lest one tip, player can use it to tell other about color or value. In this situation all cards in the same color/value are reviled to owner." />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="Play a card: When player suspect that his card can be played, he/she can click on it and choose play option. Every time five is played players get additional clue." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="reject" />
+            android:layout_margin="3sp"
+            android:text="Reject a card: Player can also reject card. It gives new clue, but rejected card can not be used to complete firework." />
+
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Target" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="tips" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
             android:text="Game end" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="full" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cards ends" />
+            android:layout_margin="3sp"
+            android:text="Game ends when one of the following situations occurs:" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="thunders" />
+            android:layout_margin="3sp"
+            android:text="All fire works are done. It is great success and every player gets 25 points." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="points" />
+            android:layout_margin="3sp"
+            android:text="When last cards is drawn all players (including drawer) have last move." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="When all 3 thunders are used." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="When game ends all players gets points equal to number of played cards." />
 
 
     </LinearLayout>
