@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AdditionalAbstractActivity implements CardsRow.OnCardClickListener {
+class GameActivity extends AdditionalAbstractActivity implements CardsRow.ExtendedOnCardClickListener {
 
     @InjectView(R.id.playerRow1)
     FullRow playerRow1
@@ -58,21 +58,23 @@ class GameActivity extends AdditionalAbstractActivity implements CardsRow.OnCard
         otherPlayers().take(numberOfPlayers - 1).each { FullRow it ->
             it.setVisibility(LinearLayout.VISIBLE)
         }
-
-        List<CardsRow> rows = otherPlayers()*.cardsRow
-        for (int i = 0; i < rows.size(); i++) {
-            rows[i].setOnCardClickListener(this, (i + selfIndex + 1) % numberOfPlayers)
-        }
-        playerRow.cardsRow.setOnCardClickListener(this.&myCardRowClickPerform)
     }
 
     @Override
-    void onMatchMyNextTurn(byte[] matchData) {
+    void onMatchMyNextTurn(byte[] matchData, int numberOfPlayers, int selfIndex) {
+        HanabiGame game = HanabiGame.unpersist(matchData)
         updateGameView(matchData)
         otherPlayers().each {
             it.setBackgroundColor(Color.TRANSPARENT)
             it.playerView.setLetterColor(Color.LTGRAY)
         }
+
+        List<CardsRow> rows = otherPlayers()*.cardsRow
+        for (int i = 0; i < rows.size(); i++) {
+            rows[i].setOnCardClickListener(new CardsRow.HanabiOnCardClickListener(game, this)
+                    , (i + selfIndex + 1) % numberOfPlayers)
+        }
+        playerRow.cardsRow.setOnCardClickListener(new CardsRow.HanabiOnCardClickListener(game, this.&myCardRowClickPerform))
         dismissSpinner()
     }
 
@@ -135,48 +137,44 @@ class GameActivity extends AdditionalAbstractActivity implements CardsRow.OnCard
         super.onBackPressed()
     }
 
-    void onCardClicked(int chosenPlayer, int cardIndex) {
+    @Override
+    void onCardClicked(HanabiGame hanabi, int chosenPlayer, int cardIndex) {
         Log.i("tag", "chosenPlayer $chosenPlayer index $cardIndex ")
-        if (isMyTurn()) {
-            HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-            new ColorNumberDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
-                if (hanabi.hintPlayerColor(chosenPlayer, cardIndex, myIndexOnGmsList()))
-                    submitTurnToGoogleApi(hanabi)
-                else
-                    Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
-            }, { DialogInterface dialog, int whichButton ->
-                if (hanabi.hintPlayerNumber(chosenPlayer, cardIndex, myIndexOnGmsList()))
-                    submitTurnToGoogleApi(hanabi)
-                else
-                    Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
-            }).show();
-        } else {
-            Log.i("tag", "no my turn ${match.getTurnStatus()}")
-        }
+        new ColorNumberDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
+            if (hanabi.hintPlayerColor(chosenPlayer, cardIndex, myIndexOnGmsList()))
+                submitTurnToGoogleApi(hanabi)
+            else
+                Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
+        }, { DialogInterface dialog, int whichButton ->
+            if (hanabi.hintPlayerNumber(chosenPlayer, cardIndex, myIndexOnGmsList()))
+                submitTurnToGoogleApi(hanabi)
+            else
+                Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
+        }).show();
     }
 
-    void myCardRowClickPerform(int row, int index) {
+    void myCardRowClickPerform(HanabiGame hanabi, int row, int index) {
         Log.i("tag", "row $row index $index ")
-        if (isMyTurn()) {
-            HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-            new PlayRejectDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
-                hanabi.playPlayerCard(myIndexOnGmsList(), index)
-                submitTurnToGoogleApi(hanabi)
-            }, { DialogInterface dialog, int whichButton ->
-                hanabi.rejectPlayerCard(myIndexOnGmsList(), index)
-                submitTurnToGoogleApi(hanabi)
-            }).show();
-        } else {
-            Log.i("tag", "no my turn ${match.getTurnStatus()}")
-        }
+        new PlayRejectDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
+            hanabi.playPlayerCard(myIndexOnGmsList(), index)
+            submitTurnToGoogleApi(hanabi)
+        }, { DialogInterface dialog, int whichButton ->
+            hanabi.rejectPlayerCard(myIndexOnGmsList(), index)
+            submitTurnToGoogleApi(hanabi)
+        }).show();
     }
 
     private submitTurnToGoogleApi(HanabiGame hanabi) {
+        List<CardsRow> rows = otherPlayers()*.cardsRow
+        for (int i = 0; i < rows.size(); i++) {
+            rows[i].removeOnCardClickListener()
+        }
+        playerRow.cardsRow.removeOnCardClickListener()
         if (hanabi.isGameFinished()) {
             finishMatch(hanabi.persist())
         } else {
             takeTurn(hanabi.persist())
-            Log.e('taking a turn','taking a turn')
+            Log.e('taking a turn', 'taking a turn')
             showSpinner()
         }
     }

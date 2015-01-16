@@ -81,7 +81,7 @@ abstract class AdditionalAbstractActivity extends AbstractGamesMatchActivity {
 
     void onMatchNextTurn(TurnBasedMatch match) {
         if (isMyTurn()) {
-            onMatchMyNextTurn(match.getData())
+            onMatchMyNextTurn(match.getData(),getPlayersNumber(),myIndexOnGmsList())
         } else {
             onMatchOtherNextTurn(match.getData())
         }
@@ -91,7 +91,7 @@ abstract class AdditionalAbstractActivity extends AbstractGamesMatchActivity {
 
     abstract void onMatchStatusComplete(byte[] matchData)
 
-    abstract void onMatchMyNextTurn(byte[] matchData)
+    abstract void onMatchMyNextTurn(byte[] matchData, int numberOfPlayers, int selfIndex)
 
     abstract void onMatchOtherNextTurn(byte[] matchData)
 

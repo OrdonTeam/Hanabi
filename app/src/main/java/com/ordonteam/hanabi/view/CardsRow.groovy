@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import com.ordonteam.hanabi.activity.GameActivity
+import com.ordonteam.hanabi.game.HanabiGame
 
 class CardsRow extends LinearLayout {
     ArrayList<CardView> cardViewList
@@ -41,9 +42,31 @@ class CardsRow extends LinearLayout {
         }
     }
 
+    void removeOnCardClickListener() {
+        onCardClickListener = null;
+    }
+
     interface OnCardClickListener {
         void onCardClicked(int row, int index)
     }
 
+    interface ExtendedOnCardClickListener {
+        void onCardClicked(HanabiGame hanabiGame, int row, int index)
+    }
 
+    static class HanabiOnCardClickListener implements OnCardClickListener{
+
+        private HanabiGame game
+        private ExtendedOnCardClickListener listener
+
+        HanabiOnCardClickListener(HanabiGame game, ExtendedOnCardClickListener listener) {
+            this.game = game
+            this.listener = listener
+        }
+
+        @Override
+        void onCardClicked(int row, int index) {
+            listener.onCardClicked(game,row,index)
+        }
+    }
 }
