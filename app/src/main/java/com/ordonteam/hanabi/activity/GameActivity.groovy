@@ -1,28 +1,21 @@
 package com.ordonteam.hanabi.activity
 
-import android.content.DialogInterface
 import android.graphics.Color
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
-import com.ordonteam.hanabi.view.CardsRow
-import com.ordonteam.hanabi.view.ColorNumberDialog
-import com.ordonteam.hanabi.view.FullRow
-import com.ordonteam.hanabi.view.GameInfoView
-import com.ordonteam.hanabi.view.PlayRejectDialog
-import com.ordonteam.hanabi.view.PlayerView
+import com.ordonteam.hanabi.view.*
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AdditionalAbstractActivity implements CardsRow.ExtendedOnCardClickListener {
+class GameActivity extends AdditionalAbstractActivity {
 
     @InjectView(R.id.playerRow1)
     FullRow playerRow1
@@ -32,19 +25,14 @@ class GameActivity extends AdditionalAbstractActivity implements CardsRow.Extend
     FullRow playerRow3
     @InjectView(R.id.playerRow4)
     FullRow playerRow4
-
     @InjectView(R.id.playedCardsView)
     CardsRow playedCardsView
-
     @InjectView(R.id.gameInfo)
     GameInfoView gameInfoView
-
     @InjectView(R.id.logs)
     TextView logs
-
     @InjectView(R.id.playerRow)
     FullRow playerRow
-
     @InjectView(R.id.spinner)
     RelativeLayout spinner
 
@@ -71,10 +59,9 @@ class GameActivity extends AdditionalAbstractActivity implements CardsRow.Extend
 
         List<CardsRow> rows = otherPlayers()*.cardsRow
         for (int i = 0; i < rows.size(); i++) {
-            rows[i].setOnCardClickListener(new CardsRow.HanabiOnCardClickListener(game, this)
-                    , (i + selfIndex + 1) % numberOfPlayers)
+            rows[i].setOnCardClickListener(new CardsRowListener(game, this), (i + selfIndex + 1) % numberOfPlayers)
         }
-        playerRow.cardsRow.setOnCardClickListener(new CardsRow.HanabiOnCardClickListener(game, this.&myCardRowClickPerform))
+        playerRow.cardsRow.setOnCardClickListener(new PlayerCardsRowListener(game, this))
         dismissSpinner()
     }
 
@@ -137,34 +124,7 @@ class GameActivity extends AdditionalAbstractActivity implements CardsRow.Extend
         super.onBackPressed()
     }
 
-    @Override
-    void onCardClicked(HanabiGame hanabi, int chosenPlayer, int cardIndex) {
-        Log.i("tag", "chosenPlayer $chosenPlayer index $cardIndex ")
-        new ColorNumberDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
-            if (hanabi.hintPlayerColor(chosenPlayer, cardIndex, myIndexOnGmsList()))
-                submitTurnToGoogleApi(hanabi)
-            else
-                Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
-        }, { DialogInterface dialog, int whichButton ->
-            if (hanabi.hintPlayerNumber(chosenPlayer, cardIndex, myIndexOnGmsList()))
-                submitTurnToGoogleApi(hanabi)
-            else
-                Toast.makeText(this, 'No tips left to make move', Toast.LENGTH_LONG).show()
-        }).show();
-    }
-
-    void myCardRowClickPerform(HanabiGame hanabi, int row, int index) {
-        Log.i("tag", "row $row index $index ")
-        new PlayRejectDialog(this).setButtonsAction({ DialogInterface dialog, int whichButton ->
-            hanabi.playPlayerCard(myIndexOnGmsList(), index)
-            submitTurnToGoogleApi(hanabi)
-        }, { DialogInterface dialog, int whichButton ->
-            hanabi.rejectPlayerCard(myIndexOnGmsList(), index)
-            submitTurnToGoogleApi(hanabi)
-        }).show();
-    }
-
-    private submitTurnToGoogleApi(HanabiGame hanabi) {
+    public submitTurnToGoogleApi(HanabiGame hanabi) { //Extract Interface
         List<CardsRow> rows = otherPlayers()*.cardsRow
         for (int i = 0; i < rows.size(); i++) {
             rows[i].removeOnCardClickListener()
