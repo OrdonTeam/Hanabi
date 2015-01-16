@@ -2,24 +2,14 @@ package com.ordonteam.hanabi.activity
 
 import android.content.DialogInterface
 import android.graphics.Color
-import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.games.Games
-import com.google.android.gms.games.GamesStatusCodes
-import com.google.android.gms.games.leaderboard.LeaderboardVariant
-import com.google.android.gms.games.multiplayer.Multiplayer
-import com.google.android.gms.games.multiplayer.ParticipantResult
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
-import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
-import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
-import com.ordonteam.hanabi.gms.AbstractGamesMatchActivity
-import com.ordonteam.hanabi.gms.GameConfig
 import com.ordonteam.hanabi.view.CardsRow
 import com.ordonteam.hanabi.view.ColorNumberDialog
 import com.ordonteam.hanabi.view.FullRow
@@ -32,7 +22,7 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCardClickListener {
+class GameActivity extends AdditionalAbstractActivity implements CardsRow.OnCardClickListener {
 
     @InjectView(R.id.playerRow1)
     FullRow playerRow1
@@ -58,119 +48,84 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
     @InjectView(R.id.spinner)
     RelativeLayout spinner
 
-    private TurnBasedMatchConfig config
-    private String invId
-    private String matchId
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState)
-        matchId = intent.getStringExtra(Multiplayer.EXTRA_TURN_BASED_MATCH)
-        if (matchId)
-            return
-        invId = intent.getStringExtra(Multiplayer.EXTRA_INVITATION)
-        if (invId)
-            return
-        config = GameConfig.configFromIntent(intent)
+    byte[] newGameFor(int numberOfPlayers) {
+        return new HanabiGame(numberOfPlayers).persist()
     }
 
     @Override
-    void onConnected(Bundle connectionHint) {
-        Games.TurnBasedMultiplayer.registerMatchUpdateListener(client, this)
-        TurnBasedMatch match = connectionHint?.getParcelable(Multiplayer.EXTRA_TURN_BASED_MATCH) as TurnBasedMatch;
-        if (match) {
-            onTurnBasedMatchReceived(match);
-        } else if (matchId) {
-            loadMatch(matchId)
-        } else if (invId) {
-            acceptInvitation(invId)
-        } else if (config) {
-            createMatch(config)
+    void initGameField(int numberOfPlayers, int selfIndex) {
+        otherPlayers().take(numberOfPlayers - 1).each { FullRow it ->
+            it.setVisibility(LinearLayout.VISIBLE)
         }
-    }
-
-    @Override
-    void initMatch(TurnBasedMatch match) {
-        this.match = match
-        initGameField()
-        HanabiGame hanabi = match?.data ? HanabiGame.unpersist(match.data) : new HanabiGame(getPlayersNumber())
-        submitTurnToGoogleApi(hanabi)
-    }
-
-    private void initGameField() {
-        otherPlayers().take(getPlayersNumber() - 1)
-                .each { it.setVisibility(LinearLayout.VISIBLE) }
 
         List<CardsRow> rows = otherPlayers()*.cardsRow
         for (int i = 0; i < rows.size(); i++) {
-            rows[i].setOnCardClickListener(this, (i + myIndexOnGmsList() + 1) % getPlayersNumber())
+            rows[i].setOnCardClickListener(this, (i + selfIndex + 1) % numberOfPlayers)
         }
         playerRow.cardsRow.setOnCardClickListener(this.&myCardRowClickPerform)
     }
 
-    void updateMatchResult(TurnBasedMultiplayer.UpdateMatchResult result) {
-        if (result.getStatus().getStatusCode() == GamesStatusCodes.STATUS_OK) {
-            onTurnBasedMatchReceived(result.match)
-        } else {
-            Log.w("updateMatchResult", 'status code is not ok')
-        }
-    }
-
     @Override
-    void onTurnBasedMatchReceived(TurnBasedMatch match) {
-        if (match?.status == TurnBasedMatch.MATCH_STATUS_CANCELED) {
-            dismissSpinner()
-            super.onBackPressed()
-        }else if(match?.status == TurnBasedMatch.MATCH_STATUS_COMPLETE) {
-            HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-            dismissSpinner()
-            int score = hanabi.score()
-            Games.Achievements.unlock(client, getString(R.string.achievement_first_match));
-            Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,getString(R.string.leaderboard_total_points),LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback({
-                Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_total_points), it.getScore().getRawScore()+score);
-            })
-            if(score ==25){
-                Games.Achievements.unlock(client, getString(R.string.achievement_first_perfect_firework));
-                Games.Achievements.increment(client, getString(R.string.achievement_3_prefect_fireworks),1);
-                Games.Achievements.increment(client, getString(R.string.achievement_5_perfect_fireworks),1);
-                Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client,getString(R.string.leaderboard_perfect_fireworks),LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback({
-                    Games.Leaderboards.submitScore(client, getString(R.string.leaderboard_perfect_fireworks), it.getScore().getRawScore()+1);
-                })
-            }
-            if(hanabi.thundersNumber == 0){
-                Games.Achievements.unlock(client, getString(R.string.achievement_bad_move));
-            }
-            Toast.makeText(this,"Match is finished",Toast.LENGTH_LONG).show()
-        }
-        this.match = match
+    void onMatchMyNextTurn(byte[] matchData) {
+        updateGameView(matchData)
         otherPlayers().each {
             it.setBackgroundColor(Color.TRANSPARENT)
             it.playerView.setLetterColor(Color.LTGRAY)
         }
-        if (isMyTurn()) {
-            dismissSpinner()
-        } else {
-            if(match.getStatus() != TurnBasedMatch.MATCH_STATUS_AUTO_MATCHING){
-                int index = (getPlayersNumber() + currentIndexOnGmsList() - myIndexOnGmsList() - 1)%getPlayersNumber()
-                otherPlayers()[index].setBackgroundColor(Color.rgb(255,150,50))
-                otherPlayers()[index].playerView.setLetterColor(Color.BLACK)
-            }
-            showSpinner()
-        }
-        updatePlayersInfo()
-        HanabiGame hanabi = HanabiGame.unpersist(match.getData())
-        hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
-        hanabi.updatePlayedCards(playedCardsView)
-        hanabi.updateGameInfo(gameInfoView)
-        hanabi.updateLogs(logs, match.participants, myIndexOnGmsList())
+        dismissSpinner()
     }
 
-    private void updatePlayersInfo() {
+    @Override
+    void onMatchOtherNextTurn(byte[] matchData) {
+        updateGameView(matchData)
+        otherPlayers().each {
+            it.setBackgroundColor(Color.TRANSPARENT)
+            it.playerView.setLetterColor(Color.LTGRAY)
+        }
+        int index = (getPlayersNumber() + currentIndexOnGmsList() - myIndexOnGmsList() - 1) % getPlayersNumber()
+        otherPlayers()[index].setBackgroundColor(Color.rgb(255, 150, 50))
+        otherPlayers()[index].playerView.setLetterColor(Color.BLACK)
+        showSpinner()
+    }
+
+    @Override
+    void onMatchStatusComplete(byte[] matchData) {
+        HanabiGame hanabi = HanabiGame.unpersist(matchData)
+        dismissSpinner()
+        int score = hanabi.score()
+
+        unlock(R.string.achievement_first_match);
+        increaseScore(R.string.leaderboard_total_points, score)
+        if (score == 25) {
+            unlock(R.string.achievement_first_perfect_firework);
+            increment(R.string.achievement_3_prefect_fireworks);
+            increment(R.string.achievement_5_perfect_fireworks);
+            increaseScore(R.string.leaderboard_perfect_fireworks, 1)
+        }
+        if (hanabi.thundersNumber == 0) {
+            unlock(R.string.achievement_bad_move);
+        }
+        Toast.makeText(this, "Match is finished", Toast.LENGTH_LONG).show()
+    }
+
+    @Override
+    void onMatchStatusCanceled(byte[] data) {
+        dismissSpinner()
+        super.onBackPressed()
+    }
+
+    private void updateGameView(byte[] matchData) {
         List<PlayerView> rows = otherPlayers()*.playerView.take(getPlayersNumber() - 1)
         playerRow.playerView.setPlayerInfo(match.participants[myIndexOnGmsList()])
         for (int i = 0; i < rows.size(); i++) {
             rows[i].setPlayerInfo(match.participants[(i + myIndexOnGmsList() + 1) % getPlayersNumber()])
         }
+        HanabiGame hanabi = HanabiGame.unpersist(matchData)
+        hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
+        hanabi.updatePlayedCards(playedCardsView)
+        hanabi.updateGameInfo(gameInfoView)
+        hanabi.updateLogs(logs, match.participants, myIndexOnGmsList())
     }
 
     @Override
@@ -218,21 +173,11 @@ class GameActivity extends AbstractGamesMatchActivity implements CardsRow.OnCard
 
     private submitTurnToGoogleApi(HanabiGame hanabi) {
         if (hanabi.isGameFinished()) {
-            List<ParticipantResult> participantResults = match.getParticipantIds().collect{
-                newParticipantResult(it,hanabi)
-            }
-            Games.TurnBasedMultiplayer.finishMatch(client, match.matchId, hanabi.persist(), participantResults).setResultCallback(this.&updateMatchResult)
+            finishMatch(hanabi.persist())
         } else {
-            Games.TurnBasedMultiplayer.takeTurn(client, match.matchId, hanabi.persist(), nextPlayerId()).setResultCallback(this.&updateMatchResult)
+            takeTurn(hanabi.persist())
+            Log.e('taking a turn','taking a turn')
             showSpinner()
-        }
-    }
-
-    private ParticipantResult newParticipantResult(String it, HanabiGame hanabi) {
-        if (hanabi.score() == 25) {
-            return new ParticipantResult(it, ParticipantResult.MATCH_RESULT_WIN, 1);
-        } else {
-            return new ParticipantResult(it, ParticipantResult.MATCH_RESULT_LOSS, 1);
         }
     }
 

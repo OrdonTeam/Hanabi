@@ -105,8 +105,10 @@ abstract class AbstractGamesMatchActivity extends AbstractGamesActivity
     int currentIndexOnGmsList() {
         String current = match.pendingParticipantId;
         List<String> participantIds = match.getParticipantIds();
-        return participantIds.indexOf(participantIds.find {
+
+        int toReturn = participantIds.indexOf(participantIds.find {
             it == current
         })
+        return toReturn != -1 ? toReturn : match.getParticipantIds().size()
     }
 }
