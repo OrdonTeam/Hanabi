@@ -1,11 +1,10 @@
 package com.ordonteam.hanabi.activity
 
-import android.graphics.Color
 import android.util.Log
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.games.multiplayer.Participant
 import com.ordonteam.hanabi.R
 import com.ordonteam.hanabi.game.HanabiGame
 import com.ordonteam.hanabi.view.*
@@ -17,6 +16,8 @@ import groovy.transform.CompileStatic
 @InjectContentView(R.layout.game_layout)
 class GameActivity extends AdditionalAbstractActivity {
 
+    @InjectView(R.id.otherPlayersView)
+    OtherPlayersView otherPlayersView
     @InjectView(R.id.playerRow1)
     FullRow playerRow1
     @InjectView(R.id.playerRow2)
@@ -43,38 +44,24 @@ class GameActivity extends AdditionalAbstractActivity {
 
     @Override
     void initGameField(int numberOfPlayers, int selfIndex) {
-        otherPlayers().take(numberOfPlayers - 1).each { FullRow it ->
-            it.setVisibility(LinearLayout.VISIBLE)
-        }
+        otherPlayersView.show(numberOfPlayers - 1)
     }
 
     @Override
     void onMatchMyNextTurn(byte[] matchData, int numberOfPlayers, int selfIndex) {
         HanabiGame game = HanabiGame.unpersist(matchData)
-        updateGameView(matchData)
-        otherPlayers().each {
-            it.setBackgroundColor(Color.TRANSPARENT)
-            it.playerView.setLetterColor(Color.LTGRAY)
-        }
-
-        List<CardsRow> rows = otherPlayers()*.cardsRow
-        for (int i = 0; i < rows.size(); i++) {
-            rows[i].setOnCardClickListener(new CardsRowListener(game, this), (i + selfIndex + 1) % numberOfPlayers)
-        }
+        updateGameView(game, numberOfPlayers, selfIndex, match.participants)
+        otherPlayersView.removeActive()
+        otherPlayersView.setOnCardClickListener(new CardsRowListener(game, this), selfIndex, numberOfPlayers)
         playerRow.cardsRow.setOnCardClickListener(new PlayerCardsRowListener(game, this))
         dismissSpinner()
     }
 
     @Override
-    void onMatchOtherNextTurn(byte[] matchData) {
-        updateGameView(matchData)
-        otherPlayers().each {
-            it.setBackgroundColor(Color.TRANSPARENT)
-            it.playerView.setLetterColor(Color.LTGRAY)
-        }
-        int index = (getPlayersNumber() + currentIndexOnGmsList() - myIndexOnGmsList() - 1) % getPlayersNumber()
-        otherPlayers()[index].setBackgroundColor(Color.rgb(255, 150, 50))
-        otherPlayers()[index].playerView.setLetterColor(Color.BLACK)
+    void onMatchOtherNextTurn(byte[] matchData, int numberOfPlayers, int selfIndex, int current) {
+        updateGameView(HanabiGame.unpersist(matchData), numberOfPlayers, selfIndex, match.participants)
+        otherPlayersView.removeActive()
+        otherPlayersView.setActive((numberOfPlayers + current - selfIndex - 1) % numberOfPlayers)
         showSpinner()
     }
 
@@ -93,7 +80,7 @@ class GameActivity extends AdditionalAbstractActivity {
             increaseScore(R.string.leaderboard_perfect_fireworks, 1)
         }
         if (hanabi.thundersNumber == 0) {
-            unlock(R.string.achievement_bad_move);
+            unlock(R.string.achievement_wrong_move);
         }
         Toast.makeText(this, "Match is finished", Toast.LENGTH_LONG).show()
     }
@@ -104,17 +91,13 @@ class GameActivity extends AdditionalAbstractActivity {
         super.onBackPressed()
     }
 
-    private void updateGameView(byte[] matchData) {
-        List<PlayerView> rows = otherPlayers()*.playerView.take(getPlayersNumber() - 1)
-        playerRow.playerView.setPlayerInfo(match.participants[myIndexOnGmsList()])
-        for (int i = 0; i < rows.size(); i++) {
-            rows[i].setPlayerInfo(match.participants[(i + myIndexOnGmsList() + 1) % getPlayersNumber()])
-        }
-        HanabiGame hanabi = HanabiGame.unpersist(matchData)
-        hanabi.updateCards(allCardsRows(), myIndexOnGmsList())
+    private void updateGameView(HanabiGame hanabi, int numberOfPlayers, int selfIndex, ArrayList<Participant> participants) {
+        otherPlayersView.setPlayersInfo(numberOfPlayers,selfIndex,participants)
+        playerRow.playerView.setPlayerInfo(participants[selfIndex])
+        hanabi.updateCards(allCardsRows(), selfIndex)
         hanabi.updatePlayedCards(playedCardsView)
         hanabi.updateGameInfo(gameInfoView)
-        hanabi.updateLogs(logs, match.participants, myIndexOnGmsList())
+        hanabi.updateLogs(logs, participants, selfIndex)
     }
 
     @Override
@@ -125,10 +108,7 @@ class GameActivity extends AdditionalAbstractActivity {
     }
 
     public submitTurnToGoogleApi(HanabiGame hanabi) { //Extract Interface
-        List<CardsRow> rows = otherPlayers()*.cardsRow
-        for (int i = 0; i < rows.size(); i++) {
-            rows[i].removeOnCardClickListener()
-        }
+        otherPlayersView.removeOnCardClickListeners()
         playerRow.cardsRow.removeOnCardClickListener()
         if (hanabi.isGameFinished()) {
             finishMatch(hanabi.persist())
@@ -147,12 +127,8 @@ class GameActivity extends AdditionalAbstractActivity {
         spinner.setVisibility(RelativeLayout.GONE)
     }
 
-    private List<FullRow> otherPlayers() {
-        return [playerRow1, playerRow2, playerRow3, playerRow4]
-    }
-
     private List<CardsRow> allCardsRows() {
-        return [playerRow.cardsRow] + otherPlayers()*.cardsRow
+        return [playerRow.cardsRow] + [playerRow1, playerRow2, playerRow3, playerRow4]*.cardsRow
     }
 
 }

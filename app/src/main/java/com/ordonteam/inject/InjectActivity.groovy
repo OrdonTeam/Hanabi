@@ -53,7 +53,17 @@ class InjectActivity extends Activity {
         }
     }
 
-    Closure<Closure<Boolean>> has = { Class aClass ->
+    @CompileDynamic
+    static void injectFieldsIn(View obj) {
+        Collection<Field> fields = obj.class.declaredFields.findAll(has(InjectView))
+        fields.each { Field field ->
+            InjectView view = field.getAnnotation(InjectView)
+            Log.e("${field.name}","has been injected")
+            (obj."${field.name}" = obj.findViewById(view.value()))
+        }
+    }
+
+    static Closure<Closure<Boolean>> has = { Class aClass ->
         return { AnnotatedElement element ->
             element.getAnnotation(aClass) ? true : false
         }

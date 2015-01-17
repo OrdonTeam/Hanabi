@@ -7,7 +7,7 @@
     <string name="achievement_first_perfect_firework">CgkIioq5zdQSEAIQAw</string>
     <string name="achievement_3_prefect_fireworks">CgkIioq5zdQSEAIQBA</string>
     <string name="achievement_5_perfect_fireworks">CgkIioq5zdQSEAIQBQ</string>
-    <string name="achievement_bad_move">CgkIioq5zdQSEAIQBg</string>
+    <string name="achievement_wrong_move">CgkIioq5zdQSEAIQBg</string>
 
     <string name="leaderboard_total_points">CgkIioq5zdQSEAIQBw</string>
     <string name="leaderboard_perfect_fireworks">CgkIioq5zdQSEAIQCA</string>

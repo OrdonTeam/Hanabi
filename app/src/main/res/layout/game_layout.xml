@@ -10,49 +10,56 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <com.ordonteam.hanabi.view.FullRow
-            android:id="@+id/playerRow1"
+        <com.ordonteam.hanabi.view.OtherPlayersView
+            android:id="@+id/otherPlayersView"
             android:layout_width="fill_parent"
-            android:layout_height="57dp"
-            android:layout_marginBottom="2sp"
-            android:orientation="horizontal"
-            android:visibility="invisible">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <include layout="@layout/full_row_content" />
-        </com.ordonteam.hanabi.view.FullRow>
+            <com.ordonteam.hanabi.view.FullRow
+                android:id="@+id/playerRow1"
+                android:layout_width="fill_parent"
+                android:layout_height="57dp"
+                android:layout_marginBottom="2sp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
-        <com.ordonteam.hanabi.view.FullRow
-            android:id="@+id/playerRow2"
-            android:layout_width="fill_parent"
-            android:layout_height="57dp"
-            android:layout_marginBottom="2sp"
-            android:orientation="horizontal"
-            android:visibility="invisible">
+                <include layout="@layout/full_row_content" />
+            </com.ordonteam.hanabi.view.FullRow>
 
-            <include layout="@layout/full_row_content" />
-        </com.ordonteam.hanabi.view.FullRow>
+            <com.ordonteam.hanabi.view.FullRow
+                android:id="@+id/playerRow2"
+                android:layout_width="fill_parent"
+                android:layout_height="57dp"
+                android:layout_marginBottom="2sp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
-        <com.ordonteam.hanabi.view.FullRow
-            android:id="@+id/playerRow3"
-            android:layout_width="fill_parent"
-            android:layout_height="57dp"
-            android:layout_marginBottom="2sp"
-            android:orientation="horizontal"
-            android:visibility="invisible">
+                <include layout="@layout/full_row_content" />
+            </com.ordonteam.hanabi.view.FullRow>
 
-            <include layout="@layout/full_row_content" />
-        </com.ordonteam.hanabi.view.FullRow>
+            <com.ordonteam.hanabi.view.FullRow
+                android:id="@+id/playerRow3"
+                android:layout_width="fill_parent"
+                android:layout_height="57dp"
+                android:layout_marginBottom="2sp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
-        <com.ordonteam.hanabi.view.FullRow
-            android:id="@+id/playerRow4"
-            android:layout_width="fill_parent"
-            android:layout_height="57dp"
-            android:layout_marginBottom="2sp"
-            android:orientation="horizontal"
-            android:visibility="invisible">
+                <include layout="@layout/full_row_content" />
+            </com.ordonteam.hanabi.view.FullRow>
 
-            <include layout="@layout/full_row_content" />
-        </com.ordonteam.hanabi.view.FullRow>
+            <com.ordonteam.hanabi.view.FullRow
+                android:id="@+id/playerRow4"
+                android:layout_width="fill_parent"
+                android:layout_height="57dp"
+                android:layout_marginBottom="2sp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <include layout="@layout/full_row_content" />
+            </com.ordonteam.hanabi.view.FullRow>
+        </com.ordonteam.hanabi.view.OtherPlayersView>
 
         <LinearLayout
             android:id="@+id/gameInfoRow"
