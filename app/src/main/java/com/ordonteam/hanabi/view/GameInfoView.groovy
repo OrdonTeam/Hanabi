@@ -3,6 +3,7 @@ package com.ordonteam.hanabi.view
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -66,5 +67,9 @@ class GameInfoView extends LinearLayout {
         if (hanabiCard) {
             knownCards.setCard(hanabiCard.color,hanabiCard.value)
         }
+    }
+
+    void setRejectedCardsOnClickListener(View.OnClickListener listener){
+        knownCards.setOnClickListener(listener)
     }
 }

@@ -21,10 +21,10 @@ class PlayerCardsRowListener implements CardsRow.OnCardClickListener{
         Log.i("tag", "row ${row} index ${index} ")
         new PlayRejectDialog(gameActivity).setButtonsAction({ DialogInterface dialog, int whichButton ->
             hanabiGame.playPlayerCard(gameActivity.myIndexOnGmsList(), index)
-            gameActivity.submitTurnToGoogleApi(hanabiGame)
+            gameActivity.submitTurn(hanabiGame)
         }, { DialogInterface dialog, int whichButton ->
             hanabiGame.rejectPlayerCard(gameActivity.myIndexOnGmsList(), index)
-            gameActivity.submitTurnToGoogleApi(hanabiGame)
+            gameActivity.submitTurn(hanabiGame)
         }).show()
     }
 }
