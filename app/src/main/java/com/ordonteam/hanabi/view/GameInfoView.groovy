@@ -8,7 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.ordonteam.hanabi.R
-import com.ordonteam.hanabi.game.HanabiCard
+import com.ordonteam.hanabi.model.HanabiCard
+import com.ordonteam.hanabi.view.common.CardView
 
 class GameInfoView extends LinearLayout {
 

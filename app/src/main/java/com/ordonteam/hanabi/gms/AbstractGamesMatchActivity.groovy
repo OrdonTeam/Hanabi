@@ -2,10 +2,8 @@ package com.ordonteam.hanabi.gms
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
 import android.view.WindowManager
 import com.google.android.gms.common.api.Result
-import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch

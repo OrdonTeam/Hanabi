@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi.game
+package com.ordonteam.hanabi.model
 
 public enum CardValue implements Serializable {
     ZERO('0',0){

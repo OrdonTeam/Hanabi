@@ -6,16 +6,22 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.games.multiplayer.Participant
 import com.ordonteam.hanabi.R
-import com.ordonteam.hanabi.dialog.RejectedCardsDialog
+import com.ordonteam.hanabi.game.CardsRowListener
 import com.ordonteam.hanabi.game.HanabiGame
-import com.ordonteam.hanabi.view.*
+import com.ordonteam.hanabi.game.PlayerCardsRowListener
+import com.ordonteam.hanabi.game.TurnSubmitter
+import com.ordonteam.hanabi.view.GameInfoView
+import com.ordonteam.hanabi.view.OtherPlayersView
+import com.ordonteam.hanabi.view.dialog.RejectedCardsDialog
+import com.ordonteam.hanabi.view.row.CardsRow
+import com.ordonteam.hanabi.view.row.FullRow
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.game_layout)
-class GameActivity extends AdditionalAbstractActivity implements TurnSubmitter<HanabiGame>{
+class GameActivity extends AdditionalAbstractActivity implements TurnSubmitter<HanabiGame> {
 
     @InjectView(R.id.otherPlayersView)
     OtherPlayersView otherPlayersView

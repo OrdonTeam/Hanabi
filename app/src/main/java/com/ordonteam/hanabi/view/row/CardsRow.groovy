@@ -1,11 +1,9 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.view.row
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import android.widget.LinearLayout.LayoutParams
-import com.ordonteam.hanabi.activity.GameActivity
-import com.ordonteam.hanabi.game.HanabiGame
+import com.ordonteam.hanabi.view.common.CardView
 
 class CardsRow extends LinearLayout {
     ArrayList<CardView> cardViewList
@@ -16,7 +14,7 @@ class CardsRow extends LinearLayout {
         super(context, attrs)
         setOrientation(this.HORIZONTAL)
         cardViewList = new ArrayList<>()
-        LayoutParams layoutParams = new LayoutParams(context, attrs)
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(context, attrs)
         layoutParams.weight = 1
 
                

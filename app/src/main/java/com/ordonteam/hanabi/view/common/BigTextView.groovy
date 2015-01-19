@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.view.common
 
 import android.content.Context
 import android.util.AttributeSet

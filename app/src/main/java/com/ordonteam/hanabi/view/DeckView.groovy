@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.ordonteam.hanabi.R
+import com.ordonteam.hanabi.view.common.BigTextView
 import groovy.transform.CompileStatic
 
 @CompileStatic

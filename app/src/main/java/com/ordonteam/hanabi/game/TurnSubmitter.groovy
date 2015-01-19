@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.game
 
 import android.content.Context
 

@@ -1,9 +1,9 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.view.row
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.LinearLayout;
+import android.widget.LinearLayout
 
 class FullRow extends LinearLayout {
     FullRow(Context context) {

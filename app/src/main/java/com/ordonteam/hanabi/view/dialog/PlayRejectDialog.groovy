@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.view.dialog
 
 import android.app.AlertDialog
 import android.content.Context

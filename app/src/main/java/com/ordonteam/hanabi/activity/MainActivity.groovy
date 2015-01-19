@@ -14,13 +14,13 @@ import com.google.android.gms.games.multiplayer.Invitation
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.OnInvitationReceivedListener
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
-import com.ordonteam.hanabi.dialog.HowManyDialog
-import com.ordonteam.hanabi.dialog.LeaderboardsDialog
-import com.ordonteam.hanabi.gms.AbstractGamesActivity
 import com.ordonteam.hanabi.R
+import com.ordonteam.hanabi.gms.AbstractGamesActivity
+import com.ordonteam.hanabi.inject.InjectConstants
+import com.ordonteam.hanabi.view.dialog.HowManyDialog
+import com.ordonteam.hanabi.view.dialog.LeaderboardsDialog
 import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectClickListener
-import com.ordonteam.hanabi.inject.InjectConstants
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic

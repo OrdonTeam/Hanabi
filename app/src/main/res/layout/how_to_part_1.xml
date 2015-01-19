@@ -5,28 +5,28 @@
     android:weightSum="6"
     android:orientation="horizontal">
 
-    <com.ordonteam.hanabi.view.CardView
+    <com.ordonteam.hanabi.view.common.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"
         android:layout_weight="1"
         android:gravity="center" />
 
-    <com.ordonteam.hanabi.view.CardView
+    <com.ordonteam.hanabi.view.common.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"
         android:layout_weight="1"
         android:gravity="center" />
 
-    <com.ordonteam.hanabi.view.CardView
+    <com.ordonteam.hanabi.view.common.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"
         android:layout_weight="1"
         android:gravity="center" />
 
-    <com.ordonteam.hanabi.view.CardView
+    <com.ordonteam.hanabi.view.common.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"

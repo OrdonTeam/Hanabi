@@ -1,4 +1,4 @@
-package com.ordonteam.hanabi.game
+package com.ordonteam.hanabi.model
 
 import android.graphics.Color
 import groovy.transform.CompileStatic

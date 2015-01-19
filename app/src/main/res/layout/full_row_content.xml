@@ -4,13 +4,13 @@
     tools:showIn="@layout/game_layout">
 
 
-    <com.ordonteam.hanabi.view.PlayerView
+    <com.ordonteam.hanabi.view.row.PlayerView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"
         android:layout_weight="2" />
 
-    <com.ordonteam.hanabi.view.CardsRow
+    <com.ordonteam.hanabi.view.row.CardsRow
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"

@@ -1,21 +1,16 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.view.row
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Color
 import android.net.Uri
 import android.util.AttributeSet
-import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.multiplayer.Participant
 import com.ordonteam.hanabi.R
-import com.ordonteam.hanabi.activity.GameActivity
+import com.ordonteam.hanabi.view.common.BigTextView
 import groovy.transform.CompileDynamic
 
 
@@ -27,10 +22,10 @@ class PlayerView extends LinearLayout {
     PlayerView(Context context, AttributeSet attrs) {
         super(context, attrs)
 
-        LayoutParams layoutParams = new LayoutParams(context,attrs)
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(context,attrs)
         layoutParams.weight = 1
         layoutParams.width = 0
-        layoutParams.height = LayoutParams.MATCH_PARENT
+        layoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT
         layoutParams.gravity = Gravity.CENTER
 
         playerImage = new ImageView(context)

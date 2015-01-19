@@ -1,6 +1,9 @@
 package com.ordonteam.hanabi.game
 
-import com.ordonteam.hanabi.view.CardView
+import com.ordonteam.hanabi.model.CardColor
+import com.ordonteam.hanabi.model.CardValue
+import com.ordonteam.hanabi.model.HanabiCard
+import com.ordonteam.hanabi.view.common.CardView
 import groovy.transform.CompileStatic
 
 @CompileStatic

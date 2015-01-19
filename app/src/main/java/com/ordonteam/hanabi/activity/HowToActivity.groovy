@@ -3,11 +3,11 @@ package com.ordonteam.hanabi.activity
 import android.os.Bundle
 import android.widget.LinearLayout
 import com.ordonteam.hanabi.R
-import com.ordonteam.hanabi.game.CardColor
-import com.ordonteam.hanabi.game.CardValue
-import com.ordonteam.hanabi.game.HanabiCard
-import com.ordonteam.hanabi.view.CardView
+import com.ordonteam.hanabi.model.CardColor
+import com.ordonteam.hanabi.model.CardValue
+import com.ordonteam.hanabi.model.HanabiCard
 import com.ordonteam.hanabi.view.GameInfoView
+import com.ordonteam.hanabi.view.common.CardView
 import com.ordonteam.inject.InjectActivity
 import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView

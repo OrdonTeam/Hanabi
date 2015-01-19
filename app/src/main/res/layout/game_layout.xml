@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.ordonteam.hanabi.view.FullRow
+            <com.ordonteam.hanabi.view.row.FullRow
                 android:id="@+id/playerRow1"
                 android:layout_width="fill_parent"
                 android:layout_height="57dp"
@@ -25,9 +25,9 @@
                 android:visibility="invisible">
 
                 <include layout="@layout/full_row_content" />
-            </com.ordonteam.hanabi.view.FullRow>
+            </com.ordonteam.hanabi.view.row.FullRow>
 
-            <com.ordonteam.hanabi.view.FullRow
+            <com.ordonteam.hanabi.view.row.FullRow
                 android:id="@+id/playerRow2"
                 android:layout_width="fill_parent"
                 android:layout_height="57dp"
@@ -36,9 +36,9 @@
                 android:visibility="invisible">
 
                 <include layout="@layout/full_row_content" />
-            </com.ordonteam.hanabi.view.FullRow>
+            </com.ordonteam.hanabi.view.row.FullRow>
 
-            <com.ordonteam.hanabi.view.FullRow
+            <com.ordonteam.hanabi.view.row.FullRow
                 android:id="@+id/playerRow3"
                 android:layout_width="fill_parent"
                 android:layout_height="57dp"
@@ -47,9 +47,9 @@
                 android:visibility="invisible">
 
                 <include layout="@layout/full_row_content" />
-            </com.ordonteam.hanabi.view.FullRow>
+            </com.ordonteam.hanabi.view.row.FullRow>
 
-            <com.ordonteam.hanabi.view.FullRow
+            <com.ordonteam.hanabi.view.row.FullRow
                 android:id="@+id/playerRow4"
                 android:layout_width="fill_parent"
                 android:layout_height="57dp"
@@ -58,7 +58,7 @@
                 android:visibility="invisible">
 
                 <include layout="@layout/full_row_content" />
-            </com.ordonteam.hanabi.view.FullRow>
+            </com.ordonteam.hanabi.view.row.FullRow>
         </com.ordonteam.hanabi.view.OtherPlayersView>
 
         <LinearLayout
@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <com.ordonteam.hanabi.view.CardsRow
+            <com.ordonteam.hanabi.view.row.CardsRow
                 android:id="@+id/playedCardsView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
 
                 android:gravity="center">
 
-            </com.ordonteam.hanabi.view.CardsRow>
+            </com.ordonteam.hanabi.view.row.CardsRow>
 
             <View
                 android:layout_width="0dp"
@@ -117,7 +117,7 @@
                 android:text="@string/startingGame" />
         </ScrollView>
 
-        <com.ordonteam.hanabi.view.FullRow
+        <com.ordonteam.hanabi.view.row.FullRow
             android:id="@+id/playerRow"
             android:layout_width="fill_parent"
             android:layout_height="57dp"
@@ -125,7 +125,7 @@
             android:orientation="horizontal">
 
             <include layout="@layout/full_row_content" />
-        </com.ordonteam.hanabi.view.FullRow>
+        </com.ordonteam.hanabi.view.row.FullRow>
 
     </LinearLayout>
 

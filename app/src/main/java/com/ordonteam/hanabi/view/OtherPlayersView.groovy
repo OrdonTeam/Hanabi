@@ -6,6 +6,9 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.google.android.gms.games.multiplayer.Participant
 import com.ordonteam.hanabi.R
+import com.ordonteam.hanabi.view.row.CardsRow
+import com.ordonteam.hanabi.view.row.FullRow
+import com.ordonteam.hanabi.view.row.PlayerView
 import com.ordonteam.inject.InjectActivity
 import com.ordonteam.inject.InjectView
 import groovy.transform.CompileStatic
@@ -45,7 +48,7 @@ class OtherPlayersView extends LinearLayout {
         }
     }
 
-    void setOnCardClickListener(CardsRowListener listener, int selfIndex, int numberOfPlayers) {
+    void setOnCardClickListener(CardsRow.OnCardClickListener listener, int selfIndex, int numberOfPlayers) {
         List<CardsRow> rows = otherPlayers()*.cardsRow
         for (int i = 0; i < rows.size(); i++) {
             rows[i].setOnCardClickListener(listener, (i + selfIndex + 1) % numberOfPlayers)

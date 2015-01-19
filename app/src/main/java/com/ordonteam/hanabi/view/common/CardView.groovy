@@ -1,21 +1,16 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.view.common
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.Gravity
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
-import com.ordonteam.hanabi.game.CardColor
-import com.ordonteam.hanabi.game.CardValue
-import com.ordonteam.hanabi.game.HanabiCard
+import com.ordonteam.hanabi.model.CardColor
+import com.ordonteam.hanabi.model.CardValue
+import com.ordonteam.hanabi.model.HanabiCard
 import groovy.transform.CompileStatic
-
-import java.util.jar.Attributes
 
 @CompileStatic
 class CardView extends LinearLayout {

@@ -8,11 +8,11 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.games.Games
 import com.google.android.gms.plus.Plus
+import com.ordonteam.hanabi.R
+import com.ordonteam.hanabi.inject.InjectConstants
 import com.ordonteam.inject.InjectActivity
 import com.ordonteam.inject.InjectActivityResult
 import com.ordonteam.inject.InjectActivityResultFailed
-import com.ordonteam.hanabi.inject.InjectConstants
-import com.ordonteam.hanabi.R
 import groovy.transform.CompileStatic
 
 @CompileStatic

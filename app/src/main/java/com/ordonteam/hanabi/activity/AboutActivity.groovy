@@ -3,14 +3,13 @@ package com.ordonteam.hanabi.activity
 import android.os.Bundle
 import android.text.util.Linkify
 import android.widget.ImageView
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.ordonteam.hanabi.R;
-import com.ordonteam.inject.InjectActivity;
-import com.ordonteam.inject.InjectContentView;
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.ordonteam.hanabi.R
+import com.ordonteam.inject.InjectActivity
+import com.ordonteam.inject.InjectContentView
 import com.ordonteam.inject.InjectView
-import groovy.transform.CompileStatic;
+import groovy.transform.CompileStatic
 
 @CompileStatic
 @InjectContentView(R.layout.about)

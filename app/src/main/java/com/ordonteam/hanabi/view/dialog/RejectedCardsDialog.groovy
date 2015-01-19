@@ -1,16 +1,13 @@
-package com.ordonteam.hanabi.dialog;
+package com.ordonteam.hanabi.view.dialog
 
-import android.app.Activity;
+import android.app.Activity
 import android.app.AlertDialog
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-
+import android.view.LayoutInflater
+import android.view.View
 import com.ordonteam.hanabi.R
-import com.ordonteam.hanabi.game.CardColor;
-import com.ordonteam.hanabi.game.HanabiCard
-import com.ordonteam.hanabi.view.BigTextView
-import com.ordonteam.hanabi.view.CardView
+import com.ordonteam.hanabi.model.CardColor
+import com.ordonteam.hanabi.model.HanabiCard
+import com.ordonteam.hanabi.view.common.BigTextView
 import groovy.transform.CompileStatic
 
 @CompileStatic

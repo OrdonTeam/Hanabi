@@ -12,7 +12,7 @@
         android:baselineAligned="false"
         android:orientation="vertical">
 
-        <com.ordonteam.hanabi.view.BigTextView
+        <com.ordonteam.hanabi.view.common.BigTextView
             android:id="@+id/dialog_rejected_cards_red"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             android:background="@color/red"
             android:textColor="@color/black" />
 
-        <com.ordonteam.hanabi.view.BigTextView
+        <com.ordonteam.hanabi.view.common.BigTextView
             android:id="@+id/dialog_rejected_cards_yellow"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:background="@color/yellow"
             android:textColor="@color/black" />
 
-        <com.ordonteam.hanabi.view.BigTextView
+        <com.ordonteam.hanabi.view.common.BigTextView
             android:id="@+id/dialog_rejected_cards_blue"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:background="@color/blue"
             android:textColor="@color/black" />
 
-        <com.ordonteam.hanabi.view.BigTextView
+        <com.ordonteam.hanabi.view.common.BigTextView
             android:id="@+id/dialog_rejected_cards_magenta"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             android:background="@color/magenta"
             android:textColor="@color/black" />
 
-        <com.ordonteam.hanabi.view.BigTextView
+        <com.ordonteam.hanabi.view.common.BigTextView
             android:id="@+id/dialog_rejected_cards_green"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

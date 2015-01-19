@@ -1,11 +1,11 @@
-package com.ordonteam.hanabi.view
+package com.ordonteam.hanabi.game
 
-import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
 import android.widget.Toast
 import com.ordonteam.hanabi.activity.GameActivity
-import com.ordonteam.hanabi.game.HanabiGame
+import com.ordonteam.hanabi.view.dialog.ColorNumberDialog
+import com.ordonteam.hanabi.view.row.CardsRow
 import groovy.transform.CompileStatic
 
 @CompileStatic

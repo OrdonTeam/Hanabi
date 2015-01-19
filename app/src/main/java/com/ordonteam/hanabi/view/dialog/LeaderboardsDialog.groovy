@@ -1,6 +1,5 @@
-package com.ordonteam.hanabi.dialog
+package com.ordonteam.hanabi.view.dialog
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import com.google.android.gms.games.Games
