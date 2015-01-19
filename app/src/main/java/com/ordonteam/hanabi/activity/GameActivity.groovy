@@ -70,19 +70,7 @@ class GameActivity extends AdditionalAbstractActivity implements TurnSubmitter<H
     void onMatchStatusComplete(byte[] matchData) {
         HanabiGame hanabi = HanabiGame.unpersist(matchData)
         dismissSpinner()
-        int score = hanabi.score()
-
-        unlock(R.string.achievement_first_match);
-        increaseScore(R.string.leaderboard_total_points, score)
-        if (score == 25) {
-            unlock(R.string.achievement_first_perfect_firework);
-            increment(R.string.achievement_3_prefect_fireworks);
-            increment(R.string.achievement_5_perfect_fireworks);
-            increaseScore(R.string.leaderboard_perfect_fireworks, 1)
-        }
-        if (hanabi.thundersNumber == 0) {
-            unlock(R.string.achievement_wrong_move);
-        }
+        new AchievementsAndLeaderboards(this).update(hanabi)
         Toast.makeText(this, "Match is finished", Toast.LENGTH_LONG).show()
     }
 
