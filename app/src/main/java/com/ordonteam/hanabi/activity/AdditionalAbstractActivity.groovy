@@ -1,6 +1,10 @@
 package com.ordonteam.hanabi.activity
 
+import android.app.Notification
+import android.app.NotificationManager
 import android.os.Bundle
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
 import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
@@ -77,6 +81,7 @@ abstract class AdditionalAbstractActivity extends AbstractGamesMatchActivity {
         if (match?.status == TurnBasedMatch.MATCH_STATUS_CANCELED) {
             onMatchStatusCanceled(match.data)
         } else if (match?.status == TurnBasedMatch.MATCH_STATUS_COMPLETE) {
+            onMatchNextTurn(match)
             onMatchStatusComplete(match.getData())
         } else {
             onMatchNextTurn(match)
@@ -85,6 +90,12 @@ abstract class AdditionalAbstractActivity extends AbstractGamesMatchActivity {
 
     void onMatchNextTurn(TurnBasedMatch match) {
         if (isMyTurn()) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+            Notification notification = builder.build()
+            notification.defaults |= Notification.DEFAULT_SOUND
+            notification.defaults |= Notification.DEFAULT_VIBRATE
+            NotificationManagerCompat notificationManager =   NotificationManagerCompat.from(this);
+            notificationManager.notify(1, notification);
             onMatchMyNextTurn(match.getData(), getPlayersNumber(), myIndexOnGmsList())
         } else {
             onMatchOtherNextTurn(match.getData(), getPlayersNumber(), myIndexOnGmsList(), currentIndexOnGmsList())
