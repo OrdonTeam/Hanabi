@@ -31,7 +31,10 @@ abstract class AbstractGamesMatchActivity extends AbstractGamesActivity
     }
 
     void onInitiateMatchResult(TurnBasedMultiplayer.InitiateMatchResult result) {
-        initMatch(result.match)
+        if(result.getStatus().success)
+            initMatch(result.match)
+        else
+            throw new RuntimeException("${result.getStatus().statusMessage}")
     }
     void loadMatch(String matchId) {
         Games.TurnBasedMultiplayer.loadMatch(client,matchId).setResultCallback(this.&onLoadMatchResult)
@@ -42,6 +45,8 @@ abstract class AbstractGamesMatchActivity extends AbstractGamesActivity
     void onResult(Result result, TurnBasedMatch match) {
         if(result.getStatus().success)
             initMatch(match)
+        else
+            throw new RuntimeException("${result.getStatus().statusMessage}")
     }
 
     abstract void initMatch(TurnBasedMatch match);

@@ -2,9 +2,12 @@ package com.ordonteam.hanabi.activity
 
 import android.os.Bundle
 import android.util.Log
+import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.GamesStatusCodes
+import com.google.android.gms.games.leaderboard.LeaderboardScore
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
+import com.google.android.gms.games.leaderboard.Leaderboards
 import com.google.android.gms.games.multiplayer.Multiplayer
 import com.google.android.gms.games.multiplayer.ParticipantResult
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch
@@ -12,6 +15,7 @@ import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer
 import com.ordonteam.hanabi.gms.AbstractGamesMatchActivity
 import com.ordonteam.hanabi.gms.GameConfig
+import groovy.transform.Canonical
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -100,9 +104,8 @@ abstract class AdditionalAbstractActivity extends AbstractGamesMatchActivity {
     }
 
     void increaseScore(int id, int score) {
-        Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client, getString(id), LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback({
-            Games.Leaderboards.submitScore(client, getString(id), it.getScore().getRawScore() + score);
-        })
+        Games.Leaderboards.loadCurrentPlayerLeaderboardScore(client, getString(id), LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                .setResultCallback(new IncreaseScoreCallback(id,score))
     }
 
     void increment(int id) {
@@ -120,4 +123,22 @@ abstract class AdditionalAbstractActivity extends AbstractGamesMatchActivity {
         Games.TurnBasedMultiplayer.finishMatch(client, match.matchId, matchData, participantResults).setResultCallback(this.&updateMatchResult)
     }
 
+    class IncreaseScoreCallback implements ResultCallback<Leaderboards.LoadPlayerScoreResult>{
+        final int id
+        final int score
+
+        IncreaseScoreCallback(int id, int score) {
+            this.id = id
+            this.score = score
+        }
+
+        @Override
+        void onResult(Leaderboards.LoadPlayerScoreResult result) {
+            LeaderboardScore currentScore = result?.getScore()
+            if (currentScore)
+                Games.Leaderboards.submitScore(client, getString(id), currentScore.getRawScore() + score);
+            else
+                Games.Leaderboards.submitScore(client, getString(id), score);
+        }
+    }
 }
