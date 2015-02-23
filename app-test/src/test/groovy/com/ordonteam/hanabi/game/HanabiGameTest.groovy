@@ -1,12 +1,13 @@
 package com.ordonteam.hanabi.game
 
+import com.ordonteam.hanabi.model.HanabiCard
 import spock.lang.Ignore
 import spock.lang.Specification
 
-import static com.ordonteam.hanabi.game.CardColor.RED
-import static com.ordonteam.hanabi.game.CardValue.FIVE
-import static com.ordonteam.hanabi.game.CardValue.ONE
-import static com.ordonteam.hanabi.game.CardValue.TWO
+import static com.ordonteam.hanabi.model.CardColor.RED
+import static com.ordonteam.hanabi.model.CardValue.FIVE
+import static com.ordonteam.hanabi.model.CardValue.ONE
+import static com.ordonteam.hanabi.model.CardValue.TWO
 
 class HanabiGameTest extends Specification {
 
@@ -140,7 +141,7 @@ class HanabiGameTest extends Specification {
         !hanabiGame.rejectedCards.empty
     }
 
-    @Ignore
+//    @Ignore
     def "Test rejectPlayerCard should ask player to change card from deck"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
