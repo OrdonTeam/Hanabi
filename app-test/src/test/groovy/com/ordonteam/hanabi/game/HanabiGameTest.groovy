@@ -141,7 +141,7 @@ class HanabiGameTest extends Specification {
         !hanabiGame.rejectedCards.empty
     }
 
-//    @Ignore
+    @Ignore
     def "Test rejectPlayerCard should ask player to change card from deck"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)

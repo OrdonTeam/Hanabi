@@ -9,6 +9,6 @@ class MainActivitySpec extends RoboSpecification {
         MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().get()
 
         expect:
-        activity.modeChooser != null
+        activity.buttonPlay != null
     }
 }
