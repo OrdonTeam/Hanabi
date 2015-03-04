@@ -1,5 +1,7 @@
 package com.ordonteam.hanabi.game
 
+import com.ordonteam.hanabi.model.CardColor
+import com.ordonteam.hanabi.model.CardValue
 import com.ordonteam.hanabi.model.HanabiCard
 import spock.lang.Ignore
 import spock.lang.Specification
@@ -43,7 +45,6 @@ class HanabiGameTest extends Specification {
         }
     }
 
-    @Ignore
     def "Test hintPlayerColor should show proper color"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
@@ -51,12 +52,11 @@ class HanabiGameTest extends Specification {
         hanabiGame.players[0] = mock
 
         when:
-        mock.hintColor(0) >> CardColor.BLUE
         boolean success = hanabiGame.hintPlayerColor(0, 0, 0)
 
         then:
         success
-        1 * mock.hintColor(0)
+        1 * mock.hintColor(0) >> CardColor.BLUE
     }
 
     def "Test hintPlayerColor should do nothig when not enough tips"() {
@@ -73,7 +73,6 @@ class HanabiGameTest extends Specification {
         0 * hanabiGame.players[0].hintColor(0)
     }
 
-    @Ignore
     def "Test hintPlayerNumber should show proper number"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
@@ -81,12 +80,11 @@ class HanabiGameTest extends Specification {
         hanabiGame.players[0] = mock
 
         when:
-        mock.hintNumber(0) >> CardColor.BLUE
         boolean success = hanabiGame.hintPlayerNumber(0, 0, 0)
 
         then:
         success
-        1 * mock.hintNumber(0)
+        1 * mock.hintNumber(0) >> CardValue.FIVE
     }
 
     def "Test hintPlayerNumber should do nothig when not enough tips"() {
@@ -141,7 +139,6 @@ class HanabiGameTest extends Specification {
         !hanabiGame.rejectedCards.empty
     }
 
-    @Ignore
     def "Test rejectPlayerCard should ask player to change card from deck"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
@@ -150,16 +147,14 @@ class HanabiGameTest extends Specification {
         hanabiGame.players[0] = Mock(HanabiPlayer)
 
         when:
-        hanabiGame.players[0].rejectCard(0,randomCard) >> randomCard
         hanabiGame.deck.drawCard() >> randomCard
         boolean success = hanabiGame.rejectPlayerCard(0, 0)
 
         then:
         success
-        1 * hanabiGame.players[0].rejectCard(0,randomCard)
+        1 * hanabiGame.players[0].rejectCard(0,randomCard) >> randomCard
     }
 
-    @Ignore
     def "Test playPlayerCard should play"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
@@ -167,37 +162,34 @@ class HanabiGameTest extends Specification {
         hanabiGame.deck = Mock(Deck)
         hanabiGame.players[0] = Mock(HanabiPlayer)
 
-        hanabiGame.deck.drawCard() >> randomCard
-        hanabiGame.players[0].rejectCard(0,randomCard) >> randomCard
-
         when:
+        hanabiGame.deck.drawCard() >> randomCard
         boolean success = hanabiGame.playPlayerCard(0, 0)
 
         then:
         success
-        1 * hanabiGame.players[0].rejectCard(0,randomCard)
+        1 * hanabiGame.players[0].rejectCard(0,randomCard) >> randomCard
         !hanabiGame.playedCards.cards.empty
         hanabiGame.rejectedCards.empty
     }
 
-    @Ignore
     def "Test playPlayerCard should make tunder"() {
         given:
         HanabiGame hanabiGame = new HanabiGame(2)
         HanabiCard randomCard = new HanabiCard(RED, TWO)
         hanabiGame.deck = Mock(Deck)
         hanabiGame.players[0] = Mock(HanabiPlayer)
-
-        hanabiGame.deck.drawCard() >> randomCard
-        hanabiGame.players[0].rejectCard(_,_) >> randomCard
+        hanabiGame.playedCards = Mock(PlayedCards)
 
         when:
+        hanabiGame.playedCards.isPlayable(_) >> false
+//        hanabiGame.deck.drawCard() >> randomCard
         boolean success = hanabiGame.playPlayerCard(0, 0)
 
         then:
         success
-        1 * hanabiGame.players[0].rejectCard(0,randomCard)
-        hanabiGame.playedCards.cards.empty
+        1 * hanabiGame.players[0].rejectCard(0,_) >> randomCard
+        0 * hanabiGame.playedCards.add(_)
         !hanabiGame.rejectedCards.empty
     }
 }
